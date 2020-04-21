@@ -1,1 +1,0 @@
-# KTLT_CLC10_BugDestroyer
