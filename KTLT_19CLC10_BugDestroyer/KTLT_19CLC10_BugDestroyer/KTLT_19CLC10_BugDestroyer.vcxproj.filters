@@ -18,9 +18,39 @@
     <ClInclude Include="USER.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="STAFF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLASS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="COURSE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SCOREBOARD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="STUDENT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="USER.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="STAFF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLASS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="COURSE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SCOREBOARD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="STUDENT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
