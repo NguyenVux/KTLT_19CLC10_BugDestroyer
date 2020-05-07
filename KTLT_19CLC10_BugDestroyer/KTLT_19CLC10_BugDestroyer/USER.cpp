@@ -1,20 +1,39 @@
-
 #include "USER.h"
 
-USER::USER(std::string userName, std::string password)
+void IUSER::ViewInfo()
 {
-	this->userName = userName;
-	this->password = password;
 }
 
-bool USER::Authenticate(std::string password)
+int IUSER::getRole()
 {
-	if (this->password == password)
+	return this->role;
+}
+
+void IUSER::ShowInfo()
+{
+	cout << "this is info";
+}
+
+bool IUSER::changePassword(string oldPassword, string newPassword, string confirmNewPassword)
+{
+	if (this->password == oldPassword && newPassword == confirmNewPassword)
+	{
+		this->password = newPassword;
+		return true;
+	}
+	return false;
+}
+
+bool IUSER::Authenticate(string id, string pw)
+{
+	if (id == this->ID && pw == this->password)
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
+}
+
+string IUSER::getID()
+{
+	return this->ID;
 }

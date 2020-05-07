@@ -1,18 +1,30 @@
 #pragma once
 #include "USER.h"
-#include "STUDENT.h"
-class STAFF :
-	public USER
+#include "Student.h"
+
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+class Staff: public IUSER
 {
-private:
-	linkedList<std::string>* ClasID;
-	linkedList<CLASS>* Class;
-
-	linkedList<std::string>* CourseID;
-	linkedList<COURSE>* Course;
-
-	linkedList<std::string>* StudentID;
-	linkedList<STUDENT>* Student;
 public:
+	void ViewInfo();
+private:
+	linkedList<IUSER>* userList=0;
+	linkedList<Course>* Courselist=0;
+	linkedList<CLASS>* ClassList=0;
+	void showClass();
+	void showCourse();
+	void showStudent();
+	void ImportClassFromFile();
+	void importCourseFromFile();
+public:
+	Staff();
 	void showMenu();
+	int init(string dataString);
+	void setUserList(linkedList<IUSER>* userList);
+	void setCourseList(linkedList<Course>* Courselist);
+	void setClassList(linkedList<CLASS>* ClassList);
+	string parse();
 };
+
