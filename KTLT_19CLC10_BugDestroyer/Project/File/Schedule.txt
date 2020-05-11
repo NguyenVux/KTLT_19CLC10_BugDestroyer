@@ -1,0 +1,34 @@
+No: 1
+ID: 19127630
+Class: 19CLC10
+Name student: Introduction
+Lecturer user: dbtien
+Lecturere name:  Đinh Bá Tiến
+Lecturer degree: TS
+Literature gender: Male
+Start date: 26/3/20
+End date: 1/6/2020
+Day of week: Mon
+Start hour: 7
+Start minute: 30
+End hour: 11
+End minute: 30
+Room: i42
+
+No: 1
+ID: 19127630
+Class: 19CLC10
+Name student: QViet
+Lecturer user: dbtien
+Lecturere name:  Đinh Bá Tiến
+Lecturer degree: TS
+Literature gender: Male
+Start date: 26/3/20
+End date: 1/6/2020
+Day of week: Mon
+Start hour: 7
+Start minute: 30
+End hour: 11
+End minute: 30
+Room: i42
+
