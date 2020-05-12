@@ -1,6 +1,6 @@
-#include "COURSE.h"
+﻿#include "COURSE.h"
 
-Course::Course(string dataString)
+Course::Course(string dataString) //Khởi tạo Course
 {
 	int commaPos = dataString.find(',');
 	this->ID = dataString.substr(0, commaPos);

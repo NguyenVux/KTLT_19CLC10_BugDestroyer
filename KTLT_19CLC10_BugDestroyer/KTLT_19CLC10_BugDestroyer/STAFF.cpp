@@ -1,4 +1,4 @@
-#include "STAFF.h"
+﻿#include "STAFF.h"
 
 void Staff::ViewInfo()
 {
@@ -169,6 +169,33 @@ void Staff::importCourseFromFile()
 	delete file;
 }
 
+void Staff::editStudent(string StudentID)
+{
+	node<IUSER>* CurrentStudent = userList->head;
+	//ở đây tôi xài kế thừa, nên class cha là IUSER
+	while (CurrentStudent != 0)
+	{
+		//kiểm ra người dùng có phải là student ko
+		//dùng hàm getRole viết sẵn để lấy Role của User
+		if (CurrentStudent->data->getRole() == STUDENT)
+		{
+			// à quên còn so sánh studentID
+			if (CurrentStudent->data->getID() == StudentID)
+			{
+
+				//nếu người dùng là student tôi sẽ ép kiểu lại tại vì ko gọi hàm của student được từ class IUSER
+				//tạo pointer là học sinh
+				Student* ptrStudent = dynamic_cast<Student*>(CurrentStudent->data);
+				//gọi hàm thay đổi tên
+				ptrStudent->setName("New Name");
+			}
+			
+		}
+		CurrentStudent = CurrentStudent->next; // =)) quên nhẹ dòng này
+	}
+	//thế là xong chức năng đổi tên
+}
+
 Staff::Staff()
 {
 	this->role = STAFF;
@@ -177,6 +204,7 @@ Staff::Staff()
 void Staff::showMenu()
 {
 	int choice = -1;
+	string StudentID;
 	while (choice != 0)
 	{
 		system("CLS");
@@ -186,6 +214,7 @@ void Staff::showMenu()
 		cout << "4.Show all class" << endl;
 		cout << "5.Import Class from file" << endl;
 		cout << "6.Show all Student" << endl;
+		cout << "7.Change Student Info" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;
@@ -206,6 +235,13 @@ void Staff::showMenu()
 			break;
 		case 5:
 			ImportClassFromFile();
+			break;
+		case 7:
+			cout << "Input Student ID" << endl;
+			cin.ignore();
+			getline(cin, StudentID);
+			editStudent(StudentID);
+			//chạy thử
 			break;
 		default:
 			cout << "PLease Enter The choice you want" << endl;

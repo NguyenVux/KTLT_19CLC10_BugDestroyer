@@ -40,6 +40,7 @@ public:
 	bool Authenticate(string ID, string password);
 	string getID();
 	virtual void ViewInfo() = 0;
+
 };
 
 

@@ -1,4 +1,4 @@
-#include "Student.h"
+﻿#include "Student.h"
 
 void Student::ViewInfo()
 {
@@ -150,6 +150,23 @@ void Student::setCourseList(linkedList<Course>* courseList)
 {
 	this->CourseList = courseList;
 }
+
+//Thay đổi tên
+void Student::setName(string newName)
+{
+	name = newName;
+}
+
+void Student::setDoB(string newDoB)
+{
+	DoB = newDoB;
+}
+
+
+
+
+
+
 string Student::parse()
 {
 	string parseResult = "1 " + this->ID + ',' + this->password + ',' + this->name + ',' + char(this->gender + 48) + ',' + this->DoB+','+this->ClassID;
