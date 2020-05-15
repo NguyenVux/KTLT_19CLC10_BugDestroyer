@@ -215,6 +215,7 @@ void Staff::showMenu()
 		cout << "5.Import Class from file" << endl;
 		cout << "6.Show all Student" << endl;
 		cout << "7.Change Student Info" << endl;
+		cout << "8.Remove student" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;
@@ -242,6 +243,12 @@ void Staff::showMenu()
 			getline(cin, StudentID);
 			editStudent(StudentID);
 			//chạy thử
+			break;
+		case 8:
+			cout << "Input Student ID" << endl;
+			cin.ignore();
+			getline(cin, StudentID);
+			removeStudent(StudentID);
 			break;
 		default:
 			cout << "PLease Enter The choice you want" << endl;
@@ -295,4 +302,23 @@ string Staff::parse()
 void Staff::setUserList(linkedList<IUSER>* UserList)
 {
 	this->userList = UserList;
+}
+void Staff::removeStudent(string studentID) {
+	node<IUSER>* cur = userList->head;
+	if (cur->data->getID() == studentID) {
+		userList->head = cur->next;
+		delete cur;
+		return;
+	}
+	node<IUSER>* temp = cur;
+	cur = cur->next;
+	while (cur) {
+		if (cur->data->getRole() == STUDENT) {
+			temp->next = cur->next;
+			delete cur;
+			return;
+		}
+		cur = cur->next;
+		temp = temp->next;
+	}
 }

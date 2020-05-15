@@ -29,6 +29,7 @@ public:
 	void setUserList(linkedList<IUSER>* userList);
 	void setCourseList(linkedList<Course>* Courselist);
 	void setClassList(linkedList<CLASS>* ClassList);
+	void removeStudent(string studentID);
 	string parse();
 };
 
