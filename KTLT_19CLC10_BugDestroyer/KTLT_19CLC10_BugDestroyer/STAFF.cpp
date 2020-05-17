@@ -257,7 +257,7 @@ void Staff::showMenu()
 			cin.ignore();
 			getline(cin, StudentID);
 			cout << "Input Class ID" << endl;
-			cin.ignore();
+			cin.ignore(1);
 			getline(cin, ClassID);
 			change_student_class(ClassID, StudentID);
 			break;
