@@ -1,1 +1,7 @@
-﻿  KTLT_19CLC10_BugDestroyer.vcxproj -> C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\x64\Debug\KTLT_19CLC10_BugDestroyer.exe
+﻿  STAFF.cpp
+C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\STAFF.cpp(275,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\STAFF.cpp(284,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\STAFF.cpp(288,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\STAFF.cpp(292,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\STAFF.cpp(296): warning C4715: 'Staff::init': not all control paths return a value
+  KTLT_19CLC10_BugDestroyer.vcxproj -> C:\Users\HP\Documents\GitHub\KTLT_19CLC10_BugDestroyer\KTLT_19CLC10_BugDestroyer\x64\Debug\KTLT_19CLC10_BugDestroyer.exe

@@ -13,7 +13,7 @@ void Staff::ViewInfo()
 		cout << "Gender: Female" << endl;
 	}
 	cout << "Day of Birth: " << this->DoB << endl;
-
+	system("pause");
 }
 
 void Staff::showCourse()
@@ -38,6 +38,7 @@ void Staff::showClass()
 		current->data->viewClassInfo();
 		current = current->next;
 	}
+	system("pause");
 }
 
 void Staff::ImportClassFromFile()
@@ -204,7 +205,7 @@ Staff::Staff()
 void Staff::showMenu()
 {
 	int choice = -1;
-	string StudentID;
+	string StudentID, ClassID;
 	while (choice != 0)
 	{
 		system("CLS");
@@ -216,6 +217,7 @@ void Staff::showMenu()
 		cout << "6.Show all Student" << endl;
 		cout << "7.Change Student Info" << endl;
 		cout << "8.Remove student" << endl;
+		cout << "9.Change student class" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;
@@ -250,6 +252,16 @@ void Staff::showMenu()
 			getline(cin, StudentID);
 			removeStudent(StudentID);
 			break;
+		case 9:
+			cout << "Input Student ID" << endl;
+			cin.ignore();
+			getline(cin, StudentID);
+			cout << "Input Class ID" << endl;
+			cin.ignore();
+			getline(cin, ClassID);
+			change_student_class(ClassID, StudentID);
+			break;
+
 		default:
 			cout << "PLease Enter The choice you want" << endl;
 			break;
@@ -306,9 +318,11 @@ void Staff::setUserList(linkedList<IUSER>* UserList)
 void Staff::removeStudent(string studentID) {
 	node<IUSER>* cur = userList->head;
 	if (cur->data->getID() == studentID) {
-		userList->head = cur->next;
-		delete cur;
-		return;
+		if (cur->data->getRole() == STUDENT) {
+			userList->head = cur->next;
+			delete cur;
+			return;
+		}
 	}
 	node<IUSER>* temp = cur;
 	cur = cur->next;
@@ -320,5 +334,21 @@ void Staff::removeStudent(string studentID) {
 		}
 		cur = cur->next;
 		temp = temp->next;
+	}
+}
+void Staff::change_student_class(string ClassID, string StudentID) {
+	node<IUSER>* cur = userList->head;
+	while (cur != 0)
+	{
+		if (cur->data->getRole() == STUDENT)
+		{
+			if (cur->data->getID() == StudentID)
+			{
+				Student* ptrStudent = dynamic_cast<Student*>(cur->data);		
+				ptrStudent->ChangeClass(ClassID);
+			}
+			
+		}
+		cur = cur->next;
 	}
 }

@@ -30,6 +30,7 @@ public:
 	void setCourseList(linkedList<Course>* Courselist);
 	void setClassList(linkedList<CLASS>* ClassList);
 	void removeStudent(string studentID);
+	void change_student_class(string ClassID, string StudentId);
 	string parse();
 };
 
