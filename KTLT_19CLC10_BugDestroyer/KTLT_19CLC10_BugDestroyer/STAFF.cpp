@@ -257,7 +257,6 @@ void Staff::showMenu()
 			cin.ignore();
 			getline(cin, StudentID);
 			cout << "Input Class ID" << endl;
-			cin.ignore(1);
 			getline(cin, ClassID);
 			change_student_class(ClassID, StudentID);
 			break;
@@ -347,7 +346,6 @@ void Staff::change_student_class(string ClassID, string StudentID) {
 				Student* ptrStudent = dynamic_cast<Student*>(cur->data);		
 				ptrStudent->ChangeClass(ClassID);
 			}
-			
 		}
 		cur = cur->next;
 	}

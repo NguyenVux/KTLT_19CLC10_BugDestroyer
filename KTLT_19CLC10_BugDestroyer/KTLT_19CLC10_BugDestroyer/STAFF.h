@@ -18,7 +18,7 @@ private:
 	void showStudent(); // Chức năng mở rộng
 	void ImportClassFromFile();//chức năng số 6
 	void importCourseFromFile();// chức na8g số 14
-
+	void change_student_class(string ClassID, string StudentId);
 	//tạo chức năng sửa student
 	//mình nhận vào hàm một studentID để edit
 	void editStudent(string StudentID);
@@ -30,7 +30,6 @@ public:
 	void setCourseList(linkedList<Course>* Courselist);
 	void setClassList(linkedList<CLASS>* ClassList);
 	void removeStudent(string studentID);
-	void change_student_class(string ClassID, string StudentId);
 	string parse();
 };
 
