@@ -218,6 +218,7 @@ void Staff::showMenu()
 		cout << "7.Change Student Info" << endl;
 		cout << "8.Remove student" << endl;
 		cout << "9.Change student class" << endl;
+		cout << "10.Add student" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;
@@ -260,7 +261,9 @@ void Staff::showMenu()
 			getline(cin, ClassID);
 			change_student_class(ClassID, StudentID);
 			break;
-
+		case 10:
+			addStudent();
+			break;
 		default:
 			cout << "PLease Enter The choice you want" << endl;
 			break;
