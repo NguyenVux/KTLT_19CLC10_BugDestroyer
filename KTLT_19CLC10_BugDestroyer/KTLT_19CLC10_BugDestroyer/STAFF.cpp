@@ -350,3 +350,103 @@ void Staff::change_student_class(string ClassID, string StudentID) {
 		cur = cur->next;
 	}
 }
+void Staff::addStudent() {
+	cout << "enter id";
+	string id;
+	cin.ignore();
+	cout << "enter id" << endl;
+	getline(cin, id);
+	cout << "enter name: "; string name;
+	getline(cin, name);
+	cout << "enter class: "; string which_class;
+	getline(cin, which_class);
+	int choice_gender = 5;
+	while (choice_gender < 0 || choice_gender>1) {
+		cout << "gender(0: male, 1: Female): ";
+		cin >> choice_gender;
+	}
+	string gender;
+	if (choice_gender == 0) gender = "0";
+	else gender = "1";
+	int tempY, tempM, tempD;
+	bool check = false;
+	bool leapYear = false;
+	string day;
+	string year;
+	string month;
+	cin.ignore();
+	while (check == false) {
+		cout << "Day of birth: " << endl;
+		cout << "day: "; getline(cin, day);
+		cout << "month: "; getline(cin, month);
+		cout << "year: "; getline(cin, year);
+		tempY = converter::strToInt(year);
+		if ((tempY % 100) == 0) {
+			if ((tempY % 400) == 0) leapYear = true;
+		}
+		else if ((tempY % 4) == 0) leapYear = true;
+		tempM = converter::strToInt(month);
+		if (tempM > 12 || tempM < 1) cout << "Invalid month input! (1 < month < 12)" << endl;
+		else {
+			tempD = converter::strToInt(day);
+			if (tempM == 2) {
+				if (leapYear == true) {
+					if (tempD < 1 || tempD>29) cout << "Invalid day input! (1<day<29) (Feb) (leap year = true)" << endl;
+					else check = true;
+				}
+				else {
+					if (tempD < 1 || tempD>28) cout << "Invalid day input! (1<day<28) (Feb) (leap year = false)" << endl;
+					else check = true;
+				}
+			}
+			if (tempM == 1 || tempM == 3 || tempM == 5 || tempM == 7 || tempM == 8 || tempM == 10 || tempM == 12) {
+				if (tempD < 1 || tempD>31) cout << "Invalid day input! (1<day<31) (" << monthConverter(tempM) << ")" << endl;
+				else check = true;
+			}
+			if (tempM == 4 || tempM == 6 || tempM == 9 || tempM == 11) {
+				if (tempD < 1 || tempD>30) cout << "Invalid day input (1<day<30) (" << monthConverter(tempM) << ")" << endl;
+				else check = true;
+			}
+		}
+	}
+	string password = day + month + year;
+	string dob = day + "-" + month + "-" + year;
+	node<IUSER>* p = new node<IUSER>;
+	p->data = new Student;
+	p->data->init(id + "," + password + "," + name + "," + gender + "," + dob + "," + which_class);
+	userList->insertTop(p);
+}
+string Staff::monthConverter(int month) {
+	string res;
+	switch (month)
+	{
+	case 1: res = "Jan";
+		break;
+	case 2: res = "Feb";
+		break;
+	case 3: res = "Mar";
+		break;
+	case 4: res = "Apr";
+		break;
+	case 5: res = "May";
+		break;
+	case 6: res = "Jun";
+		break;
+	case 7: res = "Jul";
+		break;
+	case 8: res = "Aug";
+		break;
+	case 9: res = "Sep";
+		break;
+	case 10: res = "Oct";
+		break;
+	case 11: res = "Nov";
+		break;
+	case 12: res = "Dec";
+		break;
+	default:
+		res = "Invalid month";
+		break;
+	}
+	return res;
+}

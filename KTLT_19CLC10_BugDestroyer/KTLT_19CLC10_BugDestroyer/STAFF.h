@@ -22,6 +22,7 @@ private:
 	//tạo chức năng sửa student
 	//mình nhận vào hàm một studentID để edit
 	void editStudent(string StudentID);
+	void addStudent();
 public:
 	Staff();
 	void showMenu();
@@ -31,5 +32,7 @@ public:
 	void setClassList(linkedList<CLASS>* ClassList);
 	void removeStudent(string studentID);
 	string parse();
+	void addStudent();
+	string monthConverter(int month);
 };
 
