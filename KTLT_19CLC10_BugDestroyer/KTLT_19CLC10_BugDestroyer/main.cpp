@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <conio.h>
 #include "USER.h"
 #include "STAFF.h""
 #include "Student.h"
@@ -140,7 +141,24 @@ IUSER* login(linkedList<IUSER> *USER)
 	cout << "ID:";
 	cin >> ID;
 	cout << "Password: ";
-	cin >> password;
+	int buffer;
+	do
+	{
+		
+		buffer = _getch();
+		if (buffer != 13)
+		{
+			if (buffer == 8)
+			{
+				password.erase(password.end(), password.end());
+			}
+			else
+			{
+				password += char(buffer);
+			}
+		}
+	} while (buffer != 13);
+	cout << endl;
 	node<IUSER>* current = USER->head;
 	if (ID == "exit")
 	{
@@ -155,7 +173,8 @@ IUSER* login(linkedList<IUSER> *USER)
 		current = current->next;
 
 	}
-	cout << "Invalid ID or password";
+	cout << "Invalid ID or password" << endl;
+	system("pause");
 	return 0;
 }
 void updateUser(linkedList<IUSER>* userList)
@@ -187,6 +206,7 @@ int main()
 	{
 		if (Session == 0)
 		{
+			system("cls");
 			cout << "1.Login" << endl;
 			cout << "2.Exit" << endl;
 			cin >> choice;

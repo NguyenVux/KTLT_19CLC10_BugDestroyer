@@ -326,16 +326,19 @@ void Staff::removeStudent(string studentID) {
 			return;
 		}
 	}
-	node<IUSER>* temp = cur;
+	/*node<IUSER>* temp = cur;*/
 	cur = cur->next;
-	while (cur) {
-		if (cur->data->getRole() == STUDENT) {
-			temp->next = cur->next;
-			delete cur;
-			return;
+	while (cur->next) {
+		if (cur->next->data->getRole() == STUDENT) {
+			if (cur->next->data->getID() == studentID)
+			{
+				node<IUSER>* tmp = cur;
+				tmp->next = tmp->next->next;
+				delete cur;
+				return;
+			}
 		}
 		cur = cur->next;
-		temp = temp->next;
 	}
 }
 void Staff::change_student_class(string ClassID, string StudentID) {

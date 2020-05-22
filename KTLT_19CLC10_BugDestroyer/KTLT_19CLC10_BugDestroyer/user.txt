@@ -1,9 +1,5 @@
 #role id,password,name,gender,dob
-1 19127628,20112001,Nguyen Mau Viet,0,20-11-2001,19CLC9
-1 hocsinh6,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course1,course2
-1 hocsinh5,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course1,course2
-1 hocsinh4,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course1,course2
-1 hocsinh3,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course1,course2
-1 hocsinh2,123456789,New Name,1,05-11-2001,9CLC4,course1,course2
+1 hocsinh7,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC6,course2,course1
 0 viktor1,05112001,Nguyen Hoang Vu,0,05-11-2001
-1 hocsinh7,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC6,course1,course2
+1 hocsinh3,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course2,course1
+1 hocsinh4,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course2,course1

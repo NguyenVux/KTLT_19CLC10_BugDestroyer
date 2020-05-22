@@ -13,7 +13,7 @@ private:
 	linkedList<IUSER>* userList=0; //danh sách user
 	linkedList<Course>* Courselist = 0;
 	linkedList<CLASS>* ClassList=0;
-	void showClass(); //Chức năng Số 11
+	void showClass(); //Chức năng Số 11cm
 	void showCourse(); //Chức Năng số 12
 	void showStudent(); // Chức năng mở rộng
 	void ImportClassFromFile();//chức năng số 6
