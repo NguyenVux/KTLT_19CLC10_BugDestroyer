@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <conio.h>
+#include <filesystem>
+#include <ctime>
 #include "USER.h"
 #include "STAFF.h""
 #include "Student.h"
@@ -8,11 +10,14 @@
 #include "LinkedList/linkedList.h"
 
 
+const char DataPath[] = "Data\\";
+
 linkedList<CLASS>* loadClass()
 {
 	linkedList<CLASS>* ClassList = new linkedList<CLASS>;
 	fstream* file = new fstream;
-	file->open("class.txt", ios::in);
+	string fileName = "class.txt";
+	file->open(DataPath + fileName, ios::in);
 	if (file->is_open())
 	{
 		string buffer;
@@ -37,6 +42,9 @@ linkedList<CLASS>* loadClass()
 	else
 	{
 		cout << "class.txt not found" << endl;
+		delete ClassList;
+		delete file;
+		return nullptr;
 	}
 	file->close();
 	delete file;
@@ -47,7 +55,8 @@ linkedList<Course>* loadCourse()
 {
 	linkedList<Course>* courseList = new linkedList<Course>;
 	fstream* file = new fstream;
-	file->open("course.txt", ios::in);
+	string fileName = "course.txt";
+	file->open(DataPath + fileName, ios::in);
 	if (file->is_open())
 	{
 		string buffer;
@@ -68,6 +77,13 @@ linkedList<Course>* loadCourse()
 			}
 		}
 	}
+	else
+	{
+		cout << "Course.txt not found" << endl;
+		delete courseList;
+		delete file;
+		return nullptr;
+	}
 	file->close();
 	delete file;
 	return courseList;
@@ -77,7 +93,8 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 {
 	linkedList<IUSER>* userlist = new linkedList<IUSER>;
 	fstream* file = new fstream;
-	file->open("user.txt", ios::in);
+	string fileName = "user.txt";
+	file->open(DataPath+fileName, ios::in);
 	if (file->is_open())
 	{
 		while (!file->eof())
@@ -129,6 +146,13 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 			}
 		}
 	}
+	else
+	{
+		cout << "user.txt not found " << endl;
+		delete file;
+		delete userlist;
+		return nullptr;
+	}
 	file->close();
 	delete file;
 	return userlist;
@@ -136,45 +160,56 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 
 IUSER* login(linkedList<IUSER> *USER)
 {
-	string ID;
-	string password;
-	cout << "ID:";
-	cin >> ID;
-	cout << "Password: ";
-	int buffer;
-	do
+	if (USER != nullptr)
 	{
-		
-		buffer = _getch();
-		if (buffer != 13)
+
+		string ID;
+		string password;
+		cout << "ID:";
+		cin >> ID;
+		cout << "Password: ";
+		int buffer;
+		do
 		{
-			if (buffer == 8)
+
+			buffer = _getch();
+			if (buffer != 13)
 			{
-				password.erase(password.end(), password.end());
+				//cout << password.length();
+				if (buffer == 8 && password.length() >0)
+				{
+					password.pop_back();
+					cout << "\b \b";
+				}
+				else
+				{
+					if (buffer > 31 && buffer < 127)
+					{
+						cout << "*";
+						password += char(buffer);
+					}
+				}
 			}
-			else
-			{
-				password += char(buffer);
-			}
+		} while (buffer != 13);
+		cout << endl << password;
+		node<IUSER>* current = USER->head;
+		if (ID == "exit")
+		{
+			return 0;
 		}
-	} while (buffer != 13);
-	cout << endl;
-	node<IUSER>* current = USER->head;
-	if (ID == "exit")
-	{
+		while (current != 0)
+		{
+			if (current->data->Authenticate(ID, password))
+			{
+				return current->data;
+			}
+			current = current->next;
+
+		}
+		cout << "Invalid ID or password" << endl;
+		system("pause");
 		return 0;
 	}
-	while (current != 0)
-	{
-		if (current->data->Authenticate(ID, password))
-		{
-			return current->data;
-		}
-		current = current->next;
-
-	}
-	cout << "Invalid ID or password" << endl;
-	system("pause");
 	return 0;
 }
 void updateUser(linkedList<IUSER>* userList)
@@ -201,7 +236,7 @@ int main()
 	linkedList<IUSER>* userList = LoadUser(courseList,ClassList);
  	IUSER* Session = 0;
 	int choice = -1;
-	Date date = StringToDate("12-03-2001");
+	
 	while (choice != 2)
 	{
 		if (Session == 0)
@@ -210,6 +245,8 @@ int main()
 			cout << "1.Login" << endl;
 			cout << "2.Exit" << endl;
 			cin >> choice;
+			cin.clear();
+			cin.ignore(100, '\n');
 			if (choice == 1)
 			{
 				Session = login(userList);

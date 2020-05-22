@@ -1,0 +1,6 @@
+#role id,password,name,gender,dob
+1 hocsinh7,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC6,course2,course1
+0 viktor1,05112001,Nguyen Hoang Vu,0,05-11-2001
+1 hocsinh3,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course2,course1
+1 hocsinh4,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC3,course2,course1
+1 ,,,0,,
