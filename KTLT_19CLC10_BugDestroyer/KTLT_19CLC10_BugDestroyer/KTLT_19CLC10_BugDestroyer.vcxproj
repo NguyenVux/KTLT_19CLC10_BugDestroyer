@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="CLASS.cpp" />
     <ClCompile Include="COURSE.cpp" />
+    <ClCompile Include="Lecturer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="STAFF.cpp" />
     <ClCompile Include="Student.cpp" />
@@ -34,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="CLASS.h" />
     <ClInclude Include="COURSE.h" />
+    <ClInclude Include="Lecturer.h" />
     <ClInclude Include="LinkedList\singly_linkedList.h" />
     <ClInclude Include="STAFF.h" />
     <ClInclude Include="Student.h" />
