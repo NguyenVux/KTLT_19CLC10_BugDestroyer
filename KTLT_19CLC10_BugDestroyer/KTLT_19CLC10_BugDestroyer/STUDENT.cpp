@@ -83,10 +83,6 @@ void Student::showMenu()
 int Student::init(string dataString)
 {
 	int commaPos = dataString.find(',');
-	if (dataString.find(' ') == string::npos)
-	{
-		return 1;
-	}
 	this->ID = dataString.substr(0, commaPos);
 	dataString.erase(0, commaPos + 1);
 
@@ -127,7 +123,7 @@ int Student::init(string dataString)
 		*(CourseIdNode->data) = dataString;
 		this->CourseID.insertTop(CourseIdNode);
 	}
-	
+	return 0;
 }
 
 void Student::addCourse(string CourseID)

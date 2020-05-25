@@ -8,7 +8,7 @@
 #include "Student.h"
 #include "CLASS.h"
 #include "LinkedList/linkedList.h"
-
+#include "Lecturer.h"
 
 const char DataPath[] = "Data\\";
 
@@ -109,6 +109,7 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					string buffer;
 					getline(*file, buffer);
 					//cout <<endl<< buffer << endl;
+					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Staff;
 					userInstance->data->init(buffer);
@@ -128,14 +129,26 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
 					string buffer;
 					getline(*file, buffer);
+					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Student;
 					userInstance->data->init(buffer);
-					Student* staff_ptr = dynamic_cast<Student*>(userInstance->data);
-					if (staff_ptr != 0)
+					Student* StudentPtr = dynamic_cast<Student*>(userInstance->data);
+					if (StudentPtr != 0)
 					{
-						staff_ptr->setCourseList(CourseList);
+						StudentPtr->setCourseList(CourseList);
 					}
+					userlist->insertTop(userInstance);
+				}
+				if (charToInt(input) == LECTURER)
+				{
+					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
+					string buffer;
+					getline(*file, buffer);
+					cout << buffer << endl;
+					node<IUSER>* userInstance = new node<IUSER>;
+					userInstance->data = new Lecturer;
+					userInstance->data->init(buffer);
 					userlist->insertTop(userInstance);
 				}
 
@@ -191,7 +204,6 @@ IUSER* login(linkedList<IUSER> *USER)
 				}
 			}
 		} while (buffer != 13);
-		cout << endl << password;
 		node<IUSER>* current = USER->head;
 		if (ID == "exit")
 		{
@@ -216,7 +228,8 @@ void updateUser(linkedList<IUSER>* userList)
 {
 	node<IUSER>* userNode = userList->head;
 	fstream* file = new fstream;
-	file->open("user.txt", ios::out);
+	string fileName = "user.txt";
+	file->open(DataPath+fileName, ios::out);
 	*file << "#role id,password,name,gender,dob";
 	while (userNode)
 	{

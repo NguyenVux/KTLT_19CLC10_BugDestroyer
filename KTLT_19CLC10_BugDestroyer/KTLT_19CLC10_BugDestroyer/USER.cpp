@@ -1,8 +1,6 @@
 #include "USER.h"
 
-void IUSER::ViewInfo()
-{
-}
+
 
 int IUSER::getRole()
 {

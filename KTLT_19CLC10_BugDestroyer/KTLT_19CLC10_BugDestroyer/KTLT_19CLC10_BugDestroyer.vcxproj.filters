@@ -41,9 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="user.txt">
-      <Filter>Source Files</Filter>
-    </Text>
     <Text Include="course.txt" />
   </ItemGroup>
   <ItemGroup>

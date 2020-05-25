@@ -32,6 +32,6 @@ public:
 	void setClassList(linkedList<CLASS>* ClassList);
 	void removeStudent(string studentID);
 	string parse();
-	string monthConverter(int month);
+	static string monthConverter(int month);
 };
 
