@@ -43,15 +43,17 @@ Course::Course(string dataString) //Khởi tạo Course
 
 void Course::viewInfo()
 {
-	cout << "Course ID:" << this->ID << endl;
-	cout << "Course Name:" << this->courseName << endl;
-	cout << "Class ID:" << this->ClassID << endl;
-	cout << "Lecturer:" << this->lecturerID << endl;
-	cout << "Start Date:" << this->startDate.day <<"-"<< this->startDate.month << "-" << this->startDate.year << endl;
-	cout << "End Date:" << this->endDate.day << "-" << this->endDate.month << "-" << this->endDate.year << endl;
-	cout << "Start time:" << this->startTime.hour<<":"<< this->startTime.minute << endl;
-	cout << "End time:" << this->endTime.hour << ":" << this->endTime.minute << endl;
-	cout << "Room:" << this->room << endl;
+	system("cls");
+	cout << "Course ID: " << this->ID << endl;
+	cout << "Course Name: " << this->courseName << endl;
+	cout << "Class ID: " << this->ClassID << endl;
+	cout << "Lecturer: " << this->lecturerID << endl;
+	cout << "Start Date: " << this->startDate.day <<"-"<< this->startDate.month << "-" << this->startDate.year << endl;
+	cout << "End Date: " << this->endDate.day << "-" << this->endDate.month << "-" << this->endDate.year << endl;
+	cout << "Start time: " << this->startTime.hour<<":"<< this->startTime.minute << endl;
+	cout << "End time: " << this->endTime.hour << ":" << this->endTime.minute << endl;
+	cout << "Room: " << this->room << endl;
+	cout << "-----------------------------------------------------" << endl;
 }
 
 Date StringToDate(string input)

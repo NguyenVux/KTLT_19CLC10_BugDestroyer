@@ -2,6 +2,7 @@
 #define _LECTURER_H
 
 #include "USER.h"
+#include <conio.h>
 class Lecturer : public IUSER
 {
 private:
@@ -10,6 +11,9 @@ private:
 	linkedList<Course>* CourseList;
 	linkedList<IUSER>* userList;
 	linkedList<string>* MyCourseID;
+
+	void showAllCourse();
+	void showMyCourse();
 public:
 	Lecturer();
 	int init(string dataString);

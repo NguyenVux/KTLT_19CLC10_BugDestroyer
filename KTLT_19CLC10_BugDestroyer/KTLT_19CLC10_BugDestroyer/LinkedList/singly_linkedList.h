@@ -14,12 +14,11 @@ public:
 	node<T>* current = 0;
 	node<T>* tail = 0;
 	//int lenght = 0;
-	/*void insert(T data)
+	void insert(node<T> *node)
 	{
 		if (head == 0)
 		{
-			head = new node<T>;
-			head->data = data;
+			head = node;
 		}
 		else
 		{
@@ -28,10 +27,9 @@ public:
 			{
 				current = current->next;
 			}
-			current->next = new node<T>;
-			current->next->data = data;
+			current->next = node;
 		}
-	}*/
+	}
 	/*void insertTop(T data)
 	{
 		node<T>* tmp = new node<T>;

@@ -1,5 +1,29 @@
 #include "Lecturer.h"
 
+void Lecturer::showAllCourse()
+{
+	node<Course>* currentCourse = CourseList->head;
+	while (currentCourse)
+	{
+		currentCourse->data->viewInfo();
+		currentCourse = currentCourse->next;
+	}
+}
+
+void Lecturer::showMyCourse()
+{
+	node<Course>* currentCourse = CourseList->head;
+	while (currentCourse)
+	{
+		if (currentCourse->data->lecturerID == this->ID)
+		{
+			currentCourse->data->viewInfo();
+			
+		}
+		currentCourse = currentCourse->next;
+	}
+}
+
 Lecturer::Lecturer()
 {
 	this->role = LECTURER;
@@ -45,6 +69,8 @@ void Lecturer::setCourseList(linkedList<Course>* Courselist)
 
 void Lecturer::showMenu()
 {
+	showMyCourse();
+	system("pause");
 }
 
 string Lecturer::parse()

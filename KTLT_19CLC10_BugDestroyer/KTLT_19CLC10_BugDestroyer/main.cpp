@@ -31,7 +31,7 @@ linkedList<CLASS>* loadClass()
 				//cout << buffer;
 				node<CLASS>* Class = new node<CLASS>;
 				Class->data = new CLASS(input + buffer);
-				ClassList->insertTop(Class);
+				ClassList->insert(Class);
 			}
 			else
 			{
@@ -69,7 +69,7 @@ linkedList<Course>* loadCourse()
 				getline(*file, buffer);
 				node<Course>* course = new node<Course>;
 				course->data = new Course(input+buffer);
-				courseList->insertTop(course);
+				courseList->insert(course);
 			}
 			else
 			{
@@ -122,7 +122,7 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					}
 					//cout << staff_ptr->parse() << endl;
 					
-					userlist->insertTop(userInstance);
+					userlist->insert(userInstance);
 				}	
 				if (charToInt(input) == STUDENT)
 				{
@@ -138,7 +138,7 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					{
 						StudentPtr->setCourseList(CourseList);
 					}
-					userlist->insertTop(userInstance);
+					userlist->insert(userInstance);
 				}
 				if (charToInt(input) == LECTURER)
 				{
@@ -149,7 +149,13 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Lecturer;
 					userInstance->data->init(buffer);
-					userlist->insertTop(userInstance);
+					Lecturer* LecturerPtr = dynamic_cast<Lecturer*>(userInstance->data);
+					if (LecturerPtr != 0)
+					{
+						LecturerPtr->setCourseList(CourseList);
+						LecturerPtr->setUserList(userlist);
+					}
+					userlist->insert(userInstance);
 				}
 
 			}
