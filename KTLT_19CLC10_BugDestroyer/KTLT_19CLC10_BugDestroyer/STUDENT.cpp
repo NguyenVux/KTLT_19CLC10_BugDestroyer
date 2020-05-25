@@ -18,19 +18,19 @@ void Student::ViewInfo()
 
 void Student::showEnrolledCourse()
 {
-	CourseID.current = CourseID.head;
-	while (CourseID.current != 0)
+	CourseID->current = CourseID->head;
+	while (CourseID->current != 0)
 	{
 		node<Course>* tmp = CourseList->head;
 		while (tmp != 0)
 		{
-			if (tmp->data->ID == *(CourseID.current->data))
+			if (tmp->data->ID == *(CourseID->current->data))
 			{
 				tmp->data->viewInfo();
 			}
 			tmp = tmp->next;
 		}
-		CourseID.current = CourseID.current->next;
+		CourseID->current = CourseID->current->next;
 	}
 }
 
@@ -47,6 +47,7 @@ void Student::showAllCourse()
 Student::Student()
 {
 	this->role = STUDENT;
+	this->CourseID = new linkedList<string>;
 }
 
 void Student::showMenu()
@@ -116,19 +117,19 @@ int Student::init(string dataString)
 			commaPos = dataString.find(',');
 			*(CourseIdNode->data) = dataString.substr(0, commaPos);
 			dataString.erase(0, commaPos + 1);
-			this->CourseID.insertTop(CourseIdNode);
+			this->CourseID->insertTop(CourseIdNode);
 		}
 		node<string>* CourseIdNode = new node <string>;
 		CourseIdNode->data = new string;
 		*(CourseIdNode->data) = dataString;
-		this->CourseID.insertTop(CourseIdNode);
+		this->CourseID->insertTop(CourseIdNode);
 	}
 	return 0;
 }
 
 void Student::addCourse(string CourseID)
 {
-	node<string>* courseIdCurrent = this->CourseID.head;
+	node<string>* courseIdCurrent = this->CourseID->head;
 	while (courseIdCurrent != 0)
 	{
 		if (CourseID == *(courseIdCurrent->data))
@@ -140,7 +141,7 @@ void Student::addCourse(string CourseID)
 	node<string>* CourseIdNode = new node <string>;
 	CourseIdNode->data = new string;
 	*(CourseIdNode->data) = CourseID;
-	this->CourseID.insertTop(CourseIdNode);
+	this->CourseID->insertTop(CourseIdNode);
 }
 void Student::setCourseList(linkedList<Course>* courseList)
 {
@@ -166,7 +167,7 @@ void Student::setDoB(string newDoB)
 string Student::parse()
 {
 	string parseResult = "1 " + this->ID + ',' + this->password + ',' + this->name + ',' + char(this->gender + 48) + ',' + this->DoB+','+this->ClassID;
-	node<string>* courseIdCurrent = this->CourseID.head;
+	node<string>* courseIdCurrent = this->CourseID->head;
 	while (courseIdCurrent != 0)
 	{
 		parseResult += ',' + *(courseIdCurrent->data);
@@ -177,4 +178,23 @@ string Student::parse()
 
 void Student::ChangeClass(string ClassID) {
 	this->ClassID = ClassID;
+}
+
+bool Student::isEnrolled(string CourseID)
+{
+	node<string>* current = this->CourseID->head;
+	while (current)
+	{
+		if (*(current->data) == CourseID)
+		{
+			return true;
+		}
+		current = current->next;
+	}
+	return false;
+}
+
+Student::~Student()
+{
+	delete CourseID;
 }

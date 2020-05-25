@@ -53,8 +53,15 @@ public:
 	}
 	void insertTop(node<T> *data)
 	{
-		data->next = head;
-		head = data;
+		if (head)
+		{
+			data->next = head;
+			head = data;
+		}
+		else
+		{
+			head = data;
+		}
 	}
 	bool isEmpty()
 	{

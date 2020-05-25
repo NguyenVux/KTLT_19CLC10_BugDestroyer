@@ -2,6 +2,7 @@
 #define _LECTURER_H
 
 #include "USER.h"
+#include "STUDENT.h"
 #include <conio.h>
 class Lecturer : public IUSER
 {
@@ -14,6 +15,7 @@ private:
 
 	void showAllCourse();
 	void showMyCourse();
+	void viewCourseAttendances(string courseID);
 public:
 	Lecturer();
 	int init(string dataString);

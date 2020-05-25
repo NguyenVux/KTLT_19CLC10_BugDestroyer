@@ -24,6 +24,26 @@ void Lecturer::showMyCourse()
 	}
 }
 
+void Lecturer::viewCourseAttendances(string courseID)
+{
+	node<IUSER>* userNode = userList->head;
+	while (userNode)
+	{
+		if (userNode->data->getRole() == STUDENT)
+		{
+			Student* studentPtr = dynamic_cast<Student*>(userNode->data);
+			if (studentPtr)
+			{
+				if (studentPtr->isEnrolled(courseID))
+				{
+					studentPtr->ViewInfo();
+				}
+			}
+		}
+		userNode = userNode->next;
+	}
+}
+
 Lecturer::Lecturer()
 {
 	this->role = LECTURER;
@@ -69,7 +89,7 @@ void Lecturer::setCourseList(linkedList<Course>* Courselist)
 
 void Lecturer::showMenu()
 {
-	showMyCourse();
+	viewCourseAttendances("course1");
 	system("pause");
 }
 
