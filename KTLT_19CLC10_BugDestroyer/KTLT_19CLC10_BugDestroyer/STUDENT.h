@@ -26,7 +26,7 @@ public:
 	//Đổi date of birth
 	void setDoB(string newDoB);
 	void ChangeClass(string ClassID);
-
+	string getClassID();
 	//giờ có 2 hàm thay đổi thông tin cơ bản của student, mình qua bên staff lại để thêm chức năng sửa student
 
 };

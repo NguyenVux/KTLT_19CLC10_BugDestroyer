@@ -26,8 +26,20 @@ void Staff::showCourse()
 	}
 }
 
-void Staff::showStudent()
+void Staff::showStudent(string Class)
 {
+	bool valid = false;
+	node<IUSER>* cur = userList->head;
+	while (cur) {
+		if (cur->data->getRole() == 1) {
+			Student* ptrStudent = dynamic_cast<Student*>(cur->data);
+			if (ptrStudent->getClassID() == Class) ptrStudent->ViewInfo();
+			cout << endl;
+			valid = true;
+		}
+		cur = cur->next;
+	}
+	if (valid == false) cout << "Invalid class !" << endl;
 }
 
 void Staff::showClass()
@@ -219,6 +231,7 @@ void Staff::showMenu()
 		cout << "8.Remove student" << endl;
 		cout << "9.Change student class" << endl;
 		cout << "10.Add student" << endl;
+		cout << "11.Show student in a class" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;
@@ -263,6 +276,12 @@ void Staff::showMenu()
 			break;
 		case 10:
 			addStudent();
+			break;
+		case 11:
+			cout << "enter ClassID: ";
+			cin.ignore();
+			getline(cin, ClassID);
+			showStudent(ClassID);
 			break;
 		default:
 			cout << "PLease Enter The choice you want" << endl;
@@ -317,6 +336,7 @@ void Staff::setUserList(linkedList<IUSER>* UserList)
 {
 	this->userList = UserList;
 }
+
 void Staff::removeStudent(string studentID) {
 	node<IUSER>* cur = userList->head;
 	if (cur->data->getID() == studentID) {
@@ -341,6 +361,7 @@ void Staff::removeStudent(string studentID) {
 		cur = cur->next;
 	}
 }
+
 void Staff::change_student_class(string ClassID, string StudentID) {
 	node<IUSER>* cur = userList->head;
 	while (cur != 0)
@@ -356,72 +377,81 @@ void Staff::change_student_class(string ClassID, string StudentID) {
 		cur = cur->next;
 	}
 }
+
 void Staff::addStudent() {
-	cout << "enter id";
+	cout << "enter id: ";
 	string id;
 	cin.ignore();
-	cout << "enter id" << endl;
 	getline(cin, id);
-	cout << "enter name: "; string name;
-	getline(cin, name);
-	cout << "enter class: "; string which_class;
-	getline(cin, which_class);
-	int choice_gender = 5;
-	while (choice_gender < 0 || choice_gender>1) {
-		cout << "gender(0: male, 1: Female): ";
-		cin >> choice_gender;
+	cout << checkDupID(id)<<endl;
+	if (checkDupID(id) == true) {
+		cout << "the ID already exist!" << endl;
+		system("pause");
+		return;
 	}
-	string gender;
-	if (choice_gender == 0) gender = "0";
-	else gender = "1";
-	int tempY, tempM, tempD;
-	bool check = false;
-	bool leapYear = false;
-	string day;
-	string year;
-	string month;
-	cin.ignore();
-	while (check == false) {
-		cout << "Day of birth: " << endl;
-		cout << "day: "; getline(cin, day);
-		cout << "month: "; getline(cin, month);
-		cout << "year: "; getline(cin, year);
-		tempY = converter::strToInt(year);
-		if ((tempY % 100) == 0) {
-			if ((tempY % 400) == 0) leapYear = true;
+	else {
+		cout << "enter name: "; string name;
+		getline(cin, name);
+		cout << "enter class: "; string which_class;
+		getline(cin, which_class);
+		int choice_gender = 5;
+		while (choice_gender < 0 || choice_gender>1) {
+			cout << "gender(0: male, 1: Female): ";
+			cin >> choice_gender;
 		}
-		else if ((tempY % 4) == 0) leapYear = true;
-		tempM = converter::strToInt(month);
-		if (tempM > 12 || tempM < 1) cout << "Invalid month input! (1 < month < 12)" << endl;
-		else {
-			tempD = converter::strToInt(day);
-			if (tempM == 2) {
-				if (leapYear == true) {
-					if (tempD < 1 || tempD>29) cout << "Invalid day input! (1<day<29) (Feb) (leap year = true)" << endl;
+		string gender;
+		if (choice_gender == 0) gender = "0";
+		else gender = "1";
+		int tempY, tempM, tempD;
+		bool check = false;
+		bool leapYear = false;
+		string day;
+		string year;
+		string month;
+		cin.ignore();
+		while (check == false) {
+			cout << "Day of birth: " << endl;
+			cout << "day: "; getline(cin, day);
+			cout << "month: "; getline(cin, month);
+			cout << "year: "; getline(cin, year);
+			tempY = converter::strToInt(year);
+			if ((tempY % 100) == 0) {
+				if ((tempY % 400) == 0) leapYear = true;
+			}
+			else if ((tempY % 4) == 0) leapYear = true;
+			tempM = converter::strToInt(month);
+			if (tempM > 12 || tempM < 1) cout << "Invalid month input! (1 < month < 12)" << endl;
+			else {
+				tempD = converter::strToInt(day);
+				if (tempM == 2) {
+					if (leapYear == true) {
+						if (tempD < 1 || tempD>29) cout << "Invalid day input! (1<day<29) (Feb) (leap year = true)" << endl;
+						else check = true;
+					}
+					else {
+						if (tempD < 1 || tempD>28) cout << "Invalid day input! (1<day<28) (Feb) (leap year = false)" << endl;
+						else check = true;
+					}
+				}
+				if (tempM == 1 || tempM == 3 || tempM == 5 || tempM == 7 || tempM == 8 || tempM == 10 || tempM == 12) {
+					if (tempD < 1 || tempD>31) cout << "Invalid day input! (1<day<31) (" << monthConverter(tempM) << ")" << endl;
 					else check = true;
 				}
-				else {
-					if (tempD < 1 || tempD>28) cout << "Invalid day input! (1<day<28) (Feb) (leap year = false)" << endl;
+				if (tempM == 4 || tempM == 6 || tempM == 9 || tempM == 11) {
+					if (tempD < 1 || tempD>30) cout << "Invalid day input (1<day<30) (" << monthConverter(tempM) << ")" << endl;
 					else check = true;
 				}
 			}
-			if (tempM == 1 || tempM == 3 || tempM == 5 || tempM == 7 || tempM == 8 || tempM == 10 || tempM == 12) {
-				if (tempD < 1 || tempD>31) cout << "Invalid day input! (1<day<31) (" << monthConverter(tempM) << ")" << endl;
-				else check = true;
-			}
-			if (tempM == 4 || tempM == 6 || tempM == 9 || tempM == 11) {
-				if (tempD < 1 || tempD>30) cout << "Invalid day input (1<day<30) (" << monthConverter(tempM) << ")" << endl;
-				else check = true;
-			}
 		}
+		string password = day + month + year;
+		string dob = day + "-" + month + "-" + year;
+		node<IUSER>* p = new node<IUSER>;
+		p->data = new Student;
+		p->data->init(id + "," + password + "," + name + "," + gender + "," + dob + "," + which_class);
+		userList->insertTop(p);
 	}
-	string password = day + month + year;
-	string dob = day + "-" + month + "-" + year;
-	node<IUSER>* p = new node<IUSER>;
-	p->data = new Student;
-	p->data->init(id + "," + password + "," + name + "," + gender + "," + dob + "," + which_class);
-	userList->insertTop(p);
 }
+
 string Staff::monthConverter(int month) {
 	string res;
 	switch (month)
@@ -456,3 +486,13 @@ string Staff::monthConverter(int month) {
 	}
 	return res;
 }
+
+bool Staff::checkDupID(string ID) {
+	node<IUSER>* cur = userList->head;
+	while (cur) {
+		if (cur->data->getID() == ID) return true;
+		cur = cur->next;
+	}
+	return false;
+}
+

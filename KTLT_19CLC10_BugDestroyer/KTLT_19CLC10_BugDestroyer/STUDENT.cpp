@@ -182,3 +182,7 @@ string Student::parse()
 void Student::ChangeClass(string ClassID) {
 	this->ClassID = ClassID;
 }
+
+string Student::getClassID() {
+	return this->ClassID;
+}
