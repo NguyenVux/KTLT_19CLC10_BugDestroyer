@@ -8,7 +8,7 @@
 #include "Student.h"
 #include "CLASS.h"
 #include "LinkedList/linkedList.h"
-
+#include "Lecturer.h"
 
 const char DataPath[] = "Data\\";
 
@@ -31,7 +31,7 @@ linkedList<CLASS>* loadClass()
 				//cout << buffer;
 				node<CLASS>* Class = new node<CLASS>;
 				Class->data = new CLASS(input + buffer);
-				ClassList->insertTop(Class);
+				ClassList->insert(Class);
 			}
 			else
 			{
@@ -69,7 +69,7 @@ linkedList<Course>* loadCourse()
 				getline(*file, buffer);
 				node<Course>* course = new node<Course>;
 				course->data = new Course(input+buffer);
-				courseList->insertTop(course);
+				courseList->insert(course);
 			}
 			else
 			{
@@ -109,6 +109,7 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					string buffer;
 					getline(*file, buffer);
 					//cout <<endl<< buffer << endl;
+					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Staff;
 					userInstance->data->init(buffer);
@@ -121,22 +122,40 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 					}
 					//cout << staff_ptr->parse() << endl;
 					
-					userlist->insertTop(userInstance);
+					userlist->insert(userInstance);
 				}	
 				if (charToInt(input) == STUDENT)
 				{
 					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
 					string buffer;
 					getline(*file, buffer);
+					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Student;
 					userInstance->data->init(buffer);
-					Student* staff_ptr = dynamic_cast<Student*>(userInstance->data);
-					if (staff_ptr != 0)
+					Student* StudentPtr = dynamic_cast<Student*>(userInstance->data);
+					if (StudentPtr != 0)
 					{
-						staff_ptr->setCourseList(CourseList);
+						StudentPtr->setCourseList(CourseList);
 					}
-					userlist->insertTop(userInstance);
+					userlist->insert(userInstance);
+				}
+				if (charToInt(input) == LECTURER)
+				{
+					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
+					string buffer;
+					getline(*file, buffer);
+					cout << buffer << endl;
+					node<IUSER>* userInstance = new node<IUSER>;
+					userInstance->data = new Lecturer;
+					userInstance->data->init(buffer);
+					Lecturer* LecturerPtr = dynamic_cast<Lecturer*>(userInstance->data);
+					if (LecturerPtr != 0)
+					{
+						LecturerPtr->setCourseList(CourseList);
+						LecturerPtr->setUserList(userlist);
+					}
+					userlist->insert(userInstance);
 				}
 
 			}
@@ -191,7 +210,6 @@ IUSER* login(linkedList<IUSER> *USER)
 				}
 			}
 		} while (buffer != 13);
-		cout << endl << password;
 		node<IUSER>* current = USER->head;
 		if (ID == "exit")
 		{
@@ -216,7 +234,8 @@ void updateUser(linkedList<IUSER>* userList)
 {
 	node<IUSER>* userNode = userList->head;
 	fstream* file = new fstream;
-	file->open("user.txt", ios::out);
+	string fileName = "user.txt";
+	file->open(DataPath+fileName, ios::out);
 	*file << "#role id,password,name,gender,dob";
 	while (userNode)
 	{

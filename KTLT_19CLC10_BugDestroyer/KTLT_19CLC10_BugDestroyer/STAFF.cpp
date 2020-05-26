@@ -294,10 +294,6 @@ void Staff::showMenu()
 int Staff::init(string dataString)
 {
 	int commaPos = dataString.find(',');
-	if (dataString.find(' ') == string::npos)
-	{
-		return 1;
-	}
 	this->ID = dataString.substr(0, commaPos);
 	dataString.erase(0,commaPos+1);
 
@@ -314,6 +310,7 @@ int Staff::init(string dataString)
 	this->gender = strToInt(dataString.substr(0, commaPos));
 	dataString.erase(0, commaPos + 1);
 	this->DoB = dataString;
+	return 0;
 }
 
 void Staff::setCourseList(linkedList<Course>* Courselist)

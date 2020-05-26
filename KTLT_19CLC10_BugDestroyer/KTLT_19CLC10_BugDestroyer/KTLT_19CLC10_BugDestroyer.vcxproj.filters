@@ -36,11 +36,11 @@
     <ClCompile Include="Student.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Lecturer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="user.txt">
-      <Filter>Source Files</Filter>
-    </Text>
     <Text Include="course.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Student.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lecturer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
