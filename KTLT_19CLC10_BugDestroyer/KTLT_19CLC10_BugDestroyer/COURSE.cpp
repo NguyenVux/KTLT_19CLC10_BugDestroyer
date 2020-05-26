@@ -43,7 +43,7 @@ Course::Course(string dataString) //Khởi tạo Course
 
 void Course::viewInfo()
 {
-	system("cls");
+	
 	cout << "Course ID: " << this->ID << endl;
 	cout << "Course Name: " << this->courseName << endl;
 	cout << "Class ID: " << this->ClassID << endl;

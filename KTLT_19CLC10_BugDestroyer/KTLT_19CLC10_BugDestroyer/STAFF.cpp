@@ -6,7 +6,7 @@ void Staff::ViewInfo()
 	cout << "Name: " << this->name << endl;
 	if (gender == MALE)
 	{
-		cout << "Gender: Male"<< endl;
+		cout << "Gender: Male" << endl;
 	}
 	else
 	{
@@ -58,11 +58,11 @@ void Staff::ImportClassFromFile()
 	cout << "Please Place the file in Import folder and  press Enter to continue" << endl;
 	cin.ignore();
 	cin.get();
-	cout << "Enter your class: " ;
+	cout << "Enter your class: ";
 	string fileName;
 	cin >> fileName;
 	fstream* file = new fstream;
-	file->open("import\\"+fileName+".csv", ios::in);
+	file->open("import\\" + fileName + ".csv", ios::in);
 	if (file->is_open())
 	{
 		linkedList<IUSER>* tmpUserList = new linkedList<IUSER>;
@@ -95,7 +95,7 @@ void Staff::ImportClassFromFile()
 			while (ClassTmp != 0)
 			{
 				if (fileName == ClassTmp->data->getClassID())
-				{					
+				{
 					if (stuPtr != 0)
 					{
 						linkedList<string>* CourseIDList = ClassTmp->data->getCourse();
@@ -137,13 +137,13 @@ void Staff::importCourseFromFile()
 	cin >> fileName;
 	fstream* file = new fstream;
 	file->open("import\\" + fileName + ".csv", ios::in);
-	
+
 	if (file->is_open())
 	{
 		linkedList<Course>* tempCourseList = new linkedList<Course>;
 		while (!file->eof())
-		{	
-			
+		{
+
 			string buffer;
 			getline(*file, buffer);
 			cout << buffer << endl;
@@ -165,7 +165,7 @@ void Staff::importCourseFromFile()
 				}
 				tmp = tmp->next;
 			}
-			tempCourseList->insertTop(courseInstance);			
+			tempCourseList->insertTop(courseInstance);
 		}
 		this->Courselist->head = linkedList<Course>::joinList(tempCourseList, this->Courselist);
 		cout << "Import finished \npress Enter to continue " << endl;
@@ -202,7 +202,7 @@ void Staff::editStudent(string StudentID)
 				//gọi hàm thay đổi tên
 				ptrStudent->setName("New Name");
 			}
-			
+
 		}
 		CurrentStudent = CurrentStudent->next; // =)) quên nhẹ dòng này
 	}
@@ -232,6 +232,7 @@ void Staff::showMenu()
 		cout << "9.Change student class" << endl;
 		cout << "10.Add student" << endl;
 		cout << "11.Show student in a class" << endl;
+		cout << "12.Add new coure" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;
@@ -247,6 +248,7 @@ void Staff::showMenu()
 		case 3:
 			importCourseFromFile();
 			break;
+
 		case 4:
 			showClass();
 			break;
@@ -283,6 +285,9 @@ void Staff::showMenu()
 			getline(cin, ClassID);
 			showStudent(ClassID);
 			break;
+		case 12:
+			addCourse();
+			break;
 		default:
 			cout << "PLease Enter The choice you want" << endl;
 			break;
@@ -295,7 +300,7 @@ int Staff::init(string dataString)
 {
 	int commaPos = dataString.find(',');
 	this->ID = dataString.substr(0, commaPos);
-	dataString.erase(0,commaPos+1);
+	dataString.erase(0, commaPos + 1);
 
 
 	commaPos = dataString.find(',');
@@ -367,7 +372,7 @@ void Staff::change_student_class(string ClassID, string StudentID) {
 		{
 			if (cur->data->getID() == StudentID)
 			{
-				Student* ptrStudent = dynamic_cast<Student*>(cur->data);		
+				Student* ptrStudent = dynamic_cast<Student*>(cur->data);
 				ptrStudent->ChangeClass(ClassID);
 			}
 		}
@@ -380,7 +385,7 @@ void Staff::addStudent() {
 	string id;
 	cin.ignore();
 	getline(cin, id);
-	cout << checkDupID(id)<<endl;
+	cout << checkDupID(id) << endl;
 	if (checkDupID(id) == true) {
 		cout << "the ID already exist!" << endl;
 		system("pause");
@@ -491,5 +496,50 @@ bool Staff::checkDupID(string ID) {
 		cur = cur->next;
 	}
 	return false;
+}
+
+void Staff::addCourse()
+{
+	cout << "Course ID:";
+	string courseID;
+	cin.ignore();
+	getline(cin, courseID);
+	if (checkDupID(courseID) == true) {
+		cout << "the ID already exist!" << endl;
+		system("pause");
+		return;
+	}
+	else
+	{
+		cout << "Course Name:";
+		string courseName;
+		getline(cin, courseName);
+		cout << "Lecturer Name:";
+		string lecturerName;
+		getline(cin, lecturerName);
+		cout << "Class Name:";
+		string className;
+		getline(cin, className);
+		cout << "Start Date:";
+		string startDate;
+		getline(cin, startDate);
+		cout << "End Date:";
+		string endDate;
+		getline(cin, endDate);
+		cout << "Start Hour:";
+		string startHour;
+		getline(cin, startHour);
+		cout << "End hour:";
+		string endHour;
+		getline(cin, endHour);
+		cout << "Room:";
+		string room;
+		getline(cin, room);
+		node<Course>* p = new node<Course>;
+		p->data = new Course(courseID + "," + courseName + "," + lecturerName + "," + className + "," + startDate + "," + endDate + "," + startHour + "," + endHour + "," + room);
+		Courselist->insert(p);
+	}
+
+
 }
 
