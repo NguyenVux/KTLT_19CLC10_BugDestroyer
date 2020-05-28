@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "USER.h"
 #include "ioHelper.h"
+#include "SCOREBOARD.h"
+#include "CheckinList.h"
 #include <iomanip>
 class Student :
 	public IUSER
@@ -13,7 +15,10 @@ private:
 	linkedList<Course>* CourseList = nullptr;
 	void showEnrolledCourse();
 	void showAllCourse();
-	void viewSchedue();
+	void showSchedue();
+	void ShowScoreBoard();
+	void checkin();
+	void showCheckin();
 public:
 	Student();
 	void showMenu();

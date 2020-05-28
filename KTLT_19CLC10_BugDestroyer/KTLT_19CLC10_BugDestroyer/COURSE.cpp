@@ -59,7 +59,6 @@ void Course::viewInfo()
 Date StringToDate(string input)
 {
 	Date date;
-
 	int dashPos = input.find('-');
 	date.day = strToInt(input.substr(0, dashPos));
 	input.erase(0, dashPos + 1);
@@ -81,4 +80,45 @@ Time StringToTime(string input)
 
 	time.minute = strToInt(input.substr(0, colonPos));
 	return time;
+}
+
+
+linkedList<Course>* loadCourse()
+{
+	cout << "Loading Course List" << endl;
+	linkedList<Course>* courseList = new linkedList<Course>;
+	fstream* file = new fstream;
+	file->open("Data\\course.txt", ios::in);
+	if (file->is_open())
+	{
+		string buffer;
+		while (!file->eof())
+		{
+			char input;
+			*file >> input;
+			if (input != '#')
+			{
+				getline(*file, buffer);
+				node<Course>* course = new node<Course>;
+				course->data = new Course(input + buffer);
+				courseList->insert(course);
+			}
+			else
+			{
+				file->ignore(1000, '\n');
+			}
+		}
+	}
+	else
+	{
+		cout << "Course.txt not found" << endl;
+		delete courseList;
+		delete file;
+		return nullptr;
+	}
+	file->close();
+	delete file;
+	cout << "Fisnish Loading Course";
+	system("cls");
+	return courseList;
 }

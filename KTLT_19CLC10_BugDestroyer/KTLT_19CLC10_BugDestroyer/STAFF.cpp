@@ -137,35 +137,43 @@ void Staff::importCourseFromFile()
 	cin >> fileName;
 	fstream* file = new fstream;
 	file->open("import\\" + fileName + ".csv", ios::in);
-
+	bool isFirstLine = true;
 	if (file->is_open())
 	{
 		linkedList<Course>* tempCourseList = new linkedList<Course>;
 		while (!file->eof())
 		{
-
-			string buffer;
+			
+			string buffer;			
 			getline(*file, buffer);
 			cout << buffer << endl;
-			node<Course>* courseInstance = new node<Course>;
-			courseInstance->data = new Course(buffer);
-			node<Course>* tmp = this->Courselist->head;
-			while (tmp != 0)
+			if (!isFirstLine)
 			{
-				if (tmp->data->ID == courseInstance->data->ID)
+				buffer.erase(0, 2); // delete the No, in input string
+				node<Course>* courseInstance = new node<Course>;
+				courseInstance->data = new Course(buffer);
+				node<Course>* tmp = this->Courselist->head;
+				while (tmp != 0)
 				{
-					cout << "Dupliate ID with existed Course\n";
-					tmp->data->viewInfo();
-					cout << "\nStop importing from " + fileName + ".csv" << endl;
-					cout << "Import failed - Roll back all changes\npress Enter to continue " << endl;
-					cin.ignore();
-					cin.get();
-					delete tempCourseList;
-					return;
+					if (tmp->data->ID == courseInstance->data->ID)
+					{
+						cout << "Dupliate ID with existed Course\n";
+						tmp->data->viewInfo();
+						cout << "\nStop importing from " + fileName + ".csv" << endl;
+						cout << "Import failed - Roll back all changes\npress Enter to continue " << endl;
+						cin.ignore();
+						cin.get();
+						delete tempCourseList;
+						return;
+					}
+					tmp = tmp->next;
 				}
-				tmp = tmp->next;
+				tempCourseList->insert(courseInstance);
 			}
-			tempCourseList->insertTop(courseInstance);
+			else
+			{
+				isFirstLine = false;
+			}
 		}
 		this->Courselist->head = linkedList<Course>::joinList(tempCourseList, this->Courselist);
 		cout << "Import finished \npress Enter to continue " << endl;

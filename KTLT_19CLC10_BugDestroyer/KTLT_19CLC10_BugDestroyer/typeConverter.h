@@ -6,6 +6,7 @@ namespace converter
 	int strToInt(std::string input);
 	int charToInt(char input);
 }
+
 #endif
 /*
 Author: Nguyen Hoang Vu

@@ -50,3 +50,44 @@ string CLASS::getClassID()
 {
 	return this->classID;
 }
+
+linkedList<CLASS>* loadClass()
+{
+	cout << "Loading Class List" << endl;
+	linkedList<CLASS>* ClassList = new linkedList<CLASS>;
+	fstream* file = new fstream;
+	file->open("Data\\class.txt", ios::in);
+	if (file->is_open())
+	{
+		string buffer;
+		while (!file->eof())
+		{
+			char input;
+			*file >> input;
+			if (input != '#')
+			{
+				getline(*file, buffer);
+				//cout << buffer;
+				node<CLASS>* Class = new node<CLASS>;
+				Class->data = new CLASS(input + buffer);
+				ClassList->insert(Class);
+			}
+			else
+			{
+				file->ignore(1000, '\n');
+			}
+		}
+	}
+	else
+	{
+		cout << "class.txt not found" << endl;
+		delete ClassList;
+		delete file;
+		return nullptr;
+	}
+	file->close();
+	delete file;
+	cout << "Fisnish Loading Class";
+	system("cls");
+	return ClassList;
+}

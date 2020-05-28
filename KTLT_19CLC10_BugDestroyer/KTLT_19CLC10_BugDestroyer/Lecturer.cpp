@@ -24,8 +24,11 @@ void Lecturer::showMyCourse()
 	}
 }
 
-void Lecturer::viewCourseAttendances(string courseID)
+void Lecturer::viewCourseAttendances()
 {
+	cout << "Enter CourseID to view Attendances: ";
+	string courseID;
+	cin >> courseID;
 	node<IUSER>* userNode = userList->head;
 	while (userNode)
 	{
@@ -42,6 +45,80 @@ void Lecturer::viewCourseAttendances(string courseID)
 		}
 		userNode = userNode->next;
 	}
+}
+
+void Lecturer::EditCourseAttendances()
+{
+	cout << "Enter CourseID to Edit: ";
+	string courseID;
+	cin >> courseID;
+	cout << "Enter Student ID: ";
+	string studentID;
+	cin >> studentID;
+	node<IUSER>* currStudent = userList->head;;
+	while (currStudent)
+	{
+		if (currStudent->data->getRole() == STUDENT && currStudent->data->getID() == studentID)
+		{
+			Student* ptr = dynamic_cast<Student*>(currStudent->data);
+			if (ptr)
+			{
+				if (ptr->isEnrolled(courseID))
+				{
+					ptr->removeCourse(courseID);
+					break;
+				}
+			}
+		}
+		currStudent = currStudent->next;
+	}
+}
+
+void Lecturer::viewScoreBoard()
+{
+	cout << "Enter CourseID to view ScoreBoard: ";
+	string courseID;
+	cin >> courseID;
+	SCOREBOARD scoreboard(courseID);
+	int cellSize = 30;
+	int scoreCellSize = 10;
+	cout << endl << "|" << left << setw(cellSize) << ioHelper::centered("Student Name", cellSize) << "|"
+		<< left << setw(scoreCellSize) << ioHelper::centered("MidTerm", scoreCellSize) << "|"
+		<< left << setw(scoreCellSize) << ioHelper::centered("Final", scoreCellSize) << "|"
+		<< left << setw(scoreCellSize) << ioHelper::centered("Lab", scoreCellSize) << "|"
+		<< left << setw(scoreCellSize) << ioHelper::centered("Bonus", scoreCellSize) << "|";
+	do
+	{
+		ScoreRecord rec = scoreboard.getCurrent();
+		node<IUSER>* currUser = userList->head;
+		while (currUser)
+		{
+			if (currUser->data->getID() == rec.studentID)
+			{
+				break;
+			}
+			currUser = currUser->next;
+		}
+		cout << endl << "|" << left << setw(cellSize) <<  currUser->data->getName() << "|"
+			<< left << setw(scoreCellSize);
+		rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+		cout << ioHelper::centered(to_string(rec.midTerm).substr(0, 3), scoreCellSize);
+		ioHelper::blackLine();
+		cout << "|" << left << setw(scoreCellSize);
+
+		rec.final > 5 ? ioHelper::textGreen() : rec.final == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+		cout << ioHelper::centered(to_string(rec.final).substr(0, 3), scoreCellSize);
+		ioHelper::blackLine();
+		cout << "|" << left << setw(scoreCellSize);
+
+
+		rec.lab > 5 ? ioHelper::textGreen() : rec.lab == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+		cout << ioHelper::centered(to_string(rec.lab).substr(0, 3), scoreCellSize);
+		ioHelper::blackLine();
+		cout << "|" << left << setw(scoreCellSize);
+
+		cout << left << setw(scoreCellSize) << ioHelper::centered(to_string(rec.bonus).substr(0, 3), scoreCellSize) << "|";
+	} while (scoreboard.next());	
 }
 
 Lecturer::Lecturer()
@@ -89,7 +166,7 @@ void Lecturer::setCourseList(linkedList<Course>* Courselist)
 
 void Lecturer::showMenu()
 {
-	viewCourseAttendances("course1");
+	EditCourseAttendances();
 	system("pause");
 }
 

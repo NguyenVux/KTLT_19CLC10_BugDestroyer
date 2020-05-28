@@ -1,0 +1,5 @@
+13-6-2020 course1=1,course1=2
+14-6-2020 course1=1,course1=2
+15-6-2020 course2=1,course3=4
+28-5-2020 course1=1,course4=0
+29-5-2020 course1=2,course2=1,CS162=1

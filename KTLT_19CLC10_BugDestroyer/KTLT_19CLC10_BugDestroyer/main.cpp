@@ -9,91 +9,9 @@
 #include "CLASS.h"
 #include "LinkedList/linkedList.h"
 #include "Lecturer.h"
+#include "SCOREBOARD.h"
 
 const char DataPath[] = "Data\\";
-
-linkedList<CLASS>* loadClass()
-{
-	cout << "Loading Class List" << endl;
-	linkedList<CLASS>* ClassList = new linkedList<CLASS>;
-	fstream* file = new fstream;
-	string fileName = "class.txt";
-	file->open(DataPath + fileName, ios::in);
-	if (file->is_open())
-	{
-		string buffer;
-		while (!file->eof())
-		{
-			char input;
-			*file >> input;
-			if (input != '#')
-			{
-				getline(*file, buffer);
-				//cout << buffer;
-				node<CLASS>* Class = new node<CLASS>;
-				Class->data = new CLASS(input + buffer);
-				ClassList->insert(Class);
-			}
-			else
-			{
-				file->ignore(1000, '\n');
-			}
-		}
-	}
-	else
-	{
-		cout << "class.txt not found" << endl;
-		delete ClassList;
-		delete file;
-		return nullptr;
-	}
-	file->close();
-	delete file;
-	cout << "Fisnish Loading Class";
-	system("cls");
-	return ClassList;
-}
-
-linkedList<Course>* loadCourse()
-{
-	cout << "Loading Course List" << endl;
-	linkedList<Course>* courseList = new linkedList<Course>;
-	fstream* file = new fstream;
-	string fileName = "course.txt";
-	file->open(DataPath + fileName, ios::in);
-	if (file->is_open())
-	{
-		string buffer;
-		while (!file->eof())
-		{
-			char input;
-			*file >> input;
-			if (input != '#')
-			{
-				getline(*file, buffer);
-				node<Course>* course = new node<Course>;
-				course->data = new Course(input+buffer);
-				courseList->insert(course);
-			}
-			else
-			{
-				file->ignore(1000, '\n');
-			}
-		}
-	}
-	else
-	{
-		cout << "Course.txt not found" << endl;
-		delete courseList;
-		delete file;
-		return nullptr;
-	}
-	file->close();
-	delete file;
-	cout << "Fisnish Loading Course";
-	system("cls");
-	return courseList;
-}
 
 linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* classList)
 {
@@ -228,7 +146,7 @@ IUSER* login(linkedList<IUSER> *USER)
 			current = current->next;
 
 		}
-		cout << "Invalid ID or password" << endl;
+		cout << endl<<"Invalid ID or password" << endl;
 		system("pause");
 		return 0;
 	}
@@ -252,6 +170,8 @@ void updateUser(linkedList<IUSER>* userList)
 	file->close();
 	delete file;
 }
+
+
 int main()
 {
 	linkedList<Course>* courseList = loadCourse();

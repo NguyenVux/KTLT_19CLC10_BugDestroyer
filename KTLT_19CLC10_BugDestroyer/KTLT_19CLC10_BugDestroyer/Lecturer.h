@@ -3,6 +3,7 @@
 
 #include "USER.h"
 #include "STUDENT.h"
+#include "SCOREBOARD.h"
 #include <conio.h>
 class Lecturer : public IUSER
 {
@@ -15,7 +16,9 @@ private:
 
 	void showAllCourse();
 	void showMyCourse();
-	void viewCourseAttendances(string courseID);
+	void viewCourseAttendances();
+	void EditCourseAttendances();
+	void viewScoreBoard();
 public:
 	Lecturer();
 	int init(string dataString);

@@ -30,16 +30,6 @@ public:
 			current->next = node;
 		}
 	}
-	/*void insertTop(T data)
-	{
-		node<T>* tmp = new node<T>;
-		tmp->data = data;
-		tmp->next = head;
-		head = tmp;
-	}*/
-	///<summary>Join List
-	///<para>return the head node of joined list</para>
-	///</summary>
 	static node<T>* joinList(linkedList<T>* list1,linkedList<T> *list2)
 	{
 		node<T> *tmp1 = list1->head;
@@ -70,6 +60,24 @@ public:
 			return true;
 		}
 		return false;
+	}
+	void resetCurrent()
+	{
+		current = head;
+	}
+
+	bool next()
+	{
+		current = current->next;
+		if (current)
+		{
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	~linkedList()
 	{

@@ -1,8 +1,10 @@
-#pragma once
+#ifndef _CLASS_H
+#define _CLASS_H
 #include <string>
 #include "LinkedList/linkedList.h"
 #include "USER.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 class CLASS
 {
@@ -17,4 +19,5 @@ public:
 	string getClassID();
 };
 
-
+linkedList<CLASS>* loadClass();
+#endif

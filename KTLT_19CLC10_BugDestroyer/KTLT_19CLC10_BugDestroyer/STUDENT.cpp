@@ -44,7 +44,7 @@ void Student::showAllCourse()
 	}
 }
 
-void Student::viewSchedue()
+void Student::showSchedue()
 {
 	int cellSize = 30;
 	int TimeCellSize =20;
@@ -57,7 +57,6 @@ void Student::viewSchedue()
 		<< left << setw(TimeCellSize) << ioHelper::centered("Sat", TimeCellSize) << "|"
 		<< left << setw(TimeCellSize) << ioHelper::centered("Sun", TimeCellSize) << "|";
 	node<Course>* currentCourse = CourseList->head;
-	bool Highlighted = true;
 	while (currentCourse)
 	{
 		if (isEnrolled(currentCourse->data->ID))
@@ -86,6 +85,216 @@ void Student::viewSchedue()
 	ioHelper::blackLine();
 }
 
+void Student::ShowScoreBoard()
+{
+	int cellSize = 30;
+	int TimeCellSize = 10;
+	cout << endl << "|" << left << setw(cellSize) << ioHelper::centered("Course Name", cellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("MidTerm", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Final", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Lab", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Bonus", TimeCellSize) << "|";
+	node<Course>* currentCourse = CourseList->head;
+	bool Highlighted = true;
+	while (currentCourse)
+	{
+		if (isEnrolled(currentCourse->data->ID))
+		{
+			SCOREBOARD scoreboard(currentCourse->data->ID);
+			ScoreRecord rec = scoreboard.getByID(this->ID);
+			
+			cout << endl << "|" << left << setw(cellSize) << currentCourse->data->courseName << "|"
+				<< left << setw(TimeCellSize);
+			rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+			cout << ioHelper::centered(to_string(rec.midTerm).substr(0, 3), TimeCellSize);
+			ioHelper::blackLine();
+			cout << "|" << left << setw(TimeCellSize);
+
+			rec.final > 5 ? ioHelper::textGreen() : rec.final == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+			cout << ioHelper::centered(to_string(rec.final).substr(0, 3), TimeCellSize);
+			ioHelper::blackLine();
+			cout << "|" << left << setw(TimeCellSize);
+
+
+			rec.lab > 5 ? ioHelper::textGreen() : rec.lab == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+			cout << ioHelper::centered(to_string(rec.lab).substr(0, 3), TimeCellSize);
+			ioHelper::blackLine();
+			cout << "|" << left << setw(TimeCellSize);
+
+			cout << left << setw(TimeCellSize) << ioHelper::centered(to_string(rec.bonus).substr(0, 3), TimeCellSize) << "|";
+		}
+		currentCourse = currentCourse->next;
+	}
+}
+
+void Student::checkin()
+{
+	///Sumary
+	/*
+	1.Get today course
+	2.Get course want to checkin
+	3.check if today Checkin is created
+		-if created check if selected course is checked
+			-if not checked check -else print you already check (valid check)
+		-if not created check create check and check selected course (valid check)	
+	
+	
+	
+	*/
+	///
+	//Get today Course
+	tm now = Checkin::getCurrentTime();
+	now.tm_wday -= 1;
+	if (now.tm_wday < 0)
+	{
+		now.tm_wday += 7;
+	}
+	vector<Course*> todayCourse;
+	CourseList->resetCurrent();
+	do
+	{
+		if(isEnrolled(CourseList->current->data->ID) && CourseList->current->data->dayOfweek == now.tm_wday)
+		{ 
+			todayCourse.push_back(CourseList->current->data);
+		}
+	} while (CourseList->next());
+	CourseList->resetCurrent();
+
+	//Load check list
+	fstream checkinFile;
+	checkinFile.open("Data\\checkin\\" + this->ID+".txt", ios::in);
+	Date lastDate;
+	string buffer;
+	vector<CheckinResult> lastCheckin;
+	if (checkinFile.is_open())
+	{
+		while (checkinFile >> buffer)
+		{
+			lastDate = StringToDate(buffer);
+
+			if (!(checkinFile >> buffer))
+			{
+				buffer = "";
+			}
+		}
+		size_t commaPos = 0;
+		while (commaPos != string::npos && buffer != "")
+		{
+			commaPos = buffer.find(',');
+			string result = buffer.substr(0, commaPos);
+			if (commaPos != string::npos)
+			{
+				buffer.erase(0,buffer.find(',')+1);
+			}
+
+			string CourseID =  result.substr(0, result.find("="));
+			int state = stoi(result.substr(result.find("=") + 1, 1));
+			CheckinResult tmp = { CourseID,state };
+			lastCheckin.push_back(tmp);
+		}
+		checkinFile.close();
+		//check if lastDate is today
+		if (lastDate.day == now.tm_mday && lastDate.month - 1 == now.tm_mon && lastDate.year-1900 == now.tm_year)
+		{
+			cout << "This is today course: " << endl;
+			//show today course
+			for (int i = 0; i < todayCourse.size(); i++)
+			{
+				
+				cout << "Course ID: " << todayCourse[i]->ID << endl;
+				cout << "Course Name: " << todayCourse[i]->courseName << endl;
+				cout << "Time: ";
+				if (todayCourse[i]->startTime.hour < 10) cout << "0";
+				cout << todayCourse[i]->startTime.hour << ":";
+				if (todayCourse[i]->startTime.minute <10)cout <<"0";
+				cout << todayCourse[i]->startTime.minute << " - ";
+				if (todayCourse[i]->endTime.hour < 10) cout << "0";
+				cout << todayCourse[i]->endTime.hour << ":";
+				if (todayCourse[i]->endTime.minute < 10)cout << "0";
+				cout << todayCourse[i]->endTime.minute << endl;
+				cout << "---------------------------------------------" << endl;
+			}
+			cout << "Select course to check-in: ";
+			string selectedCourse;
+			cin >> selectedCourse;
+			now = Checkin::getCurrentTime();
+			bool validCourse = false;
+			//check if selected course is in today course list
+			Course *validCoursePtr = 0;
+			for (int courseIndex = 0; courseIndex < todayCourse.size(); courseIndex++)
+			{
+				if (selectedCourse == todayCourse[courseIndex]->ID)
+				{
+					validCoursePtr = todayCourse[courseIndex];
+					validCourse = true;
+					break;
+				}
+			}
+			//check if selected course was checked before
+			for (int i = 0; i < lastCheckin.size(); i++)
+			{
+				if (selectedCourse == lastCheckin[i].CourseID)
+				{
+					validCourse = false;
+					cout << "you have checked in this course already" << endl;
+					break;
+				}
+				validCourse = true;
+			}
+			//check if course meet 2 requirements above
+			if (validCourse)
+			{
+				
+				//checkin status 
+				//0 = absent; 
+				//1 = eary,in-time;
+				//2 = late;
+				CheckinResult tmp = {validCoursePtr->ID,1};
+				if (now.tm_hour >= validCoursePtr->endTime.hour && now.tm_min >= validCoursePtr->endTime.minute)
+				{
+					tmp.result = 0;
+				}
+				else
+				{
+					if (now.tm_hour >= validCoursePtr->startTime.hour && now.tm_min > validCoursePtr->startTime.minute)
+					{
+						tmp.result = 2;
+					}
+					else
+					{
+						tmp.result = 1;
+					}
+				}
+				checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
+				if (lastCheckin.size() == 0)
+				{
+					checkinFile << " " << tmp.CourseID << "=" << tmp.result;
+				}
+				else
+				{
+					checkinFile << "," << tmp.CourseID << "=" << tmp.result;
+				}
+				checkinFile.close();
+				
+			}
+		}
+		else
+		{
+			checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
+			checkinFile <<endl<< lastDate.day << "-" << lastDate.month << "-" << lastDate.year << " ";
+			checkinFile.close();
+		}
+	}
+	else
+	{
+		cout << "Can't find checkin file";
+	}
+}
+
+void Student::showCheckin()
+{
+}
+
 Student::Student()
 {
 	this->role = STUDENT;
@@ -97,6 +306,7 @@ void Student::showMenu()
 	int choice = 0;
 	while (choice != -1)
 	{
+		system("cls");
 		cout << "View My Course" << endl;
 		cout << "View All Course" << endl;
 		cout << "View All info" << endl;
@@ -119,7 +329,17 @@ void Student::showMenu()
 			cin.get();
 			break;
 		case 4:
-			viewSchedue();
+			showSchedue();
+			cin.ignore();
+			cin.get();
+			break;
+		case 5:
+			ShowScoreBoard();
+			cin.ignore();
+			cin.get();
+			break;
+		case 6:
+			checkin();
 			cin.ignore();
 			cin.get();
 			break;
@@ -157,7 +377,7 @@ int Student::init(string dataString)
 	this->ClassID = dataString.substr(0, commaPos);
 	dataString.erase(0, commaPos + 1);
 
-	if (dataString.find(',') != string::npos || this->ClassID != dataString)
+	if (this->ClassID != dataString)
 	{
 		while (dataString.find(',') != string::npos)
 		{
@@ -166,12 +386,12 @@ int Student::init(string dataString)
 			commaPos = dataString.find(',');
 			*(CourseIdNode->data) = dataString.substr(0, commaPos);
 			dataString.erase(0, commaPos + 1);
-			this->CourseID->insertTop(CourseIdNode);
+			this->CourseID->insert(CourseIdNode);
 		}
 		node<string>* CourseIdNode = new node <string>;
 		CourseIdNode->data = new string;
 		*(CourseIdNode->data) = dataString;
-		this->CourseID->insertTop(CourseIdNode);
+		this->CourseID->insert(CourseIdNode);
 	}
 	return 0;
 }
@@ -207,9 +427,6 @@ void Student::setDoB(string newDoB)
 {
 	DoB = newDoB;
 }
-
-
-
 
 
 

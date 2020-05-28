@@ -1,11 +1,16 @@
 #ifndef _COURSE_H
 #define _COURSE_H
 #include <string>
+#include <fstream>
 #include "typeConverter.h"
+#include "LinkedList/singly_linkedList.h"
 #include <iostream>
 
 using namespace converter;
 using namespace std;
+
+
+
 struct Date
 {
 	int year;
@@ -42,5 +47,6 @@ public:
 	string parse();
 	void viewInfo();
 };
+linkedList<Course>* loadCourse();
 #endif
 

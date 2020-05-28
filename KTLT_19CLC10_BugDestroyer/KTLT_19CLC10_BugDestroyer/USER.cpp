@@ -35,3 +35,8 @@ string IUSER::getID()
 {
 	return this->ID;
 }
+
+string IUSER::getName()
+{
+	return this->name;
+}
