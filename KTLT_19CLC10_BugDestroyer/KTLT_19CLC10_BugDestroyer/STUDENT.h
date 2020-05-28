@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "USER.h"
+#include "ioHelper.h"
+#include <iomanip>
 class Student :
 	public IUSER
 {
@@ -8,7 +10,7 @@ public:
 private:
 	string ClassID ="";
 	linkedList<string> *CourseID;
-	linkedList<Course>* CourseList;
+	linkedList<Course>* CourseList = nullptr;
 	void showEnrolledCourse();
 	void showAllCourse();
 	void viewSchedue();

@@ -14,6 +14,7 @@ const char DataPath[] = "Data\\";
 
 linkedList<CLASS>* loadClass()
 {
+	cout << "Loading Class List" << endl;
 	linkedList<CLASS>* ClassList = new linkedList<CLASS>;
 	fstream* file = new fstream;
 	string fileName = "class.txt";
@@ -48,11 +49,14 @@ linkedList<CLASS>* loadClass()
 	}
 	file->close();
 	delete file;
+	cout << "Fisnish Loading Class";
+	system("cls");
 	return ClassList;
 }
 
 linkedList<Course>* loadCourse()
 {
+	cout << "Loading Course List" << endl;
 	linkedList<Course>* courseList = new linkedList<Course>;
 	fstream* file = new fstream;
 	string fileName = "course.txt";
@@ -86,11 +90,14 @@ linkedList<Course>* loadCourse()
 	}
 	file->close();
 	delete file;
+	cout << "Fisnish Loading Course";
+	system("cls");
 	return courseList;
 }
 
 linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* classList)
 {
+	cout << "Loading user list" << endl;
 	linkedList<IUSER>* userlist = new linkedList<IUSER>;
 	fstream* file = new fstream;
 	string fileName = "user.txt";
@@ -105,11 +112,9 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 			{
 				if(charToInt(input) == STAFF)
 				{
-					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
+					file->ignore(1); // Skip Space seperator in user.txt  "role ID"
 					string buffer;
 					getline(*file, buffer);
-					//cout <<endl<< buffer << endl;
-					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Staff;
 					userInstance->data->init(buffer);
@@ -120,16 +125,14 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 						staff_ptr->setCourseList(CourseList);
 						staff_ptr->setClassList(classList);
 					}
-					//cout << staff_ptr->parse() << endl;
 					
 					userlist->insert(userInstance);
 				}	
 				if (charToInt(input) == STUDENT)
 				{
-					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
+					file->ignore(1); // Skip Space seperator in user.txt  "role ID"
 					string buffer;
 					getline(*file, buffer);
-					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Student;
 					userInstance->data->init(buffer);
@@ -142,10 +145,9 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 				}
 				if (charToInt(input) == LECTURER)
 				{
-					file->ignore(1); // Skip Space seperator in user.txt  "1 asd"
+					file->ignore(1); // Skip Space seperator in user.txt  "role ID"
 					string buffer;
 					getline(*file, buffer);
-					cout << buffer << endl;
 					node<IUSER>* userInstance = new node<IUSER>;
 					userInstance->data = new Lecturer;
 					userInstance->data->init(buffer);
@@ -174,6 +176,8 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 	}
 	file->close();
 	delete file;
+	cout << "Fisnish Loading Course";
+	system("cls");
 	return userlist;
 }
 

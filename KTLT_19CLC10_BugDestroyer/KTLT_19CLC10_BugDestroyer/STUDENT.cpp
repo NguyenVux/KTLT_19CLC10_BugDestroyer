@@ -44,6 +44,48 @@ void Student::showAllCourse()
 	}
 }
 
+void Student::viewSchedue()
+{
+	int cellSize = 30;
+	int TimeCellSize =20;
+	cout <<endl <<"|"<< left << setw(cellSize) <<  ioHelper::centered("Course Name",cellSize) << "|"
+		 << left << setw(TimeCellSize) << ioHelper::centered("Mon", TimeCellSize) << "|"
+		 <<left << setw(TimeCellSize) << ioHelper::centered("Tue", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Wed", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Thu", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Fri", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Sat", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Sun", TimeCellSize) << "|";
+	node<Course>* currentCourse = CourseList->head;
+	bool Highlighted = true;
+	while (currentCourse)
+	{
+		if (isEnrolled(currentCourse->data->ID))
+		{
+			cout << endl << "|" << left << setw(cellSize) << currentCourse->data->courseName << "|";
+			for (int i = Mon; i <= Sun; i++)
+			{
+				if (i == currentCourse->data->dayOfweek)
+				{
+
+					string time = to_string(currentCourse->data->startTime.hour) + ':' + to_string(currentCourse->data->startTime.minute) + " - "
+						+ to_string(currentCourse->data->endTime.hour) + ':' + to_string(currentCourse->data->endTime.minute);
+					ioHelper::whiteLine();
+					cout << left << setw(TimeCellSize) << ioHelper::centered(time, TimeCellSize);
+					ioHelper::blackLine();
+					cout << "|";
+				}
+				else
+				{
+					cout << setw(TimeCellSize) << " " << "|";
+				}
+			}
+		}
+		currentCourse = currentCourse->next;
+	}
+	ioHelper::blackLine();
+}
+
 Student::Student()
 {
 	this->role = STUDENT;
@@ -77,7 +119,7 @@ void Student::showMenu()
 			cin.get();
 			break;
 		case 4:
-			removeCourse("course1");
+			viewSchedue();
 			cin.ignore();
 			cin.get();
 			break;

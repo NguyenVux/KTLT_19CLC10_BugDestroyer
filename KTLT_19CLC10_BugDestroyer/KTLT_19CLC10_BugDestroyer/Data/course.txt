@@ -1,5 +1,5 @@
 course1,Course thu nhat,19CLC3,viktor1,05-11-2001,05-11-2002,5,08:00,11:00,I33
-course2,Course thu nhat,19CLC3,viktor1,05-11-2001,05-11-2002,5,08:00,11:00,I33
-course3,Course thu ba,19CLC3,nhminh,05-11-2001,05-11-2002,5,08:00,11:00,I33
-course4,Course thu nhat,19CLC3,viktor1,05-11-2001,05-11-2002,5,08:00,11:00,I33
-course5,Course thu nam,19CLC3,nhminh,05-11-2001,05-11-2002,5,08:00,11:00,I33
+course2,Course thu nhat,19CLC3,viktor1,05-11-2001,05-11-2002,3,08:00,11:00,I33
+course3,Course thu ba,19CLC3,nhminh,05-11-2001,05-11-2002,2,08:00,11:00,I33
+course4,Course thu nhat,19CLC3,viktor1,05-11-2001,05-11-2002,3,08:00,11:00,I33
+course5,Course thu nam,19CLC3,nhminh,05-11-2001,05-11-2002,0,08:00,11:00,I33

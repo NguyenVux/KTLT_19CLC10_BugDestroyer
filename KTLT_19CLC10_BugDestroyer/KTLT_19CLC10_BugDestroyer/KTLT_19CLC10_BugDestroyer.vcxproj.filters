@@ -39,6 +39,9 @@
     <ClCompile Include="Lecturer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ioHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="course.txt" />
@@ -66,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lecturer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ioColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ioHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
