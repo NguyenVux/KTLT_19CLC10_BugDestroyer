@@ -275,6 +275,7 @@ int main()
 		{
 			Session->showMenu();
 			Session = 0;
+			choice = 0;
 		}
 	}
 	updateUser(userList);

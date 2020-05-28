@@ -76,6 +76,13 @@ void Student::showMenu()
 			cin.ignore();
 			cin.get();
 			break;
+		case 4:
+			removeCourse("course1");
+			cin.ignore();
+			cin.get();
+			break;
+		default:
+			return;
 		}
 	}
 	//ViewInfo();
@@ -108,7 +115,7 @@ int Student::init(string dataString)
 	this->ClassID = dataString.substr(0, commaPos);
 	dataString.erase(0, commaPos + 1);
 
-	if (dataString.find(',') != string::npos)
+	if (dataString.find(',') != string::npos || this->ClassID != dataString)
 	{
 		while (dataString.find(',') != string::npos)
 		{
@@ -195,6 +202,41 @@ bool Student::isEnrolled(string CourseID)
 		current = current->next;
 	}
 	return false;
+}
+
+void Student::removeCourse(string courseName)
+{
+	if (CourseID->head != NULL && *(CourseID->head->data) == courseName)
+	{
+		if (CourseID->head->next == NULL)
+		{
+			delete CourseID->head;
+			CourseID->head = NULL;
+		}
+		else
+		{
+			node<string>* tmp = CourseID->head->next;
+			delete CourseID->head;
+			CourseID->head = tmp;
+		}
+	}
+	else
+	{
+		node<string>* currentCourse = CourseID->head;
+		while (currentCourse->next != NULL)
+		{
+			if (*(currentCourse->next->data) == courseName)
+			{
+				node<string>* tmp = currentCourse->next;
+				currentCourse->next = tmp->next;
+				delete tmp;
+			}
+			else
+			{
+				currentCourse = currentCourse->next;
+			}
+		}
+	}
 }
 
 Student::~Student()
