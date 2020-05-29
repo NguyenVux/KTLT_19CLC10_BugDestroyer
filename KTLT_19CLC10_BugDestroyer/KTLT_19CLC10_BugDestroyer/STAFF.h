@@ -35,5 +35,16 @@ public:
 	void removeStudent(string studentID);
 	string parse();
 	static string monthConverter(int month);
+	bool checkDateInput(int day, int month, int year);
+	string getDate(int day, int month, int year, int type);
+	//note
+	/*
+	type 1: DD/MM/YYYY
+	type 2: DD-MM-YYYY
+	type 3: American english date 
+	Example: May 14th 2019
+	type 4: British english date
+	Example: 14th May 2019
+	*/
 };
 
