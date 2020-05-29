@@ -47,7 +47,7 @@ void Student::showAllCourse()
 void Student::showSchedue()
 {
 	int cellSize = 30;
-	int TimeCellSize =15;
+	int TimeCellSize =20;
 	cout <<endl <<"|"<< left << setw(cellSize) <<  ioHelper::centered("Course Name",cellSize) << "|"
 		 << left << setw(TimeCellSize) << ioHelper::centered("Mon", TimeCellSize) << "|"
 		 <<left << setw(TimeCellSize) << ioHelper::centered("Tue", TimeCellSize) << "|"
@@ -151,18 +151,14 @@ void Student::checkin()
 	}
 	vector<Course*> todayCourse;
 	CourseList->resetCurrent();
-	if (CourseList->current)
+	do
 	{
-		do
-		{
-			if (isEnrolled(CourseList->current->data->ID) && CourseList->current->data->dayOfweek == now.tm_wday)
-			{
-				todayCourse.push_back(CourseList->current->data);
-			}
-		} while (CourseList->next());
-		CourseList->resetCurrent();
-	}
-
+		if(isEnrolled(CourseList->current->data->ID) && CourseList->current->data->dayOfweek == now.tm_wday)
+		{ 
+			todayCourse.push_back(CourseList->current->data);
+		}
+	} while (CourseList->next());
+	CourseList->resetCurrent();
 
 	//Load check list
 	fstream checkinFile;
@@ -285,206 +281,18 @@ void Student::checkin()
 		else
 		{
 			checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
-			checkinFile <<endl<< now.tm_mday << "-" << now.tm_mon+1 << "-" << now.tm_year+1900 << " ";
+			checkinFile <<endl<< lastDate.day << "-" << lastDate.month << "-" << lastDate.year << " ";
 			checkinFile.close();
-			cout << "This is today course: " << endl;
-			//show today course
-			for (int i = 0; i < todayCourse.size(); i++)
-			{
-
-				cout << "Course ID: " << todayCourse[i]->ID << endl;
-				cout << "Course Name: " << todayCourse[i]->courseName << endl;
-				cout << "Time: ";
-				if (todayCourse[i]->startTime.hour < 10) cout << "0";
-				cout << todayCourse[i]->startTime.hour << ":";
-				if (todayCourse[i]->startTime.minute < 10)cout << "0";
-				cout << todayCourse[i]->startTime.minute << " - ";
-				if (todayCourse[i]->endTime.hour < 10) cout << "0";
-				cout << todayCourse[i]->endTime.hour << ":";
-				if (todayCourse[i]->endTime.minute < 10)cout << "0";
-				cout << todayCourse[i]->endTime.minute << endl;
-				cout << "---------------------------------------------" << endl;
-			}
-			cout << "Select course to check-in: ";
-			string selectedCourse;
-			cin >> selectedCourse;
-			now = Checkin::getCurrentTime();
-			bool validCourse = false;
-			//check if selected course is in today course list
-			Course* validCoursePtr = 0;
-			for (int courseIndex = 0; courseIndex < todayCourse.size(); courseIndex++)
-			{
-				if (selectedCourse == todayCourse[courseIndex]->ID)
-				{
-					validCoursePtr = todayCourse[courseIndex];
-					validCourse = true;
-					break;
-				}
-			}
-			//check if selected course was checked before
-			for (int i = 0; i < lastCheckin.size(); i++)
-			{
-				if (selectedCourse == lastCheckin[i].CourseID)
-				{
-					validCourse = false;
-					cout << "you have checked in this course already" << endl;
-					break;
-				}
-				validCourse = true;
-			}
-			//check if course meet 2 requirements above
-			if (validCourse)
-			{
-
-				//checkin status 
-				//0 = absent; 
-				//1 = eary,in-time;
-				//2 = late;
-				CheckinResult tmp = { validCoursePtr->ID,1 };
-				if (now.tm_hour >= validCoursePtr->endTime.hour && now.tm_min >= validCoursePtr->endTime.minute)
-				{
-					tmp.result = 0;
-				}
-				else
-				{
-					if (now.tm_hour >= validCoursePtr->startTime.hour && now.tm_min > validCoursePtr->startTime.minute)
-					{
-						tmp.result = 2;
-					}
-					else
-					{
-						tmp.result = 1;
-					}
-				}
-				checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
-				if (lastCheckin.size() == 0)
-				{
-					checkinFile << " " << tmp.CourseID << "=" << tmp.result;
-				}
-				else
-				{
-					checkinFile << "," << tmp.CourseID << "=" << tmp.result;
-				}
-				checkinFile.close();
-
-			}
-			
 		}
 	}
 	else
 	{
-		cout << "Can't find checkin file" << endl;
-		cout << "Creating checkin file" << endl;
-		CreateCheckinFile(this->ID);
-		cout << "Finished creating checkin file" << endl;
+		cout << "Can't find checkin file";
 	}
 }
 
 void Student::showCheckin()
 {
-	ifstream file;
-	file.open("Data\\checkin\\" + ID + ".txt");
-	int DateCellSize = 15;
-	int courseIDcellSize = 10;
-	if (file.is_open())
-	{
-		string buffer;
-		cout << left << setw(DateCellSize)<< ioHelper::centered("Date", DateCellSize) << "|";
-		CourseList->resetCurrent();
-		vector<string> CourseIDs;
-		if (CourseList)
-		{
-			do
-			{
-				if (isEnrolled(CourseList->current->data->ID))
-				{
-					cout << left << setw(courseIDcellSize)
-						<< ioHelper::centered(CourseList->current->data->ID, courseIDcellSize)
-						<< "|";
-					CourseIDs.push_back(CourseList->current->data->ID);
-				}
-			} while (CourseList->next());
-			cout << endl;
-		}
-		
-		while (file >> buffer)
-		{
-			cout <<left<< setw(DateCellSize)<< buffer << "|";
-			buffer = "";
-			if (file >> buffer)
-			{
-				vector<CheckinResult> CheckinList;
-				size_t commaPos = 0;
-				while (commaPos != string::npos && buffer != "")
-				{
-					commaPos = buffer.find(',');
-					string result = buffer.substr(0, commaPos);
-					if (commaPos != string::npos)
-					{
-						buffer.erase(0, buffer.find(',') + 1);
-					}
-
-					string CourseID = result.substr(0, result.find("="));
-					int state = stoi(result.substr(result.find("=") + 1, 1));
-					CheckinResult tmp = { CourseID,state };
-					CheckinList.push_back(tmp);
-				}
-				for (int i = 0; i < CourseIDs.size(); i++)
-				{
-					bool isChecked = false;
-					for (int index = 0; index < CheckinList.size(); index++)
-					{
-						if (CourseIDs[i] == CheckinList[index].CourseID)
-						{
-							int result = CheckinList[index].result;
-							if (result == 0)
-							{
-								ioHelper::textRed();
-							}
-							else if (result == 1)
-							{
-								ioHelper::textGreen();
-							}
-							else if(result == 2)
-							{
-								ioHelper::textYellow();
-							}
-							cout << left << setw(courseIDcellSize) << ioHelper::centered(Results[result], courseIDcellSize);
-							ioHelper::blackLine();
-							cout << "|";
-							isChecked = true;
-							break;
-						}
-					}
-					if (isChecked == false)
-					{
-						ioHelper::textRed();
-						cout << left << setw(courseIDcellSize) << ioHelper::centered(Results[0], courseIDcellSize);
-						ioHelper::blackLine();
-						cout << "|";
-
-					}
-				}
-				cout << endl;
-			}
-			buffer = "";
-		}
-	}
-	else
-	{
-		cout << "Can't find checkin file" << endl;
-		cout << "Creating checkin file" << endl;
-		CreateCheckinFile(this->ID);
-		cout << "Finished creating checkin file" << endl;
-	}
-
-}
-
-void Student::CreateCheckinFile(string ID)
-{
-	ofstream file;
-	file.open("Data\\checkin\\" + ID + ".txt");
-	file.close();
 }
 
 Student::Student()
@@ -532,11 +340,6 @@ void Student::showMenu()
 			break;
 		case 6:
 			checkin();
-			cin.ignore();
-			cin.get();
-			break;
-		case 7:
-			showCheckin();
 			cin.ignore();
 			cin.get();
 			break;
