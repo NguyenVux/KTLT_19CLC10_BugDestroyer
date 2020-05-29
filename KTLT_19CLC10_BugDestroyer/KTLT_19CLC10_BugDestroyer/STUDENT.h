@@ -19,6 +19,7 @@ private:
 	void ShowScoreBoard();
 	void checkin();
 	void showCheckin();
+	static void CreateCheckinFile(string ID);
 public:
 	Student();
 	void showMenu();

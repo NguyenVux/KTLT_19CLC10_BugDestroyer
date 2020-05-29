@@ -47,7 +47,7 @@ void Student::showAllCourse()
 void Student::showSchedue()
 {
 	int cellSize = 30;
-	int TimeCellSize =20;
+	int TimeCellSize =15;
 	cout <<endl <<"|"<< left << setw(cellSize) <<  ioHelper::centered("Course Name",cellSize) << "|"
 		 << left << setw(TimeCellSize) << ioHelper::centered("Mon", TimeCellSize) << "|"
 		 <<left << setw(TimeCellSize) << ioHelper::centered("Tue", TimeCellSize) << "|"
@@ -287,12 +287,56 @@ void Student::checkin()
 	}
 	else
 	{
-		cout << "Can't find checkin file";
+		cout << "Can't find checkin file" << endl;
+		cout << "Creating checkin file" << endl;
+		CreateCheckinFile(this->ID);
+		cout << "Finished creating checkin file" << endl;
 	}
 }
 
 void Student::showCheckin()
 {
+	ifstream file;
+	file.open("Data\\checkin\\" + ID + ".txt");
+	int DateCellSize = 15;
+	int courseIDcellSize = 10;
+	if (file.is_open())
+	{
+		string buffer;
+		cout << left << setw(DateCellSize)<< ioHelper::centered("Date", DateCellSize) << "|";
+		CourseList->resetCurrent();
+		vector<string> CourseIDs;
+		if (CourseList)
+		{
+			do
+			{
+				if (isEnrolled(CourseList->current->data->ID))
+				{
+					cout << left << setw(courseIDcellSize)
+						<< ioHelper::centered(CourseList->current->data->ID, courseIDcellSize)
+						<< "|";
+					CourseIDs.push_back(CourseList->current->data->ID);
+				}
+			} while (CourseList->next());
+			cout << endl;
+		}
+		
+	}
+	else
+	{
+		cout << "Can't find checkin file" << endl;
+		cout << "Creating checkin file" << endl;
+		CreateCheckinFile(this->ID);
+		cout << "Finished creating checkin file" << endl;
+	}
+
+}
+
+void Student::CreateCheckinFile(string ID)
+{
+	ofstream file;
+	file.open("Data\\checkin\\" + ID + ".txt");
+	file.close();
 }
 
 Student::Student()
@@ -340,6 +384,11 @@ void Student::showMenu()
 			break;
 		case 6:
 			checkin();
+			cin.ignore();
+			cin.get();
+			break;
+		case 7:
+			showCheckin();
 			cin.ignore();
 			cin.get();
 			break;
