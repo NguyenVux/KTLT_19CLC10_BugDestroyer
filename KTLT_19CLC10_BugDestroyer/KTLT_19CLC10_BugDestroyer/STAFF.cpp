@@ -443,16 +443,15 @@ void Staff::addStudent() {
 					}
 				}
 				if (tempM == 1 || tempM == 3 || tempM == 5 || tempM == 7 || tempM == 8 || tempM == 10 || tempM == 12) {
-					if (tempD < 1 || tempD>31) cout << "Invalid day input! (1<day<31) (" << monthConverter(tempM) << ")" << endl;
+					if (tempD < 1 || tempD>31) cout << "Invalid day input! (1<day<31) (" << monthConverter(tempM, 1) << ")" << endl;
 					else check = true;
 				}
 				if (tempM == 4 || tempM == 6 || tempM == 9 || tempM == 11) {
-					if (tempD < 1 || tempD>30) cout << "Invalid day input (1<day<30) (" << monthConverter(tempM) << ")" << endl;
+					if (tempD < 1 || tempD>30) cout << "Invalid day input (1<day<30) (" << monthConverter(tempM, 1) << ")" << endl;
 					else check = true;
 				}
 			}
 		}
-		cout << getDate(tempD, tempM, tempY, 4);
 		string password = day + month + year;
 		string dob = day + "-" + month + "-" + year;
 		node<IUSER>* p = new node<IUSER>;
@@ -463,37 +462,71 @@ void Staff::addStudent() {
 	}
 }
 
-string Staff::monthConverter(int month) {
+string Staff::monthConverter(int month, int mode) {
 	string res;
-	switch (month)
-	{
-	case 1: res = "Jan";
-		break;
-	case 2: res = "Feb";
-		break;
-	case 3: res = "Mar";
-		break;
-	case 4: res = "Apr";
-		break;
-	case 5: res = "May";
-		break;
-	case 6: res = "Jun";
-		break;
-	case 7: res = "Jul";
-		break;
-	case 8: res = "Aug";
-		break;
-	case 9: res = "Sep";
-		break;
-	case 10: res = "Oct";
-		break;
-	case 11: res = "Nov";
-		break;
-	case 12: res = "Dec";
-		break;
-	default:
-		res = "Invalid month";
-		break;
+	if (mode == 1) {
+		switch (month)
+		{
+		case 1: res = "Jan";
+			break;
+		case 2: res = "Feb";
+			break;
+		case 3: res = "Mar";
+			break;
+		case 4: res = "Apr";
+			break;
+		case 5: res = "May";
+			break;
+		case 6: res = "Jun";
+			break;
+		case 7: res = "Jul";
+			break;
+		case 8: res = "Aug";
+			break;
+		case 9: res = "Sep";
+			break;
+		case 10: res = "Oct";
+			break;
+		case 11: res = "Nov";
+			break;
+		case 12: res = "Dec";
+			break;
+		default:
+			res = "Invalid month";
+			break;
+		}
+	}
+	if (mode == 2) {
+		switch (month)
+		{
+		case 1: res = "January";
+			break;
+		case 2: res = "Febuary";
+			break;
+		case 3: res = "March";
+			break;
+		case 4: res = "April";
+			break;
+		case 5: res = "May";
+			break;
+		case 6: res = "June";
+			break;
+		case 7: res = "July";
+			break;
+		case 8: res = "August";
+			break;
+		case 9: res = "September";
+			break;
+		case 10: res = "October";
+			break;
+		case 11: res = "November";
+			break;
+		case 12: res = "December";
+			break;
+		default:
+			res = "Invalid month";
+			break;
+		}
 	}
 	return res;
 }
@@ -578,13 +611,13 @@ bool Staff::checkDateInput(int day, int month, int year) {
 		}
 		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
 			if (day < 1 || day>31) {
-				cout << "Invalid day input! (1<day<31) (" << monthConverter(month) << ")" << endl;
+				cout << "Invalid day input! (1<day<31) (" << monthConverter(month, 1) << ")" << endl;
 				return false;
 			}
 		}
 		if (month == 4 || month == 6 || month == 9 || month == 11) {
 			if (day < 1 || day>30) {
-				cout << "Invalid day input (1<day<30) (" << monthConverter(month) << ")" << endl;
+				cout << "Invalid day input (1<day<30) (" << monthConverter(month, 1) << ")" << endl;
 				return false;
 			}
 		}
@@ -605,15 +638,28 @@ string Staff::getDate(int day, int month, int year, int type) {
 		return to_string(day) + "-" + to_string(month) + "-" + to_string(year);
 	}
 	if (type == 3) {
-		if (day == 1) return monthConverter(month) + " " + to_string(day) + "st " + to_string(year);
-		if (day == 2) return monthConverter(month) + " " + to_string(day) + "nd " + to_string(year);
-		if (day == 3) return monthConverter(month) + " " + to_string(day) + "rd " + to_string(year);
-		return monthConverter(month) + " " + to_string(day) + "th " + to_string(year);
+		if (day == 1) return monthConverter(month, 1) + " " + to_string(day) + "st " + to_string(year);
+		if (day == 2) return monthConverter(month, 1) + " " + to_string(day) + "nd " + to_string(year);
+		if (day == 3) return monthConverter(month, 1) + " " + to_string(day) + "rd " + to_string(year);
+		return monthConverter(month, 1) + " " + to_string(day) + "th " + to_string(year);
 	}
 	if (type == 4) {
-		if (day == 1) return  to_string(day) + "st " + monthConverter(month)+" "+ to_string(year);
-		if (day == 2) return  to_string(day) + "nd " + monthConverter(month) + " " + to_string(year);
-		if (day == 3) return  to_string(day) + "rd " + monthConverter(month) + " " + to_string(year);
-		return  to_string(day) + "th " + monthConverter(month) + " " + to_string(year);
+		if (day == 1) return  to_string(day) + "st " + monthConverter(month, 1) + " " + to_string(year);
+		if (day == 2) return  to_string(day) + "nd " + monthConverter(month, 1) + " " + to_string(year);
+		if (day == 3) return  to_string(day) + "rd " + monthConverter(month, 1) + " " + to_string(year);
+		return  to_string(day) + "th " + monthConverter(month, 1) + " " + to_string(year);
 	}
+	if (type == 5) {
+		if (day == 1) return monthConverter(month, 2) + " " + to_string(day) + "st " + to_string(year);
+		if (day == 2) return monthConverter(month, 2) + " " + to_string(day) + "nd " + to_string(year);
+		if (day == 3) return monthConverter(month, 2) + " " + to_string(day) + "rd " + to_string(year);
+		return monthConverter(month, 2) + " " + to_string(day) + "th " + to_string(year);
+	}
+	if (type == 6) {
+		if (day == 1) return  to_string(day) + "st " + monthConverter(month, 2) + " " + to_string(year);
+		if (day == 2) return  to_string(day) + "nd " + monthConverter(month, 2) + " " + to_string(year);
+		if (day == 3) return  to_string(day) + "rd " + monthConverter(month, 2) + " " + to_string(year);
+		return  to_string(day) + "th " + monthConverter(month, 2) + " " + to_string(year);
+	}
+	else return "invalid date";
 }
