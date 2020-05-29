@@ -12,6 +12,7 @@ struct CheckinResult
 	string CourseID;
 	int result;
 };
+const string Results[3] = { "Absent","Checked","Late"};
 class Checkin
 {
 public:
