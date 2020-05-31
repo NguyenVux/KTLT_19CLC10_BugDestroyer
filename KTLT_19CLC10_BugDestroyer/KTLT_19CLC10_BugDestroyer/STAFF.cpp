@@ -222,13 +222,12 @@ Staff::Staff()
 	this->role = STAFF;
 }
 
-void Staff::showMenu()
+void Staff::showMenu(int choice)
 {
-	int choice = -1;
 	string StudentID, ClassID;
-	while (choice != 0)
-	{
-		system("CLS");
+	//while (choice != 0)
+	//{
+	/*	system("CLS");
 		cout << "1.Personal Info" << endl;
 		cout << "2.Show all Course" << endl;
 		cout << "3.Import Course from file" << endl;
@@ -243,40 +242,40 @@ void Staff::showMenu()
 		cout << "12.Add new coure" << endl;
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
-		cin >> choice;
+		cin >> choice;*/
 		switch (choice)
 		{
-		case 1:
+		case 0:
 			ViewInfo();
 			break;
-		case 2:
+		case 1:
 			showCourse();
 			system("pause");
 			break;
-		case 3:
+		case 2:
 			importCourseFromFile();
 			break;
 
-		case 4:
+		case 3:
 			showClass();
 			break;
-		case 5:
+		case 4:
 			ImportClassFromFile();
 			break;
-		case 7:
+		case 5:
 			cout << "Input Student ID" << endl;
 			cin.ignore();
 			getline(cin, StudentID);
 			editStudent(StudentID);
 			//chạy thử
 			break;
-		case 8:
+		case 6:
 			cout << "Input Student ID" << endl;
 			cin.ignore();
 			getline(cin, StudentID);
 			removeStudent(StudentID);
 			break;
-		case 9:
+		case 7:
 			cout << "Input Student ID" << endl;
 			cin.ignore();
 			getline(cin, StudentID);
@@ -284,23 +283,23 @@ void Staff::showMenu()
 			getline(cin, ClassID);
 			change_student_class(ClassID, StudentID);
 			break;
-		case 10:
+		case 8:
 			addStudent();
 			break;
-		case 11:
+		case 9:
 			cout << "enter ClassID: ";
 			cin.ignore();
 			getline(cin, ClassID);
 			showStudent(ClassID);
 			break;
-		case 12:
+		case 10:
 			addCourse();
 			break;
 		default:
 			cout << "PLease Enter The choice you want" << endl;
 			break;
 		}
-	}
+	//}
 }
 
 

@@ -493,9 +493,9 @@ Student::Student()
 	this->CourseID = new linkedList<string>;
 }
 
-void Student::showMenu()
+void Student::showMenu(int choice)
 {
-	int choice = 0;
+	//int choice = 0;
 	while (choice != -1)
 	{
 		system("cls");

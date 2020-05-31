@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClCompile Include="CheckinList.cpp" />
     <ClCompile Include="CLASS.cpp" />
+    <ClCompile Include="ConsoleUI.cpp" />
     <ClCompile Include="COURSE.cpp" />
+    <ClCompile Include="funtioncs.cpp" />
     <ClCompile Include="ioHelper.cpp" />
     <ClCompile Include="Lecturer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -37,7 +39,9 @@
   <ItemGroup>
     <ClInclude Include="CheckinList.h" />
     <ClInclude Include="CLASS.h" />
+    <ClInclude Include="ConsoleUI.h" />
     <ClInclude Include="COURSE.h" />
+    <ClInclude Include="functions.h" />
     <ClInclude Include="ioColor.h" />
     <ClInclude Include="ioHelper.h" />
     <ClInclude Include="Lecturer.h" />

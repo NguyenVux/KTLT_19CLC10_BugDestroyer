@@ -27,7 +27,7 @@ private:
 	void addCourse();
 public:
 	Staff();
-	void showMenu();
+	void showMenu(int choice);
 	int init(string dataString);
 	void setUserList(linkedList<IUSER>* userList);
 	void setCourseList(linkedList<Course>* Courselist);

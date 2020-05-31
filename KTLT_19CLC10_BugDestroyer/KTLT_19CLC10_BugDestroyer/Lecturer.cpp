@@ -164,7 +164,7 @@ void Lecturer::setCourseList(linkedList<Course>* Courselist)
 	this->CourseList = Courselist;
 }
 
-void Lecturer::showMenu()
+void Lecturer::showMenu(int choice)
 {
 	EditCourseAttendances();
 	system("pause");

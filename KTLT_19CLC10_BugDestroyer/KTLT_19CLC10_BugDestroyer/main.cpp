@@ -1,175 +1,11 @@
-#include <iostream>
-#include <fstream>
-#include <conio.h>
-#include <filesystem>
-#include <ctime>
-#include "USER.h"
-#include "STAFF.h""
-#include "Student.h"
-#include "CLASS.h"
-#include "LinkedList/linkedList.h"
-#include "Lecturer.h"
-#include "SCOREBOARD.h"
+#include "functions.h"
 
-const char DataPath[] = "Data\\";
 
-linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* classList)
-{
-	cout << "Loading user list" << endl;
-	linkedList<IUSER>* userlist = new linkedList<IUSER>;
-	fstream* file = new fstream;
-	string fileName = "user.txt";
-	file->open(DataPath+fileName, ios::in);
-	if (file->is_open())
-	{
-		while (!file->eof())
-		{
-			char input;
-			*file >> input;
-			if (input != '#')
-			{
-				if(charToInt(input) == STAFF)
-				{
-					file->ignore(1); // Skip Space seperator in user.txt  "role ID"
-					string buffer;
-					getline(*file, buffer);
-					node<IUSER>* userInstance = new node<IUSER>;
-					userInstance->data = new Staff;
-					userInstance->data->init(buffer);
-					Staff* staff_ptr = dynamic_cast<Staff*>(userInstance->data);
-					if (staff_ptr != 0)
-					{
-						staff_ptr->setUserList(userlist);
-						staff_ptr->setCourseList(CourseList);
-						staff_ptr->setClassList(classList);
-					}
-					
-					userlist->insert(userInstance);
-				}	
-				if (charToInt(input) == STUDENT)
-				{
-					file->ignore(1); // Skip Space seperator in user.txt  "role ID"
-					string buffer;
-					getline(*file, buffer);
-					node<IUSER>* userInstance = new node<IUSER>;
-					userInstance->data = new Student;
-					userInstance->data->init(buffer);
-					Student* StudentPtr = dynamic_cast<Student*>(userInstance->data);
-					if (StudentPtr != 0)
-					{
-						StudentPtr->setCourseList(CourseList);
-					}
-					userlist->insert(userInstance);
-				}
-				if (charToInt(input) == LECTURER)
-				{
-					file->ignore(1); // Skip Space seperator in user.txt  "role ID"
-					string buffer;
-					getline(*file, buffer);
-					node<IUSER>* userInstance = new node<IUSER>;
-					userInstance->data = new Lecturer;
-					userInstance->data->init(buffer);
-					Lecturer* LecturerPtr = dynamic_cast<Lecturer*>(userInstance->data);
-					if (LecturerPtr != 0)
-					{
-						LecturerPtr->setCourseList(CourseList);
-						LecturerPtr->setUserList(userlist);
-					}
-					userlist->insert(userInstance);
-				}
 
-			}
-			else
-			{
-				file->ignore(1000,'\n');
-			}
-		}
-	}
-	else
-	{
-		cout << "user.txt not found " << endl;
-		delete file;
-		delete userlist;
-		return nullptr;
-	}
-	file->close();
-	delete file;
-	cout << "Fisnish Loading Course";
-	system("cls");
-	return userlist;
-}
 
-IUSER* login(linkedList<IUSER> *USER)
-{
-	if (USER != nullptr)
-	{
 
-		string ID;
-		string password;
-		cout << "ID:";
-		cin >> ID;
-		cout << "Password: ";
-		int buffer;
-		do
-		{
 
-			buffer = _getch();
-			if (buffer != 13)
-			{
-				//cout << password.length();
-				if (buffer == 8 && password.length() >0)
-				{
-					password.pop_back();
-					cout << "\b \b";
-				}
-				else
-				{
-					if (buffer > 31 && buffer < 127)
-					{
-						cout << "*";
-						password += char(buffer);
-					}
-				}
-			}
-		} while (buffer != 13);
-		node<IUSER>* current = USER->head;
-		if (ID == "exit")
-		{
-			return 0;
-		}
-		while (current != 0)
-		{
-			if (current->data->Authenticate(ID, password))
-			{
-				return current->data;
-			}
-			current = current->next;
 
-		}
-		cout << endl<<"Invalid ID or password" << endl;
-		system("pause");
-		return 0;
-	}
-	return 0;
-}
-void updateUser(linkedList<IUSER>* userList)
-{
-	node<IUSER>* userNode = userList->head;
-	fstream* file = new fstream;
-	string fileName = "user.txt";
-	file->open(DataPath+fileName, ios::out);
-	*file << "#role id,password,name,gender,dob";
-	while (userNode)
-	{
-		if (userNode->data != 0)
-		{
-			*file << endl << userNode->data->parse();
-		}
-		userNode = userNode->next;
-	}
-	file->close();
-	delete file;
-}
 
 
 int main()
@@ -178,6 +14,8 @@ int main()
 	linkedList<CLASS>* ClassList = loadClass();
 	linkedList<IUSER>* userList = LoadUser(courseList,ClassList);
  	IUSER* Session = 0;
+	ConsoleUI Menu[3] = { ConsoleUI(10),ConsoleUI(10),ConsoleUI(10) };
+	CreateUI(Menu);
 	int choice = -1;
 	
 	while (choice != 2)
@@ -197,7 +35,20 @@ int main()
 		}
 		else
 		{
-			Session->showMenu();
+			int choice = 0;
+			ConsoleUI *MenuPtr = &Menu[Session->getRole()];
+			while (!MenuPtr->getState() || choice != MenuPtr->exitChoice())
+			{
+				MenuPtr->clear();
+				MenuPtr->showMenu();
+				MenuPtr->getKey();
+				if (Menu->getState())
+				{
+					choice = MenuPtr->getChoice();
+					Session->showMenu(choice);
+				}
+				
+			}
 			Session = 0;
 			choice = 0;
 		}
