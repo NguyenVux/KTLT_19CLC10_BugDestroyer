@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="course.txt" />
+    <Text Include="Data\user.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CheckinList.h" />

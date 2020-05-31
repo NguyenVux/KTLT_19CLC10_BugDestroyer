@@ -57,6 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="course.txt" />
+    <Text Include="Data\user.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="typeConverter.h">

@@ -34,6 +34,26 @@ public:
 	void setClassList(linkedList<CLASS>* ClassList);
 	void removeStudent(string studentID);
 	string parse();
-	static string monthConverter(int month);
+	static string monthConverter(int month, int mode);
+	/*
+	mode 1: short month example: nov, may, sep
+	mode 2: full month example: november, may, september
+	*/
+	bool checkDateInput(int day, int month, int year);
+	string getDate(int day, int month, int year, int type);
+	//note
+	/*
+	getDate note:
+	type 1: DD/MM/YYYY
+	type 2: DD-MM-YYYY
+	type 3: American english date with short date
+	Example: Apr 14th 2019
+	type 4: British english date with short date
+	Example: 14th April 2019
+	type 5: American english date with full month
+	Example: April 14th 2019
+	type 6: British english date with full month
+	Example: 14th April 2019
+	*/
 };
 
