@@ -134,3 +134,9 @@ string IUSER::getName()
 {
 	return this->name;
 }
+void IUSER::setPassword(string password) {
+	this->password = password;
+}
+void IUSER::setGender(int gender) {
+	this->gender = gender;
+}

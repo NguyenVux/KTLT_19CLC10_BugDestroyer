@@ -43,7 +43,8 @@ public:
 	string getID();
 	virtual void ViewInfo();
 	string getName();
-
+	void setPassword(string password);
+	void setGender(int gender);
 };
 
 

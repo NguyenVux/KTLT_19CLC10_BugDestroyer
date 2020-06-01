@@ -1,4 +1,5 @@
 #role id,password,name,gender,dob
+1 19124565,05052001,Le Hoang Anh Tu,0,05-05-2001,19CLC9
 1 19547658,2072001,Lam Van An,0,20-7-2001,19CLC4
 1 19546587,2142001,Le Thi Tam,1,21-4-2001,19CLC5
 1 19127489,1152016,Nguyen Le Hoang Anh,0,11-5-2016,19CLC10
@@ -13,3 +14,6 @@
 0 viktor1,05112001,Nguyen Hoang Vu,0,05-11-2001
 1 hocsinh7,123456789,Nguyen Van hoc Sinh,1,05-11-2001,19CLC6,course1,course2,CS162
 2 nhminh,123456789,Nguyen Hoang Minh,1,05-11-2001,TS
+0 ntmphuc,123456,Nguyen Thi Minh Phuc,1,14-05-2016
+0 hatu,123456,Hoang Anh Tu,1,14-05-2016
+0 ltathao,654321,Le Thi Anh Thao,1,14-05-2016
