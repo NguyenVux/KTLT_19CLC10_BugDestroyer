@@ -6,6 +6,7 @@
 #include "COURSE.h"
 #include "CLASS.h"
 #include "typeConverter.h"
+#include "ConsoleUI.h"
 using namespace std;
 using namespace converter;
 
@@ -31,15 +32,16 @@ protected:
 	int gender;
 	int role;
 public:
-	virtual void showMenu(int choice) = 0;
+	virtual void showAdvanceMenu(int choice) = 0;
+	void showBasicMenu(int choice);
 	virtual int init(string dataString) = 0;
 	virtual string parse() = 0;
 	int getRole();
 	void ShowInfo();
-	bool changePassword(string oldPassword,string newPassword,string confirmNewPassword);
+	int changePassword(string oldPassword,string newPassword,string confirmNewPassword);
 	bool Authenticate(string ID, string password);
 	string getID();
-	virtual void ViewInfo() = 0;
+	virtual void ViewInfo();
 	string getName();
 
 };

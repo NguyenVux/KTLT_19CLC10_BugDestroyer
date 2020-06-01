@@ -32,6 +32,8 @@ enum DAY_OF_WEEK
 
 class Course
 {
+private:
+	string Parse;
 public:
 	string ID;
 	string ClassID;
@@ -48,5 +50,6 @@ public:
 	void viewInfo();
 };
 linkedList<Course>* loadCourse();
+void updateCourse(linkedList<Course>* CourseList);
 #endif
 

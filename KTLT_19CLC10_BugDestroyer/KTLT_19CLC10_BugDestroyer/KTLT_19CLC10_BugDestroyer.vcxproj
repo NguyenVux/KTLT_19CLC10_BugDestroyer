@@ -43,7 +43,6 @@
     <ClInclude Include="ConsoleUI.h" />
     <ClInclude Include="COURSE.h" />
     <ClInclude Include="functions.h" />
-    <ClInclude Include="ioColor.h" />
     <ClInclude Include="ioHelper.h" />
     <ClInclude Include="Lecturer.h" />
     <ClInclude Include="LinkedList\singly_linkedList.h" />

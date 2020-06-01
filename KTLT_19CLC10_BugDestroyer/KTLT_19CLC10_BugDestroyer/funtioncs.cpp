@@ -88,6 +88,7 @@ linkedList<IUSER>* LoadUser(linkedList<Course>* CourseList, linkedList<CLASS>* c
 
 IUSER* login(linkedList<IUSER>* USER)
 {
+	system("cls");
 	if (USER != nullptr)
 	{
 
@@ -128,12 +129,19 @@ IUSER* login(linkedList<IUSER>* USER)
 		{
 			if (current->data->Authenticate(ID, password))
 			{
+				ioHelper::textGreen();
+				cout << endl << "Login Success" << endl;
+				ioHelper::blackLine();
+				cout << "directing to main menu" << endl;
+				Sleep(1500);
 				return current->data;
 			}
 			current = current->next;
 
 		}
+		ioHelper::textRed();
 		cout << endl << "Invalid ID or password" << endl;
+		ioHelper::blackLine();
 		system("pause");
 		return 0;
 	}
@@ -159,6 +167,11 @@ void updateUser(linkedList<IUSER>* userList)
 	delete file;
 }
 
+
+
+
+
+
 void CreateUI(ConsoleUI UI[3])
 {
 	UI[STUDENT].addLine("");
@@ -169,16 +182,32 @@ void CreateUI(ConsoleUI UI[3])
 	UI[STAFF].addLine("Remove Student");
 	UI[STAFF].addLine("Change Student Class");
 	UI[STAFF].addLine("View Class List");
-	UI[STAFF].addLine("View Students Of class");
+	UI[STAFF].addLine("View Students of class");
 	UI[STAFF].addLine("Import Course");
 	UI[STAFF].addLine("Manual Add Course");
 	UI[STAFF].addLine("Edit Course");
 	UI[STAFF].addLine("Remove Course");
 	UI[STAFF].addLine("Remove Student from Course");
-	UI[STAFF].addLine("Add Student from Course");
+	UI[STAFF].addLine("Add Student to Course");
+	UI[STAFF].addLine("View Students of Course");
 	UI[STAFF].addLine("View Course List");
+	UI[STAFF].addLine("Back");
 
 	UI[LECTURER].addLine("TEST");
 
+}
+
+void CreateLoginMenu(ConsoleUI& LoginMenu)
+{
+	LoginMenu.addLine("Login");
+	LoginMenu.addLine("Exit");
+}
+
+void CreateBasicMenu(ConsoleUI& BasicMenu)
+{
+	BasicMenu.addLine("Show Info");
+	BasicMenu.addLine("Change Password");
+	BasicMenu.addLine("Advance Menu");
+	BasicMenu.addLine("Exit");
 }
 

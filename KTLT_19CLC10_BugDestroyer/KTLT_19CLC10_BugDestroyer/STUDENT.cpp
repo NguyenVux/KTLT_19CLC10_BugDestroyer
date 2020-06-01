@@ -2,18 +2,9 @@
 
 void Student::ViewInfo()
 {
-	cout << "ID: " << this->ID << endl;
-	cout << "Name: " << this->name << endl;
-	if (gender == MALE)
-	{
-		cout << "Gender: Male" << endl;
-	}
-	else
-	{
-		cout << "Gender: Female" << endl;
-	}
-	cout << "Day of Birth: " << this->DoB << endl;
-	cout << "class: " << this->ClassID << endl;
+	IUSER::ViewInfo();
+	cout << "Class :" << this->ClassID << endl;
+	system("pause");
 }
 
 void Student::showEnrolledCourse()
@@ -493,7 +484,7 @@ Student::Student()
 	this->CourseID = new linkedList<string>;
 }
 
-void Student::showMenu(int choice)
+void Student::showAdvanceMenu(int choice)
 {
 	//int choice = 0;
 	while (choice != -1)
@@ -546,6 +537,8 @@ void Student::showMenu(int choice)
 	}
 	//ViewInfo();
 }
+
+
 
 int Student::init(string dataString)
 {

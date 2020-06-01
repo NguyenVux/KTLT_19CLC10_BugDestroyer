@@ -22,11 +22,12 @@ private:
 	static void CreateCheckinFile(string ID);
 public:
 	Student();
-	void showMenu(int choice);
+	void showAdvanceMenu(int choice);
 	int init(string dataString);
 	string parse();
 	void addCourse(string courseID);
 	void setCourseList(linkedList<Course> *courseList);
+
 
 	// Vì đây là edit student nên tôi sẽ thêm hàm thay đổi thuộc tính của student;
 

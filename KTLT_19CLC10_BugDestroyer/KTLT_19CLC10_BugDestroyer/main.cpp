@@ -15,45 +15,69 @@ int main()
 	linkedList<IUSER>* userList = LoadUser(courseList,ClassList);
  	IUSER* Session = 0;
 	ConsoleUI Menu[3] = { ConsoleUI(10),ConsoleUI(10),ConsoleUI(10) };
+	ConsoleUI BasicMenu(5);
+	ConsoleUI LoginMenu(5);
 	CreateUI(Menu);
-	int choice = -1;
+	CreateBasicMenu(BasicMenu);
+	CreateLoginMenu(LoginMenu);
+	int LoginChoice = -1;
 	
-	while (choice != 2)
+
+	while (!LoginMenu.getState() || LoginChoice != LoginMenu.exitChoice())
 	{
 		if (Session == 0)
 		{
-			system("cls");
-			cout << "1.Login" << endl;
-			cout << "2.Exit" << endl;
-			cin >> choice;
-			cin.clear();
-			cin.ignore(100, '\n');
-			if (choice == 1)
+			LoginMenu.clear();
+			LoginMenu.showMenu();
+			LoginMenu.getKey();
+			if (LoginMenu.getState())
 			{
-				Session = login(userList);
+				LoginChoice = LoginMenu.getChoice();
+				if (LoginChoice == 0)
+				{
+					Session = login(userList);
+				}
 			}
 		}
 		else
 		{
 			int choice = 0;
-			ConsoleUI *MenuPtr = &Menu[Session->getRole()];
-			while (!MenuPtr->getState() || choice != MenuPtr->exitChoice())
+			while (!BasicMenu.getState() || choice != BasicMenu.exitChoice())
 			{
-				MenuPtr->clear();
-				MenuPtr->showMenu();
-				MenuPtr->getKey();
-				if (Menu->getState())
+				BasicMenu.clear();
+				BasicMenu.showMenu();
+				BasicMenu.getKey();
+				if (BasicMenu.getState())
 				{
-					choice = MenuPtr->getChoice();
-					Session->showMenu(choice);
+					choice = BasicMenu.getChoice();
+					if (choice < 2)
+					{
+						Session->showBasicMenu(choice);
+					}
+					else if(choice == 2)
+					{ 
+						int SessionRole = Session->getRole();
+						choice = 0;
+						while (!Menu[SessionRole].getState() || choice != Menu[SessionRole].exitChoice())
+						{
+							Menu[SessionRole].clear();
+							Menu[SessionRole].showMenu();
+							Menu[SessionRole].getKey();
+							if (Menu[SessionRole].getState())
+							{
+								choice = Menu[SessionRole].getChoice();
+								Session->showAdvanceMenu(choice);
+							}
+						}
+					}
 				}
-				
 			}
 			Session = 0;
-			choice = 0;
+			LoginChoice = 0;
 		}
 	}
 	updateUser(userList);
-	delete userList,courseList;
+	updateCourse(courseList);
+	delete userList, courseList, ClassList;
 	return 0;
 }

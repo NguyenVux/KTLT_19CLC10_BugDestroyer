@@ -164,7 +164,7 @@ void Lecturer::setCourseList(linkedList<Course>* Courselist)
 	this->CourseList = Courselist;
 }
 
-void Lecturer::showMenu(int choice)
+void Lecturer::showAdvanceMenu(int choice)
 {
 	EditCourseAttendances();
 	system("pause");
@@ -178,4 +178,23 @@ string Lecturer::parse()
 
 void Lecturer::ViewInfo()
 {
+	IUSER::ViewInfo();
+	if (this->degree == "TS")
+	{
+		cout << "Degree: " << "Tien Si" << endl;
+	}
+	else if (this->degree == "tS")
+	{
+		cout << "Degree: " << "Thac Si" << endl;
+	}
+	else if (this->degree == "CN")
+	{
+		cout << "Degree: " << "Cu Nhan" << endl;
+	}
+	else
+	{
+		cout << "Degree: " << "unknown" << endl;
+	}
+	
+	system("pause");
 }

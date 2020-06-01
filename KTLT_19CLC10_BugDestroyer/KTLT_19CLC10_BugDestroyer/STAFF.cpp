@@ -2,17 +2,7 @@
 
 void Staff::ViewInfo()
 {
-	cout << "ID: " << this->ID << endl;
-	cout << "Name: " << this->name << endl;
-	if (gender == MALE)
-	{
-		cout << "Gender: Male" << endl;
-	}
-	else
-	{
-		cout << "Gender: Female" << endl;
-	}
-	cout << "Day of Birth: " << this->DoB << endl;
+	IUSER::ViewInfo();
 	system("pause");
 }
 
@@ -141,11 +131,9 @@ void Staff::importCourseFromFile()
 	if (file->is_open())
 	{
 		linkedList<Course>* tempCourseList = new linkedList<Course>;
-		while (!file->eof())
-		{
-			
-			string buffer;			
-			getline(*file, buffer);
+		string buffer;
+		while (getline(*file, buffer))
+		{			
 			cout << buffer << endl;
 			if (!isFirstLine)
 			{
@@ -222,7 +210,7 @@ Staff::Staff()
 	this->role = STAFF;
 }
 
-void Staff::showMenu(int choice)
+void Staff::showAdvanceMenu(int choice)
 {
 	string StudentID, ClassID;
 	//while (choice != 0)
@@ -246,36 +234,35 @@ void Staff::showMenu(int choice)
 		switch (choice)
 		{
 		case 0:
-			ViewInfo();
-			break;
-		case 1:
-			showCourse();
-			system("pause");
-			break;
-		case 2:
-			importCourseFromFile();
-			break;
-
-		case 3:
-			showClass();
-			break;
-		case 4:
+		{
 			ImportClassFromFile();
 			break;
-		case 5:
+		}
+		case 1:
+		{
+			addStudent();
+			break;
+		}
+
+		case 2:
+		{
 			cout << "Input Student ID" << endl;
 			cin.ignore();
 			getline(cin, StudentID);
 			editStudent(StudentID);
 			//chạy thử
 			break;
-		case 6:
+		}
+		case 3:
+		{
 			cout << "Input Student ID" << endl;
 			cin.ignore();
 			getline(cin, StudentID);
 			removeStudent(StudentID);
 			break;
-		case 7:
+		}
+		case 4:
+		{
 			cout << "Input Student ID" << endl;
 			cin.ignore();
 			getline(cin, StudentID);
@@ -283,24 +270,48 @@ void Staff::showMenu(int choice)
 			getline(cin, ClassID);
 			change_student_class(ClassID, StudentID);
 			break;
-		case 8:
-			addStudent();
+		}
+		case 5:
+		{
+			showClass();
 			break;
-		case 9:
+		}
+			
+		case 6:
+		{
 			cout << "enter ClassID: ";
 			cin.ignore();
 			getline(cin, ClassID);
 			showStudent(ClassID);
 			break;
-		case 10:
+		}
+		case 7:
+		{
+			importCourseFromFile();
+			break;
+		}
+		case 8:
+		{
 			addCourse();
 			break;
+		}
+		case 9:
+		{
+
+		}
+		case 14:
+		{
+			showCourse();
+			system("pause");
+			break;
+		}
 		default:
 			cout << "PLease Enter The choice you want" << endl;
 			break;
 		}
 	//}
 }
+
 
 
 int Staff::init(string dataString)
