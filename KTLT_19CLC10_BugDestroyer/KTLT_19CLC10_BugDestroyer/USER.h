@@ -31,7 +31,7 @@ protected:
 	int gender;
 	int role;
 public:
-	virtual void showMenu() = 0;
+	virtual void showMenu(int choice) = 0;
 	virtual int init(string dataString) = 0;
 	virtual string parse() = 0;
 	int getRole();

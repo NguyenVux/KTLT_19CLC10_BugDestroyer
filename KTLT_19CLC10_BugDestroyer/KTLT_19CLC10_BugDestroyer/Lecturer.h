@@ -24,7 +24,7 @@ public:
 	int init(string dataString);
 	void setUserList(linkedList<IUSER>* userList);
 	void setCourseList(linkedList<Course>* Courselist);
-	void showMenu();
+	void showMenu(int choice);
 	string parse();
 	void ViewInfo();
 };

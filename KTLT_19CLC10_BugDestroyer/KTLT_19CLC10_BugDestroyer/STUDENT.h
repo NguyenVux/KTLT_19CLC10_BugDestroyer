@@ -22,7 +22,7 @@ private:
 	static void CreateCheckinFile(string ID);
 public:
 	Student();
-	void showMenu();
+	void showMenu(int choice);
 	int init(string dataString);
 	string parse();
 	void addCourse(string courseID);
