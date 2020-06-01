@@ -452,6 +452,8 @@ void Staff::addStudent() {
 				}
 			}
 		}
+		if (tempD < 10) day = "0" + day;
+		if (tempM < 10) month = "0" + month;
 		string password = day + month + year;
 		string dob = day + "-" + month + "-" + year;
 		node<IUSER>* p = new node<IUSER>;
