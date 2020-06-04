@@ -166,8 +166,41 @@ void Lecturer::setCourseList(linkedList<Course>* Courselist)
 
 void Lecturer::showAdvanceMenu(int choice)
 {
-	EditCourseAttendances();
-	system("pause");
+	
+	system("cls");
+	switch (choice)
+	{
+	case 0:
+		showAllCourse();
+		cin.ignore();
+		cin.get();
+		break;
+	case 1:
+		showMyCourse();
+		cin.ignore();
+		cin.get();
+		break;
+	case 2:
+		viewCourseAttendances();
+		cin.ignore();
+		cin.get();
+		break;
+	case 3:
+		EditCourseAttendances();
+		cin.ignore();
+		cin.get();
+		break;
+	case 4:
+		viewScoreBoard();
+		cin.ignore();
+		cin.get();
+		break;
+	case 5:
+		ViewInfo();
+		cin.ignore();
+		cin.get();
+		break;
+	}
 }
 
 string Lecturer::parse()
