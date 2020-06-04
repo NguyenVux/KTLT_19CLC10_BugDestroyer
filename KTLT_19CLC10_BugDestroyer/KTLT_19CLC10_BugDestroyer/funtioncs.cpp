@@ -174,7 +174,14 @@ void updateUser(linkedList<IUSER>* userList)
 
 void CreateUI(ConsoleUI UI[3])
 {
-	UI[STUDENT].addLine("");
+	UI[STUDENT].addLine("View My Course");
+	UI[STUDENT].addLine("View All Course");
+	UI[STUDENT].addLine("View All info");
+	UI[STUDENT].addLine("Show schdule");
+	UI[STUDENT].addLine("Show Score Board");
+	UI[STUDENT].addLine("Checking");
+	UI[STUDENT].addLine("Show Checking");
+	UI[STUDENT].addLine("Exit");
 
 	UI[STAFF].addLine("Import Class");
 	UI[STAFF].addLine("Manual Add Student");
@@ -193,7 +200,7 @@ void CreateUI(ConsoleUI UI[3])
 	UI[STAFF].addLine("View Course List");
 	UI[STAFF].addLine("Back");
 
-	UI[LECTURER].addLine("TEST");
+	//UI[LECTURER].addLine("TEST");
 
 }
 

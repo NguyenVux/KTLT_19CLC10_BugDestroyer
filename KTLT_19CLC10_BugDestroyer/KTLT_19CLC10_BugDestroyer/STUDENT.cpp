@@ -4,7 +4,6 @@ void Student::ViewInfo()
 {
 	IUSER::ViewInfo();
 	cout << "Class :" << this->ClassID << endl;
-	system("pause");
 }
 
 void Student::showEnrolledCourse()
@@ -38,10 +37,10 @@ void Student::showAllCourse()
 void Student::showSchedue()
 {
 	int cellSize = 30;
-	int TimeCellSize =15;
-	cout <<endl <<"|"<< left << setw(cellSize) <<  ioHelper::centered("Course Name",cellSize) << "|"
-		 << left << setw(TimeCellSize) << ioHelper::centered("Mon", TimeCellSize) << "|"
-		 <<left << setw(TimeCellSize) << ioHelper::centered("Tue", TimeCellSize) << "|"
+	int TimeCellSize = 15;
+	cout << endl << "|" << left << setw(cellSize) << ioHelper::centered("Course Name", cellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Mon", TimeCellSize) << "|"
+		<< left << setw(TimeCellSize) << ioHelper::centered("Tue", TimeCellSize) << "|"
 		<< left << setw(TimeCellSize) << ioHelper::centered("Wed", TimeCellSize) << "|"
 		<< left << setw(TimeCellSize) << ioHelper::centered("Thu", TimeCellSize) << "|"
 		<< left << setw(TimeCellSize) << ioHelper::centered("Fri", TimeCellSize) << "|"
@@ -93,7 +92,7 @@ void Student::ShowScoreBoard()
 		{
 			SCOREBOARD scoreboard(currentCourse->data->ID);
 			ScoreRecord rec = scoreboard.getByID(this->ID);
-			
+
 			cout << endl << "|" << left << setw(cellSize) << currentCourse->data->courseName << "|"
 				<< left << setw(TimeCellSize);
 			rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
@@ -127,10 +126,10 @@ void Student::checkin()
 	3.check if today Checkin is created
 		-if created check if selected course is checked
 			-if not checked check -else print you already check (valid check)
-		-if not created check create check and check selected course (valid check)	
-	
-	
-	
+		-if not created check create check and check selected course (valid check)
+
+
+
 	*/
 	///
 	//Get today Course
@@ -157,7 +156,7 @@ void Student::checkin()
 
 	//Load check list
 	fstream checkinFile;
-	checkinFile.open("Data\\checkin\\" + this->ID+".txt", ios::in);
+	checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::in);
 	Date lastDate;
 	string buffer;
 	vector<CheckinResult> lastCheckin;
@@ -179,29 +178,29 @@ void Student::checkin()
 			string result = buffer.substr(0, commaPos);
 			if (commaPos != string::npos)
 			{
-				buffer.erase(0,buffer.find(',')+1);
+				buffer.erase(0, buffer.find(',') + 1);
 			}
 
-			string CourseID =  result.substr(0, result.find("="));
+			string CourseID = result.substr(0, result.find("="));
 			int state = stoi(result.substr(result.find("=") + 1, 1));
 			CheckinResult tmp = { CourseID,state };
 			lastCheckin.push_back(tmp);
 		}
 		checkinFile.close();
 		//check if lastDate is today
-		if (lastDate.day == now.tm_mday && lastDate.month - 1 == now.tm_mon && lastDate.year-1900 == now.tm_year)
+		if (lastDate.day == now.tm_mday && lastDate.month - 1 == now.tm_mon && lastDate.year - 1900 == now.tm_year)
 		{
 			cout << "This is today course: " << endl;
 			//show today course
 			for (int i = 0; i < todayCourse.size(); i++)
 			{
-				
+
 				cout << "Course ID: " << todayCourse[i]->ID << endl;
 				cout << "Course Name: " << todayCourse[i]->courseName << endl;
 				cout << "Time: ";
 				if (todayCourse[i]->startTime.hour < 10) cout << "0";
 				cout << todayCourse[i]->startTime.hour << ":";
-				if (todayCourse[i]->startTime.minute <10)cout <<"0";
+				if (todayCourse[i]->startTime.minute < 10)cout << "0";
 				cout << todayCourse[i]->startTime.minute << " - ";
 				if (todayCourse[i]->endTime.hour < 10) cout << "0";
 				cout << todayCourse[i]->endTime.hour << ":";
@@ -215,7 +214,7 @@ void Student::checkin()
 			now = Checkin::getCurrentTime();
 			bool validCourse = false;
 			//check if selected course is in today course list
-			Course *validCoursePtr = 0;
+			Course* validCoursePtr = 0;
 			for (int courseIndex = 0; courseIndex < todayCourse.size(); courseIndex++)
 			{
 				if (selectedCourse == todayCourse[courseIndex]->ID)
@@ -239,12 +238,12 @@ void Student::checkin()
 			//check if course meet 2 requirements above
 			if (validCourse)
 			{
-				
+
 				//checkin status 
 				//0 = absent; 
 				//1 = eary,in-time;
 				//2 = late;
-				CheckinResult tmp = {validCoursePtr->ID,1};
+				CheckinResult tmp = { validCoursePtr->ID,1 };
 				if (now.tm_hour >= validCoursePtr->endTime.hour && now.tm_min >= validCoursePtr->endTime.minute)
 				{
 					tmp.result = 0;
@@ -270,13 +269,13 @@ void Student::checkin()
 					checkinFile << "," << tmp.CourseID << "=" << tmp.result;
 				}
 				checkinFile.close();
-				
+
 			}
 		}
 		else
 		{
 			checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
-			checkinFile <<endl<< now.tm_mday << "-" << now.tm_mon+1 << "-" << now.tm_year+1900 << " ";
+			checkinFile << endl << now.tm_mday << "-" << now.tm_mon + 1 << "-" << now.tm_year + 1900 << " ";
 			checkinFile.close();
 			cout << "This is today course: " << endl;
 			//show today course
@@ -359,7 +358,7 @@ void Student::checkin()
 				checkinFile.close();
 
 			}
-			
+
 		}
 	}
 	else
@@ -380,7 +379,7 @@ void Student::showCheckin()
 	if (file.is_open())
 	{
 		string buffer;
-		cout << left << setw(DateCellSize)<< ioHelper::centered("Date", DateCellSize) << "|";
+		cout << left << setw(DateCellSize) << ioHelper::centered("Date", DateCellSize) << "|";
 		CourseList->resetCurrent();
 		vector<string> CourseIDs;
 		if (CourseList)
@@ -397,10 +396,10 @@ void Student::showCheckin()
 			} while (CourseList->next());
 			cout << endl;
 		}
-		
+
 		while (file >> buffer)
 		{
-			cout <<left<< setw(DateCellSize)<< buffer << "|";
+			cout << left << setw(DateCellSize) << buffer << "|";
 			buffer = "";
 			if (file >> buffer)
 			{
@@ -436,7 +435,7 @@ void Student::showCheckin()
 							{
 								ioHelper::textGreen();
 							}
-							else if(result == 2)
+							else if (result == 2)
 							{
 								ioHelper::textYellow();
 							}
@@ -486,56 +485,45 @@ Student::Student()
 
 void Student::showAdvanceMenu(int choice)
 {
-	//int choice = 0;
-	while (choice != -1)
+	system("cls");
+	switch (choice)
 	{
-		system("cls");
-		cout << "View My Course" << endl;
-		cout << "View All Course" << endl;
-		cout << "View All info" << endl;
-		cin >> choice;
-		switch (choice)
-		{
-		case 1:
-			showEnrolledCourse();
-			cin.ignore();
-			cin.get();
-			break;
-		case 2:
-			showAllCourse();
-			cin.ignore();
-			cin.get();
-			break;
-		case 3:
-			ViewInfo();
-			cin.ignore();
-			cin.get();
-			break;
-		case 4:
-			showSchedue();
-			cin.ignore();
-			cin.get();
-			break;
-		case 5:
-			ShowScoreBoard();
-			cin.ignore();
-			cin.get();
-			break;
-		case 6:
-			checkin();
-			cin.ignore();
-			cin.get();
-			break;
-		case 7:
-			showCheckin();
-			cin.ignore();
-			cin.get();
-			break;
-		default:
-			return;
-		}
+	case 0:
+		showEnrolledCourse();
+		cin.ignore();
+		cin.get();
+		break;
+	case 1:
+		showAllCourse();
+		cin.ignore();
+		cin.get();
+		break;
+	case 2:
+		ViewInfo();
+		cin.ignore();
+		cin.get();
+		break;
+	case 3:
+		showSchedue();
+		cin.ignore();
+		cin.get();
+		break;
+	case 4:
+		ShowScoreBoard();
+		cin.ignore();
+		cin.get();
+		break;
+	case 5:
+		checkin();
+		cin.ignore();
+		cin.get();
+		break;
+	case 6:
+		showCheckin();
+		cin.ignore();
+		cin.get();
+		break;
 	}
-	//ViewInfo();
 }
 
 
@@ -562,7 +550,7 @@ int Student::init(string dataString)
 	commaPos = dataString.find(',');
 	this->DoB = dataString.substr(0, commaPos);
 	dataString.erase(0, commaPos + 1);
-	
+
 	commaPos = dataString.find(',');
 	this->ClassID = dataString.substr(0, commaPos);
 	dataString.erase(0, commaPos + 1);
@@ -622,7 +610,7 @@ void Student::setDoB(string newDoB)
 
 string Student::parse()
 {
-	string parseResult = "1 " + this->ID + ',' + this->password + ',' + this->name + ',' + char(this->gender + 48) + ',' + this->DoB+','+this->ClassID;
+	string parseResult = "1 " + this->ID + ',' + this->password + ',' + this->name + ',' + char(this->gender + 48) + ',' + this->DoB + ',' + this->ClassID;
 	node<string>* courseIdCurrent = this->CourseID->head;
 	while (courseIdCurrent != 0)
 	{
