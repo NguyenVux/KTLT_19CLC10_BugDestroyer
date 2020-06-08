@@ -25,6 +25,8 @@ private:
 	void addStudent();
 	bool checkDupID(string ID);
 	void addCourse();
+	void viewStudent();
+	void viewLecturer();
 public:
 	Staff();
 	void showAdvanceMenu(int choice);

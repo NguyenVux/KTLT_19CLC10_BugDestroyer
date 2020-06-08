@@ -299,7 +299,16 @@ void Staff::showAdvanceMenu(int choice)
 		{
 
 		}
+
+		case 13:
+			viewStudent();
+			system("pause");
+			break;
 		case 14:
+			viewLecturer();
+			system("pause");
+			break;
+		case 15:
 		{
 			showCourse();
 			system("pause");
@@ -595,6 +604,53 @@ void Staff::addCourse()
 	}
 
 
+}
+void Staff::viewStudent()
+{
+	cout << " what class do you want to check in ?";
+	string id;
+	cin >> id;
+	Courselist->resetCurrent();
+	do
+	{
+		userList->resetCurrent();
+		if (id == Courselist->current->data->ID);
+		{
+			do {
+				Student* Stu = dynamic_cast<Student*>(userList->current->data);
+				if (Stu)
+				{
+					if (Stu->isEnrolled(Courselist->current->data->ID))
+					{
+						Stu->ViewInfo();
+					}
+				}
+			} while (userList->next());
+			break;
+		}
+	} while (Courselist->next());
+}
+void Staff::viewLecturer()
+{
+	cout << " what course do you want to check in ?";
+	string id;
+	cin >> id;
+	Courselist->resetCurrent();
+	do
+	{
+		userList->resetCurrent();
+		if (id == Courselist->current->data->ID);
+		{
+			do {
+				if (userList->current->data->getRole() == LECTURER&& 
+					userList->current->data->getID()== Courselist->current->data->lecturerID)
+				{
+					userList->current->data->ViewInfo();
+				}
+			} while (userList->next());
+			break;
+		}
+	} while (Courselist->next());
 }
 bool Staff::checkDateInput(int day, int month, int year) {
 	bool leapYear = false, check = false;
