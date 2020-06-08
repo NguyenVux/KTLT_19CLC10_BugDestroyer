@@ -610,50 +610,62 @@ void Staff::addCourse()
 }
 void Staff::viewStudent()
 {
-	cout << " what class do you want to check in ?";
+	cout << " what class do you want to view ?";
 	string id;
 	cin >> id;
-	Courselist->resetCurrent();
-	do
+	if (Courselist->current)
 	{
-		userList->resetCurrent();
-		if (id == Courselist->current->data->ID);
+		Courselist->resetCurrent();
+		do
 		{
-			do {
-				Student* Stu = dynamic_cast<Student*>(userList->current->data);
-				if (Stu)
+			if (userList->current)
+			{
+				userList->resetCurrent();
+				if (id == Courselist->current->data->ID);
 				{
-					if (Stu->isEnrolled(Courselist->current->data->ID))
-					{
-						Stu->ViewInfo();
-					}
+					do {
+						Student* Stu = dynamic_cast<Student*>(userList->current->data);
+						if (Stu)
+						{
+							if (Stu->isEnrolled(Courselist->current->data->ID))
+							{
+								Stu->ViewInfo();
+							}
+						}
+					} while (userList->next());
+					break;
 				}
-			} while (userList->next());
-			break;
-		}
-	} while (Courselist->next());
+			}
+		} while (Courselist->next());
+	}
 }
 void Staff::viewLecturer()
 {
 	cout << " what course do you want to check in ?";
 	string id;
 	cin >> id;
-	Courselist->resetCurrent();
-	do
+	if (Courselist->current)
 	{
-		userList->resetCurrent();
-		if (id == Courselist->current->data->ID);
+		Courselist->resetCurrent();
+		do
 		{
-			do {
-				if (userList->current->data->getRole() == LECTURER&& 
-					userList->current->data->getID()== Courselist->current->data->lecturerID)
+			userList->resetCurrent();
+			if (userList->current)
+			{
+				if (id == Courselist->current->data->ID);
 				{
-					userList->current->data->ViewInfo();
+					do {
+						if (userList->current->data->getRole() == LECTURER &&
+							userList->current->data->getID() == Courselist->current->data->lecturerID)
+						{
+							userList->current->data->ViewInfo();
+						}
+					} while (userList->next());
+					break;
 				}
-			} while (userList->next());
-			break;
-		}
-	} while (Courselist->next());
+			}
+		} while (Courselist->next());
+	}
 }
 bool Staff::checkDateInput(int day, int month, int year) {
 	bool leapYear = false, check = false;
