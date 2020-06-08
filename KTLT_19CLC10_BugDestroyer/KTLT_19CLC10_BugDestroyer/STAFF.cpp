@@ -56,14 +56,16 @@ void Staff::ImportClassFromFile()
 	if (file->is_open())
 	{
 		linkedList<IUSER>* tmpUserList = new linkedList<IUSER>;
+		string buffer;
+		getline(*file, buffer);
 		while (!file->eof())
 		{
-			string buffer;
 			getline(*file, buffer);
 			cout << buffer << endl;
+			buffer = StudentBufferCsv(buffer);
 			node<IUSER>* userInstance = new node<IUSER>;
 			userInstance->data = new Student;
-			userInstance->data->init(buffer + "," + fileName);
+			userInstance->data->init(buffer);
 			node<IUSER>* tmp = this->userList->head;
 			while (tmp != 0)
 			{
@@ -137,7 +139,7 @@ void Staff::importCourseFromFile()
 			cout << buffer << endl;
 			if (!isFirstLine)
 			{
-				buffer.erase(0, 2); // delete the No, in input string
+				buffer.erase(0, buffer.find(',')+1); // delete the No, in input string
 				node<Course>* courseInstance = new node<Course>;
 				courseInstance->data = new Course(buffer);
 				node<Course>* tmp = this->Courselist->head;
@@ -299,7 +301,16 @@ void Staff::showAdvanceMenu(int choice)
 		{
 
 		}
+
+		case 13:
+			viewStudent();
+			system("pause");
+			break;
 		case 14:
+			viewLecturer();
+			system("pause");
+			break;
+		case 15:
 		{
 			showCourse();
 			system("pause");
@@ -413,6 +424,7 @@ void Staff::addStudent() {
 		getline(cin, name);
 		cout << "enter class: "; string which_class;
 		getline(cin, which_class);
+		cin.ignore();
 		int choice_gender = 5;
 		while (choice_gender < 0 || choice_gender>1) {
 			cout << "gender(0: male, 1: Female): ";
@@ -596,6 +608,53 @@ void Staff::addCourse()
 
 
 }
+void Staff::viewStudent()
+{
+	cout << " what class do you want to check in ?";
+	string id;
+	cin >> id;
+	Courselist->resetCurrent();
+	do
+	{
+		userList->resetCurrent();
+		if (id == Courselist->current->data->ID);
+		{
+			do {
+				Student* Stu = dynamic_cast<Student*>(userList->current->data);
+				if (Stu)
+				{
+					if (Stu->isEnrolled(Courselist->current->data->ID))
+					{
+						Stu->ViewInfo();
+					}
+				}
+			} while (userList->next());
+			break;
+		}
+	} while (Courselist->next());
+}
+void Staff::viewLecturer()
+{
+	cout << " what course do you want to check in ?";
+	string id;
+	cin >> id;
+	Courselist->resetCurrent();
+	do
+	{
+		userList->resetCurrent();
+		if (id == Courselist->current->data->ID);
+		{
+			do {
+				if (userList->current->data->getRole() == LECTURER&& 
+					userList->current->data->getID()== Courselist->current->data->lecturerID)
+				{
+					userList->current->data->ViewInfo();
+				}
+			} while (userList->next());
+			break;
+		}
+	} while (Courselist->next());
+}
 bool Staff::checkDateInput(int day, int month, int year) {
 	bool leapYear = false, check = false;
 	if ((year % 100) == 0) {
@@ -674,4 +733,20 @@ string Staff::getDate(int day, int month, int year, int type) {
 		return  to_string(day) + "th " + monthConverter(month, 2) + " " + to_string(year);
 	}
 	else return "invalid date";
+}
+
+string StudentBufferCsv(string buffer)
+{
+	size_t commaPos = buffer.find(',');
+	buffer.erase(0, commaPos + 1);
+	commaPos = buffer.find(',');
+	size_t nextCommaPos = buffer.find(',', commaPos + 1);
+	nextCommaPos = buffer.find(',', nextCommaPos + 1);
+	string dob = buffer.substr(nextCommaPos + 1, buffer.find(',', nextCommaPos + 1) - nextCommaPos - 1);
+	while (dob.find('-') != string::npos)
+	{
+		dob.erase(dob.find('-'), 1);
+	}
+	buffer.insert(commaPos, ',' + dob);
+	return buffer;
 }

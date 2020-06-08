@@ -382,7 +382,7 @@ void Student::showCheckin()
 		cout << left << setw(DateCellSize) << ioHelper::centered("Date", DateCellSize) << "|";
 		CourseList->resetCurrent();
 		vector<string> CourseIDs;
-		if (CourseList)
+		if (CourseList->current)
 		{
 			do
 			{

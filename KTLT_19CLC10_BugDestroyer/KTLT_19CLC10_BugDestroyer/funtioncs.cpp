@@ -181,7 +181,7 @@ void CreateUI(ConsoleUI UI[3])
 	UI[STUDENT].addLine("Show ScoreBoard");
 	UI[STUDENT].addLine("Checking");
 	UI[STUDENT].addLine("Show Checking");
-	UI[STUDENT].addLine("Exit");
+	UI[STUDENT].addLine("Back");
 
 	UI[STAFF].addLine("Import Class");
 	UI[STAFF].addLine("Manual Add Student");
@@ -205,8 +205,9 @@ void CreateUI(ConsoleUI UI[3])
 	UI[LECTURER].addLine("View Course Attendances");
 	UI[LECTURER].addLine("Edit Course Attendances");
 	UI[LECTURER].addLine("View ScoreBoard");
-	UI[LECTURER].addLine("View Info");
+	UI[LECTURER].addLine("Import ScoreBoard");
 	UI[LECTURER].addLine("Edit");
+	UI[LECTURER].addLine("Back");
 }
 
 void CreateLoginMenu(ConsoleUI& LoginMenu)

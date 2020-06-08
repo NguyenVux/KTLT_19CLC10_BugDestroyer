@@ -136,12 +136,15 @@ void updateCourse(linkedList<Course>* CourseList)
 	CourseList->resetCurrent();
 	ofstream file;
 	file.open("Data\\course.txt");
-	do
+	if (CourseList->current)
 	{
-		if (CourseList->current->data != 0)
+		do
 		{
-			file << CourseList->current->data->parse() << endl;
-		}
-	} while (CourseList->next());
+			if (CourseList->current->data != 0)
+			{
+				file << CourseList->current->data->parse() << endl;
+			}
+		} while (CourseList->next());
+	}
 	file.close();
 }

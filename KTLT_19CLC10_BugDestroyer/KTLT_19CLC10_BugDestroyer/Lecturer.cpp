@@ -99,26 +99,39 @@ void Lecturer::viewScoreBoard()
 			}
 			currUser = currUser->next;
 		}
-		cout << endl << "|" << left << setw(cellSize) <<  currUser->data->getName() << "|"
-			<< left << setw(scoreCellSize);
-		rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
-		cout << ioHelper::centered(to_string(rec.midTerm).substr(0, 3), scoreCellSize);
-		ioHelper::blackLine();
-		cout << "|" << left << setw(scoreCellSize);
+		if (currUser)
+		{
+			cout << endl << "|" << left << setw(cellSize) << currUser->data->getName() << "|"
+				<< left << setw(scoreCellSize);
+			rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+			cout << ioHelper::centered(to_string(rec.midTerm).substr(0, 3), scoreCellSize);
+			ioHelper::blackLine();
+			cout << "|" << left << setw(scoreCellSize);
 
-		rec.final > 5 ? ioHelper::textGreen() : rec.final == 5 ? ioHelper::textYellow() : ioHelper::textRed();
-		cout << ioHelper::centered(to_string(rec.final).substr(0, 3), scoreCellSize);
-		ioHelper::blackLine();
-		cout << "|" << left << setw(scoreCellSize);
+			rec.final > 5 ? ioHelper::textGreen() : rec.final == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+			cout << ioHelper::centered(to_string(rec.final).substr(0, 3), scoreCellSize);
+			ioHelper::blackLine();
+			cout << "|" << left << setw(scoreCellSize);
 
 
-		rec.lab > 5 ? ioHelper::textGreen() : rec.lab == 5 ? ioHelper::textYellow() : ioHelper::textRed();
-		cout << ioHelper::centered(to_string(rec.lab).substr(0, 3), scoreCellSize);
-		ioHelper::blackLine();
-		cout << "|" << left << setw(scoreCellSize);
+			rec.lab > 5 ? ioHelper::textGreen() : rec.lab == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+			cout << ioHelper::centered(to_string(rec.lab).substr(0, 3), scoreCellSize);
+			ioHelper::blackLine();
+			cout << "|" << left << setw(scoreCellSize);
 
-		cout << left << setw(scoreCellSize) << ioHelper::centered(to_string(rec.bonus).substr(0, 3), scoreCellSize) << "|";
+			cout << left << setw(scoreCellSize) << ioHelper::centered(to_string(rec.bonus).substr(0, 3), scoreCellSize) << "|";
+		}
 	} while (scoreboard.next());	
+}
+
+void Lecturer::importScoreBoard()
+{
+	cout << "Place the csv file in import folder" << endl;
+	system("pause");
+	string courseID;
+	cout << "Enter CSV file name: ";
+	cin >> courseID;
+	SCOREBOARD scoreboard(courseID,IMPORT);
 }
 
 Lecturer::Lecturer()
@@ -196,7 +209,7 @@ void Lecturer::showAdvanceMenu(int choice)
 		cin.get();
 		break;
 	case 5:
-		ViewInfo();
+		importScoreBoard();
 		cin.ignore();
 		cin.get();
 		break;

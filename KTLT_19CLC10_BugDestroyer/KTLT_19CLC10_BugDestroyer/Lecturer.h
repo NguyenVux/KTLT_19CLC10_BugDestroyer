@@ -19,6 +19,7 @@ private:
 	void viewCourseAttendances();
 	void EditCourseAttendances();
 	void viewScoreBoard();
+	void importScoreBoard();
 public:
 	Lecturer();
 	int init(string dataString);

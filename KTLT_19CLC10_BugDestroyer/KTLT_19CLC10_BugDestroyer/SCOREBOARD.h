@@ -6,6 +6,12 @@
 #include "ioHelper.h"
 #include "LinkedList/singly_linkedList.h"
 
+enum MODE
+{
+	IMPORT,
+	READ
+};
+
 struct ScoreRecord
 {
 	std::string studentID = "not found";
@@ -17,14 +23,15 @@ struct ScoreRecord
 class SCOREBOARD
 {
 public:
-	SCOREBOARD(std::string CourseID);
+	SCOREBOARD(std::string CourseID, MODE mode = READ);
 	~SCOREBOARD();
 	ScoreRecord getByID(std::string studentID);
 	ScoreRecord getCurrent();
 	bool next();
 	void ResetCursor();
+	void exportScoreBoard();
 private:
-	
+	void save();
 	std::string CourseID;
 	linkedList<ScoreRecord>* ScoreRecords;
 	node<ScoreRecord>* cursor;

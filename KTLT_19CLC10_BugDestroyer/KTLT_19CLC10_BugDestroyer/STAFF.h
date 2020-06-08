@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+
+string StudentBufferCsv(string buffer);
 class Staff: public IUSER
 {
 public:
@@ -25,6 +27,8 @@ private:
 	void addStudent();
 	bool checkDupID(string ID);
 	void addCourse();
+	void viewStudent();
+	void viewLecturer();
 public:
 	Staff();
 	void showAdvanceMenu(int choice);
@@ -39,8 +43,8 @@ public:
 	mode 1: short month example: nov, may, sep
 	mode 2: full month example: november, may, september
 	*/
-	bool checkDateInput(int day, int month, int year);
-	string getDate(int day, int month, int year, int type);
+	static bool checkDateInput(int day, int month, int year);
+	static string getDate(int day, int month, int year, int type);
 	//note
 	/*
 	getDate note:
