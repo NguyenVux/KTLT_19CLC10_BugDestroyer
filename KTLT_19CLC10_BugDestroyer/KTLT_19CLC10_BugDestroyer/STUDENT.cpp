@@ -139,7 +139,8 @@ void Student::checkin()
 	{
 		now.tm_wday += 7;
 	}
-	vector<Course*> todayCourse;
+	//vector<Course*> todayCourse;
+	ExtendableArray<Course*> todayCourse;
 	CourseList->resetCurrent();
 	if (CourseList->current)
 	{
@@ -159,7 +160,7 @@ void Student::checkin()
 	checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::in);
 	Date lastDate;
 	string buffer;
-	vector<CheckinResult> lastCheckin;
+	ExtendableArray<CheckinResult> lastCheckin;
 	if (checkinFile.is_open())
 	{
 		while (checkinFile >> buffer)
@@ -192,20 +193,20 @@ void Student::checkin()
 		{
 			cout << "This is today course: " << endl;
 			//show today course
-			for (int i = 0; i < todayCourse.size(); i++)
+			for (int i = 0; i < todayCourse.getSize(); i++)
 			{
 
-				cout << "Course ID: " << todayCourse[i]->ID << endl;
-				cout << "Course Name: " << todayCourse[i]->courseName << endl;
+				cout << "Course ID: " << todayCourse.at(i)->ID << endl;
+				cout << "Course Name: " << todayCourse.at(i)->courseName << endl;
 				cout << "Time: ";
-				if (todayCourse[i]->startTime.hour < 10) cout << "0";
-				cout << todayCourse[i]->startTime.hour << ":";
-				if (todayCourse[i]->startTime.minute < 10)cout << "0";
-				cout << todayCourse[i]->startTime.minute << " - ";
-				if (todayCourse[i]->endTime.hour < 10) cout << "0";
-				cout << todayCourse[i]->endTime.hour << ":";
-				if (todayCourse[i]->endTime.minute < 10)cout << "0";
-				cout << todayCourse[i]->endTime.minute << endl;
+				if (todayCourse.at(i)->startTime.hour < 10) cout << "0";
+				cout << todayCourse.at(i)->startTime.hour << ":";
+				if (todayCourse.at(i)->startTime.minute < 10)cout << "0";
+				cout << todayCourse.at(i)->startTime.minute << " - ";
+				if (todayCourse.at(i)->endTime.hour < 10) cout << "0";
+				cout << todayCourse.at(i)->endTime.hour << ":";
+				if (todayCourse.at(i)->endTime.minute < 10)cout << "0";
+				cout << todayCourse.at(i)->endTime.minute << endl;
 				cout << "---------------------------------------------" << endl;
 			}
 			cout << "Select course to check-in: ";
@@ -215,19 +216,19 @@ void Student::checkin()
 			bool validCourse = false;
 			//check if selected course is in today course list
 			Course* validCoursePtr = 0;
-			for (int courseIndex = 0; courseIndex < todayCourse.size(); courseIndex++)
+			for (int courseIndex = 0; courseIndex < todayCourse.getSize(); courseIndex++)
 			{
-				if (selectedCourse == todayCourse[courseIndex]->ID)
+				if (selectedCourse == todayCourse.at(courseIndex)->ID)
 				{
-					validCoursePtr = todayCourse[courseIndex];
+					validCoursePtr = todayCourse.at(courseIndex);
 					validCourse = true;
 					break;
 				}
 			}
 			//check if selected course was checked before
-			for (int i = 0; i < lastCheckin.size(); i++)
+			for (int i = 0; i < lastCheckin.getSize(); i++)
 			{
-				if (selectedCourse == lastCheckin[i].CourseID)
+				if (selectedCourse == lastCheckin.at(i).CourseID)
 				{
 					validCourse = false;
 					cout << "you have checked in this course already" << endl;
@@ -260,7 +261,7 @@ void Student::checkin()
 					}
 				}
 				checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
-				if (lastCheckin.size() == 0)
+				if (lastCheckin.getSize() == 0)
 				{
 					checkinFile << " " << tmp.CourseID << "=" << tmp.result;
 				}
@@ -279,20 +280,20 @@ void Student::checkin()
 			checkinFile.close();
 			cout << "This is today course: " << endl;
 			//show today course
-			for (int i = 0; i < todayCourse.size(); i++)
+			for (int i = 0; i < todayCourse.getSize(); i++)
 			{
 
-				cout << "Course ID: " << todayCourse[i]->ID << endl;
-				cout << "Course Name: " << todayCourse[i]->courseName << endl;
+				cout << "Course ID: " << todayCourse.at(i)->ID << endl;
+				cout << "Course Name: " << todayCourse.at(i)->courseName << endl;
 				cout << "Time: ";
-				if (todayCourse[i]->startTime.hour < 10) cout << "0";
-				cout << todayCourse[i]->startTime.hour << ":";
-				if (todayCourse[i]->startTime.minute < 10)cout << "0";
-				cout << todayCourse[i]->startTime.minute << " - ";
-				if (todayCourse[i]->endTime.hour < 10) cout << "0";
-				cout << todayCourse[i]->endTime.hour << ":";
-				if (todayCourse[i]->endTime.minute < 10)cout << "0";
-				cout << todayCourse[i]->endTime.minute << endl;
+				if (todayCourse.at(i)->startTime.hour < 10) cout << "0";
+				cout << todayCourse.at(i)->startTime.hour << ":";
+				if (todayCourse.at(i)->startTime.minute < 10)cout << "0";
+				cout << todayCourse.at(i)->startTime.minute << " - ";
+				if (todayCourse.at(i)->endTime.hour < 10) cout << "0";
+				cout << todayCourse.at(i)->endTime.hour << ":";
+				if (todayCourse.at(i)->endTime.minute < 10)cout << "0";
+				cout << todayCourse.at(i)->endTime.minute << endl;
 				cout << "---------------------------------------------" << endl;
 			}
 			cout << "Select course to check-in: ";
@@ -302,19 +303,19 @@ void Student::checkin()
 			bool validCourse = false;
 			//check if selected course is in today course list
 			Course* validCoursePtr = 0;
-			for (int courseIndex = 0; courseIndex < todayCourse.size(); courseIndex++)
+			for (int courseIndex = 0; courseIndex < todayCourse.getSize(); courseIndex++)
 			{
-				if (selectedCourse == todayCourse[courseIndex]->ID)
+				if (selectedCourse == todayCourse.at(courseIndex)->ID)
 				{
-					validCoursePtr = todayCourse[courseIndex];
+					validCoursePtr = todayCourse.at(courseIndex);
 					validCourse = true;
 					break;
 				}
 			}
 			//check if selected course was checked before
-			for (int i = 0; i < lastCheckin.size(); i++)
+			for (int i = 0; i < lastCheckin.getSize(); i++)
 			{
-				if (selectedCourse == lastCheckin[i].CourseID)
+				if (selectedCourse == lastCheckin.at(i).CourseID)
 				{
 					validCourse = false;
 					cout << "you have checked in this course already" << endl;
@@ -347,7 +348,7 @@ void Student::checkin()
 					}
 				}
 				checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::app);
-				if (lastCheckin.size() == 0)
+				if (lastCheckin.getSize() == 0)
 				{
 					checkinFile << " " << tmp.CourseID << "=" << tmp.result;
 				}
@@ -584,6 +585,17 @@ void Student::addCourse(string CourseID)
 			return;
 		}
 		courseIdCurrent = courseIdCurrent->next;
+	}
+	CourseList->resetCurrent();
+	if (CourseList->current)
+	{
+		do
+		{
+			if (CourseID == CourseList->current->data->ID)
+			{
+				return;
+			}
+		} while (CourseList->next());
 	}
 	node<string>* CourseIdNode = new node <string>;
 	CourseIdNode->data = new string;

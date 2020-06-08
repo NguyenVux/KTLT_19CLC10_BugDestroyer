@@ -302,15 +302,15 @@ void Staff::showAdvanceMenu(int choice)
 
 		}
 
-		case 13:
+		case 12:
 			viewStudent();
 			system("pause");
 			break;
-		case 14:
+		case 13:
 			viewLecturer();
 			system("pause");
 			break;
-		case 15:
+		case 14:
 		{
 			showCourse();
 			system("pause");
@@ -592,6 +592,8 @@ void Staff::addCourse()
 		cout << "End Date:";
 		string endDate;
 		getline(cin, endDate);
+		string dow;
+		getline(cin, dow);
 		cout << "Start Hour:";
 		string startHour;
 		getline(cin, startHour);
@@ -602,7 +604,7 @@ void Staff::addCourse()
 		string room;
 		getline(cin, room);
 		node<Course>* p = new node<Course>;
-		p->data = new Course(courseID + "," + courseName + "," + lecturerName + "," + className + "," + startDate + "," + endDate + "," + startHour + "," + endHour + "," + room);
+		p->data = new Course(courseID + "," + courseName + "," + lecturerName + "," + className + "," + startDate + "," + endDate +','+dow+ "," + startHour + "," + endHour + "," + room);
 		Courselist->insert(p);
 	}
 
