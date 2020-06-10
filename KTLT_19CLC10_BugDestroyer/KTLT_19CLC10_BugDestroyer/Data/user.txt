@@ -1,5 +1,5 @@
 #role id,password,name,gender,dob
-1 19127002,20200402,Nguyen Van 2,1,2020-04-02,19APCS1,APCS
-1 19127001,20200401,Nguyen Van 1,0,2020-04-01,19APCS1
+1 19127002,20200402,Nguyen Van 2,1,2020-04-02,19CLC2,c1,c2,c4
+1 19127001,20200401,Nguyen Van 1,0,2020-04-01,19CLC3,c9,c5,c3
 0 admin,admin,Master Admin,0,05-11-2001
 2 lecturer,lecturer,Default lecturer,0,05-11-1999,05-11-1999

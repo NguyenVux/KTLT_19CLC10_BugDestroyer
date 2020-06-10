@@ -26,6 +26,7 @@ private:
 	void editStudent(string StudentID);
 	void addStudent();
 	bool checkDupID(string ID);
+	void editCourse();
 	void addCourse();
 	void viewStudent();
 	void viewLecturer();

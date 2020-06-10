@@ -10,6 +10,7 @@ using namespace std;
 class ConsoleUI
 {
 private:
+	string title;
 	vector<string> MenuLines;
 	const int LinePerPage;
 	int page = 1;
@@ -18,6 +19,7 @@ private:
 	bool isEnter = false;
 public:
 	ConsoleUI(int linePerPage);
+	void addTitle(string title);
 	void addLine(string title);
 	void removeLine(int index);
 	int exitChoice();

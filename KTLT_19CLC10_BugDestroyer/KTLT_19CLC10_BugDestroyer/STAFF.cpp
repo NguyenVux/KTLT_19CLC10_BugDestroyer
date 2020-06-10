@@ -57,7 +57,15 @@ void Staff::ImportClassFromFile()
 	{
 		linkedList<IUSER>* tmpUserList = new linkedList<IUSER>;
 		string buffer;
+		const string csvHeader = "No,Student ID,Fullname,gender,DoB,Class";
 		getline(*file, buffer);
+		if (buffer != csvHeader)
+		{
+			cout << "file is in wrong format" << endl;
+			system("pause");
+			delete file;
+			return;
+		}
 		while (!file->eof())
 		{
 			getline(*file, buffer);
@@ -127,19 +135,19 @@ void Staff::importCourseFromFile()
 	cout << "Enter your File (csv file): ";
 	string fileName;
 	cin >> fileName;
-	fstream* file = new fstream;
-	file->open("import\\" + fileName + ".csv", ios::in);
+	fstream file;
+	file.open("import\\" + fileName + ".csv", ios::in);
 	bool isFirstLine = true;
-	if (file->is_open())
+	if (file.is_open())
 	{
 		linkedList<Course>* tempCourseList = new linkedList<Course>;
 		string buffer;
-		while (getline(*file, buffer))
-		{			
+		while (getline(file, buffer))
+		{
 			cout << buffer << endl;
 			if (!isFirstLine)
 			{
-				buffer.erase(0, buffer.find(',')+1); // delete the No, in input string
+				buffer.erase(0, buffer.find(',') + 1); // delete the No, in input string
 				node<Course>* courseInstance = new node<Course>;
 				courseInstance->data = new Course(buffer);
 				node<Course>* tmp = this->Courselist->head;
@@ -162,6 +170,13 @@ void Staff::importCourseFromFile()
 			}
 			else
 			{
+				const string csvHeader = "No,CourseID,Course name,Class ID,Lecturer ID,Start date,End date,Day of week,Start time,End time,Room";
+				if (buffer != csvHeader)
+				{
+					cout << "file is in wrong format" << endl;
+					system("pause");
+					return;
+				}
 				isFirstLine = false;
 			}
 		}
@@ -176,8 +191,7 @@ void Staff::importCourseFromFile()
 		cin.ignore();
 		cin.get();
 	}
-	file->close();
-	delete file;
+	file.close();
 }
 
 void Staff::editStudent(string StudentID)
@@ -233,93 +247,94 @@ void Staff::showAdvanceMenu(int choice)
 		cout << "0.Log out" << endl;
 		cout << "enter your choice:" << endl;
 		cin >> choice;*/
-		switch (choice)
-		{
-		case 0:
-		{
-			ImportClassFromFile();
-			break;
-		}
-		case 1:
-		{
-			addStudent();
-			break;
-		}
+	switch (choice)
+	{
+	case 0:
+	{
+		ImportClassFromFile();
+		break;
+	}
+	case 1:
+	{
+		addStudent();
+		break;
+	}
 
-		case 2:
-		{
-			cout << "Input Student ID" << endl;
-			cin.ignore();
-			getline(cin, StudentID);
-			editStudent(StudentID);
-			//chạy thử
-			break;
-		}
-		case 3:
-		{
-			cout << "Input Student ID" << endl;
-			cin.ignore();
-			getline(cin, StudentID);
-			removeStudent(StudentID);
-			break;
-		}
-		case 4:
-		{
-			cout << "Input Student ID" << endl;
-			cin.ignore();
-			getline(cin, StudentID);
-			cout << "Input Class ID" << endl;
-			getline(cin, ClassID);
-			change_student_class(ClassID, StudentID);
-			break;
-		}
-		case 5:
-		{
-			showClass();
-			break;
-		}
-			
-		case 6:
-		{
-			cout << "enter ClassID: ";
-			cin.ignore();
-			getline(cin, ClassID);
-			showStudent(ClassID);
-			break;
-		}
-		case 7:
-		{
-			importCourseFromFile();
-			break;
-		}
-		case 8:
-		{
-			addCourse();
-			break;
-		}
-		case 9:
-		{
+	case 2:
+	{
+		cout << "Input Student ID" << endl;
+		cin.ignore();
+		getline(cin, StudentID);
+		editStudent(StudentID);
+		//chạy thử
+		break;
+	}
+	case 3:
+	{
+		cout << "Input Student ID" << endl;
+		cin.ignore();
+		getline(cin, StudentID);
+		removeStudent(StudentID);
+		break;
+	}
+	case 4:
+	{
+		cout << "Input Student ID" << endl;
+		cin.ignore();
+		getline(cin, StudentID);
+		cout << "Input Class ID" << endl;
+		getline(cin, ClassID);
+		change_student_class(ClassID, StudentID);
+		break;
+	}
+	case 5:
+	{
+		showClass();
+		break;
+	}
 
-		}
+	case 6:
+	{
+		cout << "enter ClassID: ";
+		cin.ignore();
+		getline(cin, ClassID);
+		showStudent(ClassID);
+		break;
+	}
+	case 7:
+	{
+		importCourseFromFile();
+		break;
+	}
+	case 8:
+	{
+		addCourse();
+		break;
+	}
+	case 9:
+	{
+		editCourse();
+		break;
+	}
 
-		case 12:
-			viewStudent();
-			system("pause");
-			break;
-		case 13:
-			viewLecturer();
-			system("pause");
-			break;
-		case 14:
-		{
-			showCourse();
-			system("pause");
-			break;
-		}
-		default:
-			cout << "PLease Enter The choice you want" << endl;
-			break;
-		}
+	case 12:
+		viewStudent();
+		system("pause");
+		break;
+	case 13:
+		viewLecturer();
+		system("pause");
+		break;
+	case 14:
+	{
+		showCourse();
+		system("pause");
+		break;
+	}
+	default:
+		cout << "PLease Enter The choice you want" << endl;
+		break;
+	}
 	//}
 }
 
@@ -564,11 +579,155 @@ bool Staff::checkDupID(string ID) {
 	return false;
 }
 
+void Staff::editCourse()
+{
+	ConsoleUI courselist(8);
+	Courselist->resetCurrent();
+	if (Courselist->current)
+	{
+		do
+		{
+			courselist.addLine(Courselist->current->data->ID + '-' + Courselist->current->data->courseName);
+		} while (Courselist->next());
+		courselist.addLine("Back");
+		Courselist->resetCurrent();
+		bool isExit = false;
+		while (!isExit)
+		{
+			courselist.clear();
+			courselist.showMenu();
+			courselist.getKey();
+			if (courselist.getState())
+			{
+				if (courselist.getChoice() == courselist.exitChoice())
+				{
+					isExit = true;
+				}
+				else
+				{
+					for (int i = 0; i < courselist.getChoice(); i++)
+					{
+						Courselist->next();
+					}
+					isExit = true;
+				}
+			}
+		}
+		ConsoleUI UI(11);
+		UI.addTitle("What do you want to Edit");
+		UI.addLine("Course Name");
+		UI.addLine("Class");
+		UI.addLine("Lecturer");
+		UI.addLine("Start Date");
+		UI.addLine("End Date");
+		UI.addLine("Day Of Week");
+		UI.addLine("Start Time");
+		UI.addLine("End Time");
+		UI.addLine("Room");
+		UI.addLine("Back");
+		isExit = false;
+		while (!isExit)
+		{
+			UI.clear();
+			UI.showMenu();
+			UI.getKey();
+			if (UI.getState())
+			{
+				if (UI.getChoice() == UI.exitChoice())
+				{
+					isExit = true;
+				}
+				else
+				{
+					switch (UI.getChoice())
+					{
+					case 0:
+						cout << "Enter new name: ";
+						getline(cin, Courselist->current->data->courseName);
+						break;
+					case 1:
+						cout << "Enter new class: ";
+						getline(cin, Courselist->current->data->ClassID);
+						break;
+					case 2:
+						cout << "Enter new Lecturer ID: ";
+						getline(cin, Courselist->current->data->lecturerID);
+						break;
+					case 3:
+						cout << "Enter new Start Date: " << endl;
+						do
+						{
+							cout << "Day: ";
+							cin >> Courselist->current->data->startDate.day;
+							cout << "Month: ";
+							cin >> Courselist->current->data->startDate.month;
+							cout << "Year: ";
+							cin >> Courselist->current->data->startDate.year;
+						} while (checkDateInput(Courselist->current->data->startDate.day, Courselist->current->data->startDate.month, Courselist->current->data->startDate.year));
+						break;
+					case 4:
+						cout << "Enter new End Date: " << endl;
+						do
+						{
+							cout << "Day: ";
+							cin >> Courselist->current->data->endDate.day;
+							cout << "Month: ";
+							cin >> Courselist->current->data->endDate.month;
+							cout << "Year: ";
+							cin >> Courselist->current->data->endDate.year;
+						} while (checkDateInput(Courselist->current->data->endDate.day, Courselist->current->data->endDate.month, Courselist->current->data->endDate.year));
+						break;
+					case 5:
+						cout << "Enter Day of week (Mon = 0 -> Sun = 6): ";
+						do
+						{
+							cin >> Courselist->current->data->dayOfweek;
+						} while (Courselist->current->data->dayOfweek >= 0 && Courselist->current->data->dayOfweek < 7);
+						break;
+					case 6:
+						cout << "Enter new Start Time: " << endl;
+						do
+						{
+							cout << "Hour: ";
+							cin >> Courselist->current->data->startTime.hour;
+						} while (Courselist->current->data->startTime.hour <= 23 && Courselist->current->data->startTime.hour >= 0);
+						do
+						{
+							cout << "Min: ";
+							cin >> Courselist->current->data->startTime.minute;
+						} while (Courselist->current->data->startTime.minute <= 59 && Courselist->current->data->startTime.minute >= 0);
+						break;
+					case 7:
+						cout << "Enter new End Time: " << endl;
+						do
+						{
+							cout << "Hour: ";
+							cin >> Courselist->current->data->endTime.hour;
+						} while (Courselist->current->data->endTime.hour <= 23 && Courselist->current->data->endTime.hour >= 0);
+						do
+						{
+							cout << "Min: ";
+							cin >> Courselist->current->data->endTime.minute;
+						} while (Courselist->current->data->endTime.minute <= 59 && Courselist->current->data->endTime.minute >= 0);
+						break;
+					case 8:
+						cout << "Enter new Room ID: ";
+						cin >> Courselist->current->data->room;
+						break;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+	}
+}
+
 void Staff::addCourse()
 {
 	cout << "Course ID:";
 	string courseID;
-	cin.ignore();
 	getline(cin, courseID);
 	if (checkDupID(courseID) == true) {
 		cout << "the ID already exist!" << endl;
@@ -604,7 +763,7 @@ void Staff::addCourse()
 		string room;
 		getline(cin, room);
 		node<Course>* p = new node<Course>;
-		p->data = new Course(courseID + "," + courseName + "," + lecturerName + "," + className + "," + startDate + "," + endDate +','+dow+ "," + startHour + "," + endHour + "," + room);
+		p->data = new Course(courseID + "," + courseName + "," + lecturerName + "," + className + "," + startDate + "," + endDate + ',' + dow + "," + startHour + "," + endHour + "," + room);
 		Courselist->insert(p);
 	}
 
@@ -712,8 +871,8 @@ bool Staff::checkDateInput(int day, int month, int year) {
 string Staff::getDate(int day, int month, int year, int type) {
 	if (type == 1) {
 		if (month < 10 && day>10) return to_string(day) + "/0" + to_string(month) + "/" + to_string(year);
-		if (month > 10 && day<10) return "0" + to_string(day) + "/" + to_string(month) + "/" + to_string(year);
-		if (month < 10 && day<10) return "0" + to_string(day) + "/0" + to_string(month) + "/" + to_string(year);
+		if (month > 10 && day < 10) return "0" + to_string(day) + "/" + to_string(month) + "/" + to_string(year);
+		if (month < 10 && day < 10) return "0" + to_string(day) + "/0" + to_string(month) + "/" + to_string(year);
 		return to_string(day) + "/" + to_string(month) + "/" + to_string(year);
 	}
 	if (type == 2) {

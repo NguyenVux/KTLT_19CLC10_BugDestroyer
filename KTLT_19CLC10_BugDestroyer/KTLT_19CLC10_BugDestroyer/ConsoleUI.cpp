@@ -4,6 +4,11 @@ ConsoleUI::ConsoleUI(int linePerPage): LinePerPage (linePerPage)
 {
 }
 
+void ConsoleUI::addTitle(string title)
+{
+	this->title = title + '\n';
+}
+
 void ConsoleUI::addLine(string title)
 {
 	MenuLines.push_back(title);
@@ -76,6 +81,8 @@ void ConsoleUI::showMenu()
 	{
 		NumberOfLine = MenuLines.size() % (LinePerPage);
 	}
+	cout << title;
+	cout << "-------------------------------------------------\n";
 	for (int i = 0; i < NumberOfLine; i++)
 	{
 			if (choice == i+((CurrentPage-1)*(LinePerPage)))
@@ -86,7 +93,7 @@ void ConsoleUI::showMenu()
 			cout << data << endl;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	}
-	cout << "----------------------------------------------------" << endl;
+	cout << "-------------------------------------------------" << endl;
 	cout << "Page" << CurrentPage << "/" << page << endl;
 }
 

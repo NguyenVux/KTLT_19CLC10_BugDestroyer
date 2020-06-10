@@ -154,7 +154,11 @@ void Student::checkin()
 		CourseList->resetCurrent();
 	}
 
-
+	if (todayCourse.getSize() == 0)
+	{
+		cout << "You don't have any courses today" << endl;
+		return;
+	}
 	//Load check list
 	fstream checkinFile;
 	checkinFile.open("Data\\checkin\\" + this->ID + ".txt", ios::in);
