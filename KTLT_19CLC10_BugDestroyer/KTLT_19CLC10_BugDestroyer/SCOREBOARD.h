@@ -5,6 +5,7 @@
 #include <iostream>
 #include "ioHelper.h"
 #include "LinkedList/singly_linkedList.h"
+#include "ConsoleUI.h"
 
 enum MODE
 {
@@ -30,8 +31,11 @@ public:
 	bool next();
 	void ResetCursor();
 	void exportScoreBoard();
+	void Edit();
+	bool getResult();
 private:
 	void save();
+	bool result = false;
 	std::string CourseID;
 	linkedList<ScoreRecord>* ScoreRecords;
 	node<ScoreRecord>* cursor;

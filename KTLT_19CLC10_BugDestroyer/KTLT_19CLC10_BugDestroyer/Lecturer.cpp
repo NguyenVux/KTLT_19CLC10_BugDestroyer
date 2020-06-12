@@ -26,102 +26,185 @@ void Lecturer::showMyCourse()
 
 void Lecturer::viewCourseAttendances()
 {
-	cout << "Enter CourseID to view Attendances: ";
-	string courseID;
-	cin >> courseID;
-	node<IUSER>* userNode = userList->head;
-	while (userNode)
+	ConsoleUI CourseMenu(10);
+	if (CourseList->head)
 	{
-		if (userNode->data->getRole() == STUDENT)
+		CourseList->resetCurrent();
+		do
 		{
-			Student* studentPtr = dynamic_cast<Student*>(userNode->data);
-			if (studentPtr)
+			CourseMenu.addLine(CourseList->current->data->ID + " - " + CourseList->current->data->courseName);
+		} while (CourseList->next());
+		CourseMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			CourseMenu.clear();
+			CourseMenu.showMenu();
+			CourseMenu.getKey();
+			if (CourseMenu.getState())
 			{
-				if (studentPtr->isEnrolled(courseID))
+				if (CourseMenu.exitChoice() == CourseMenu.getChoice())
 				{
-					studentPtr->ViewInfo();
+					isExit = true;
+				}
+				else
+				{
+					CourseList->resetCurrent();
+					for (int i = 0; i < CourseMenu.getChoice(); i++)
+					{
+						CourseList->next();
+					}
+					userList->resetCurrent();
+					if (userList->current);
+					{
+						do {
+							Student* Stu = dynamic_cast<Student*>(userList->current->data);
+							if (Stu)
+							{
+								if (Stu->isEnrolled(CourseList->current->data->ID))
+								{
+									Stu->ViewInfo();
+									cout << "-------------------------------------------\n";
+								}
+							}
+						} while (userList->next());
+						system("PAUSE");
+					}
 				}
 			}
 		}
-		userNode = userNode->next;
 	}
 }
 
-void Lecturer::EditCourseAttendances()
+void Lecturer::EditScoreBoard()
 {
-	cout << "Enter CourseID to Edit: ";
-	string courseID;
-	cin >> courseID;
-	cout << "Enter Student ID: ";
-	string studentID;
-	cin >> studentID;
-	node<IUSER>* currStudent = userList->head;;
-	while (currStudent)
+	ConsoleUI CourseMenu(10);
+	if (CourseList->head)
 	{
-		if (currStudent->data->getRole() == STUDENT && currStudent->data->getID() == studentID)
+		CourseList->resetCurrent();
+		do
 		{
-			Student* ptr = dynamic_cast<Student*>(currStudent->data);
-			if (ptr)
+			if (CourseList->current->data->lecturerID == this->ID)
 			{
-				if (ptr->isEnrolled(courseID))
+				CourseMenu.addLine(CourseList->current->data->ID + " - " + CourseList->current->data->courseName);
+			}
+		} while (CourseList->next());
+		CourseMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			CourseMenu.clear();
+			CourseMenu.showMenu();
+			CourseMenu.getKey();
+			if (CourseMenu.getState())
+			{
+				if (CourseMenu.exitChoice() == CourseMenu.getChoice())
 				{
-					ptr->removeCourse(courseID);
-					break;
+					isExit = true;
+				}
+				else
+				{
+					CourseList->resetCurrent();
+					for (int i = 0; i < CourseMenu.getChoice(); i++)
+					{
+						CourseList->next();
+					}
+					SCOREBOARD ScoreBoard(CourseList->current->data->ID);
+					ScoreBoard.Edit();
+					system("PAUSE");
 				}
 			}
 		}
-		currStudent = currStudent->next;
 	}
 }
+
 
 void Lecturer::viewScoreBoard()
 {
-	cout << "Enter CourseID to view ScoreBoard: ";
-	string courseID;
-	cin >> courseID;
-	SCOREBOARD scoreboard(courseID);
-	int cellSize = 30;
-	int scoreCellSize = 10;
-	cout << endl << "|" << left << setw(cellSize) << ioHelper::centered("Student Name", cellSize) << "|"
-		<< left << setw(scoreCellSize) << ioHelper::centered("MidTerm", scoreCellSize) << "|"
-		<< left << setw(scoreCellSize) << ioHelper::centered("Final", scoreCellSize) << "|"
-		<< left << setw(scoreCellSize) << ioHelper::centered("Lab", scoreCellSize) << "|"
-		<< left << setw(scoreCellSize) << ioHelper::centered("Bonus", scoreCellSize) << "|";
-	do
+	ConsoleUI CourseMenu(10);
+	if (CourseList->head)
 	{
-		ScoreRecord rec = scoreboard.getCurrent();
-		node<IUSER>* currUser = userList->head;
-		while (currUser)
+		CourseList->resetCurrent();
+		do
 		{
-			if (currUser->data->getID() == rec.studentID)
+			if (CourseList->current->data->lecturerID == this->ID)
 			{
-				break;
+				CourseMenu.addLine(CourseList->current->data->ID + " - " + CourseList->current->data->courseName);
 			}
-			currUser = currUser->next;
-		}
-		if (currUser)
+		} while (CourseList->next());
+		CourseMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
 		{
-			cout << endl << "|" << left << setw(cellSize) << currUser->data->getName() << "|"
-				<< left << setw(scoreCellSize);
-			rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
-			cout << ioHelper::centered(to_string(rec.midTerm).substr(0, 3), scoreCellSize);
-			ioHelper::blackLine();
-			cout << "|" << left << setw(scoreCellSize);
+			CourseMenu.clear();
+			CourseMenu.showMenu();
+			CourseMenu.getKey();
+			if (CourseMenu.getState())
+			{
+				if (CourseMenu.exitChoice() == CourseMenu.getChoice())
+				{
+					isExit = true;
+				}
+				else
+				{
+					CourseList->resetCurrent();
+					for (int i = 0; i < CourseMenu.getChoice(); i++)
+					{
+						CourseList->next();
+					}
+					//===========================================
+					SCOREBOARD scoreboard(CourseList->current->data->ID);					
+					if (scoreboard.getResult())
+					{
+						int cellSize = 30;
+						int scoreCellSize = 10;
+						cout << endl << "|" << left << setw(cellSize) << ioHelper::centered("Student Name", cellSize) << "|"
+							<< left << setw(scoreCellSize) << ioHelper::centered("MidTerm", scoreCellSize) << "|"
+							<< left << setw(scoreCellSize) << ioHelper::centered("Final", scoreCellSize) << "|"
+							<< left << setw(scoreCellSize) << ioHelper::centered("Lab", scoreCellSize) << "|"
+							<< left << setw(scoreCellSize) << ioHelper::centered("Bonus", scoreCellSize) << "|";
+						do
+						{
+							ScoreRecord rec = scoreboard.getCurrent();
+							node<IUSER>* currUser = userList->head;
+							while (currUser)
+							{
+								if (currUser->data->getID() == rec.studentID)
+								{
+									break;
+								}
+								currUser = currUser->next;
+							}
+							if (currUser)
+							{
+								cout << endl << "|" << left << setw(cellSize) << currUser->data->getName() << "|"
+									<< left << setw(scoreCellSize);
+								rec.midTerm > 5 ? ioHelper::textGreen() : rec.midTerm == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+								cout << ioHelper::centered(to_string(rec.midTerm).substr(0, 3), scoreCellSize);
+								ioHelper::blackLine();
+								cout << "|" << left << setw(scoreCellSize);
 
-			rec.final > 5 ? ioHelper::textGreen() : rec.final == 5 ? ioHelper::textYellow() : ioHelper::textRed();
-			cout << ioHelper::centered(to_string(rec.final).substr(0, 3), scoreCellSize);
-			ioHelper::blackLine();
-			cout << "|" << left << setw(scoreCellSize);
+								rec.final > 5 ? ioHelper::textGreen() : rec.final == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+								cout << ioHelper::centered(to_string(rec.final).substr(0, 3), scoreCellSize);
+								ioHelper::blackLine();
+								cout << "|" << left << setw(scoreCellSize);
 
 
-			rec.lab > 5 ? ioHelper::textGreen() : rec.lab == 5 ? ioHelper::textYellow() : ioHelper::textRed();
-			cout << ioHelper::centered(to_string(rec.lab).substr(0, 3), scoreCellSize);
-			ioHelper::blackLine();
-			cout << "|" << left << setw(scoreCellSize);
+								rec.lab > 5 ? ioHelper::textGreen() : rec.lab == 5 ? ioHelper::textYellow() : ioHelper::textRed();
+								cout << ioHelper::centered(to_string(rec.lab).substr(0, 3), scoreCellSize);
+								ioHelper::blackLine();
+								cout << "|" << left << setw(scoreCellSize);
 
-			cout << left << setw(scoreCellSize) << ioHelper::centered(to_string(rec.bonus).substr(0, 3), scoreCellSize) << "|";
+								cout << left << setw(scoreCellSize) << ioHelper::centered(to_string(rec.bonus).substr(0, 3), scoreCellSize) << "|";
+							}
+						} while (scoreboard.next());
+					}
+					system("PAUSE");
+					//===========================================
+				}
+			}
 		}
-	} while (scoreboard.next());	
+	}	
 }
 
 void Lecturer::importScoreBoard()
@@ -199,17 +282,17 @@ void Lecturer::showAdvanceMenu(int choice)
 		cin.get();
 		break;
 	case 3:
-		EditCourseAttendances();
-		cin.ignore();
-		cin.get();
-		break;
-	case 4:
 		viewScoreBoard();
 		cin.ignore();
 		cin.get();
 		break;
-	case 5:
+	case 4:
 		importScoreBoard();
+		cin.ignore();
+		cin.get();
+		break;
+	case 5:
+		EditScoreBoard();
 		cin.ignore();
 		cin.get();
 		break;

@@ -590,21 +590,19 @@ void Student::addCourse(string CourseID)
 		}
 		courseIdCurrent = courseIdCurrent->next;
 	}
-	CourseList->resetCurrent();
-	if (CourseList->current)
+	node<Course>* current = CourseList->head;
+	while (current)
 	{
-		do
+		if (CourseID == current->data->ID)
 		{
-			if (CourseID == CourseList->current->data->ID)
-			{
-				return;
-			}
-		} while (CourseList->next());
+			node<string>* CourseIdNode = new node <string>;
+			CourseIdNode->data = new string;
+			*(CourseIdNode->data) = CourseID;
+			this->CourseID->insertTop(CourseIdNode);
+		}
+		current = current->next;
 	}
-	node<string>* CourseIdNode = new node <string>;
-	CourseIdNode->data = new string;
-	*(CourseIdNode->data) = CourseID;
-	this->CourseID->insertTop(CourseIdNode);
+	
 }
 void Student::setCourseList(linkedList<Course>* courseList)
 {

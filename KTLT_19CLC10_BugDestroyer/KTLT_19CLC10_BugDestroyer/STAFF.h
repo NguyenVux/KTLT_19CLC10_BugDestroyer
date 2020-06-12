@@ -23,13 +23,14 @@ private:
 	void change_student_class(string ClassID, string StudentId);
 	//tạo chức năng sửa student
 	//mình nhận vào hàm một studentID để edit
-	void editStudent(string StudentID);
+	void editStudent();
 	void addStudent();
 	bool checkDupID(string ID);
 	void editCourse();
 	void addCourse();
 	void viewStudent();
 	void viewLecturer();
+	void removeCourse();
 public:
 	Staff();
 	void showAdvanceMenu(int choice);

@@ -17,7 +17,7 @@ private:
 	void showAllCourse();
 	void showMyCourse();
 	void viewCourseAttendances();
-	void EditCourseAttendances();
+	void EditScoreBoard();
 	void viewScoreBoard();
 	void importScoreBoard();
 public:
@@ -25,6 +25,7 @@ public:
 	int init(string dataString);
 	void setUserList(linkedList<IUSER>* userList);
 	void setCourseList(linkedList<Course>* Courselist);
+	
 	void showAdvanceMenu(int choice);
 	string parse();
 	void ViewInfo();

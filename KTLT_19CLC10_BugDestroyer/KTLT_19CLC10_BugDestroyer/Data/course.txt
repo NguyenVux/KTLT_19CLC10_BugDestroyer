@@ -1,7 +1,6 @@
 c1,Kinh te dai cuong - BAA00005,19CLC1,lecturer,15-03-2020,15-5-2020,1,12:30,17:15,F203
 c2,Ki thuat lap trinh - CSC10002,19CLC1,lecturer,15-03-2020,15-5-2020,1,7:30,11:05,I45
 c3,Triet hoc Mac-Lenin - BAA00101,19CLC1,lecturer,15-03-2020,15-5-2020,1,13:30,17:15,C22
-c4,Vat ly dai cuong 1 - PHY00005,19CLC1,lecturer,15-03-2020,15-5-2020,1,9:30,11:05,F203
 c5,Vi tich phan 1B - MTH00003,19CLC1,lecturer,15-03-2020,15-5-2020,1,13:30,17:15,HTI
 c6,Kinh te dai cuong - BAA00005,19CLC2,lecturer,15-03-2020,15-5-2020,1,12:30,17:15,F203
 c7,Ki thuat lap trinh - CSC10002,19CLC2,lecturer,15-03-2020,15-5-2020,1,7:30,11:05,I45

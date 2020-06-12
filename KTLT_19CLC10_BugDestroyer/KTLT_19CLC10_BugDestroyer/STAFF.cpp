@@ -194,31 +194,131 @@ void Staff::importCourseFromFile()
 	file.close();
 }
 
-void Staff::editStudent(string StudentID)
+void Staff::editStudent()
 {
-	node<IUSER>* CurrentStudent = userList->head;
-	//ở đây tôi xài kế thừa, nên class cha là IUSER
-	while (CurrentStudent != 0)
+	ConsoleUI studentMenu(10);
+	if (userList->head)
 	{
-		//kiểm ra người dùng có phải là student ko
-		//dùng hàm getRole viết sẵn để lấy Role của User
-		if (CurrentStudent->data->getRole() == STUDENT)
+		userList->resetCurrent();
+		do
 		{
-			// à quên còn so sánh studentID
-			if (CurrentStudent->data->getID() == StudentID)
+			if (userList->current->data->getRole() == STUDENT)
 			{
-
-				//nếu người dùng là student tôi sẽ ép kiểu lại tại vì ko gọi hàm của student được từ class IUSER
-				//tạo pointer là học sinh
-				Student* ptrStudent = dynamic_cast<Student*>(CurrentStudent->data);
-				//gọi hàm thay đổi tên
-				ptrStudent->setName("New Name");
+				studentMenu.addLine(userList->current->data->getID() + " - " + userList->current->data->getName());
 			}
+		} while (userList->next());
+		studentMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			while (!isExit)
+			{
+				studentMenu.clear();
+				studentMenu.showMenu();
+				studentMenu.getKey();
+				if (studentMenu.getState())
+				{
+					if (studentMenu.getChoice() == studentMenu.exitChoice())
+					{
+						isExit = true;
+					}
+					else
+					{
+						userList->resetCurrent();
+						int count = 0;
+						do
+						{
+							if (count == studentMenu.getChoice())
+							{
+								break;
+							}
+							if (userList->current->data->getRole() == STUDENT)
+							{
+								++count;
+							}
+						} while (userList->next());
+	  					//nếu người dùng là student tôi sẽ ép kiểu lại tại vì ko gọi hàm của student được từ class IUSER
+	  					//tạo pointer là học sinh
+	  					Student* ptrStudent = dynamic_cast<Student*>(userList->current->data);
+	  					//gọi hàm thay đổi tên
+	  					ConsoleUI EditMenu(10);
+	  					EditMenu.addTitle("Edit option");
+	  					EditMenu.addLine("Password");
+	  					EditMenu.addLine("Change Class");
+	  					EditMenu.addLine("Add Course");
+	  					EditMenu.addLine("remove Course");
+	  					EditMenu.addLine("Back");
+	  					bool isBack = false;
+						while (!isBack)
+						{
+							EditMenu.clear();
+							EditMenu.showMenu();
+							EditMenu.getKey();
+							if (EditMenu.getState())
+							{
+								if (EditMenu.getChoice() == EditMenu.exitChoice())
+								{
+									isBack = true;
+								}
+								else
+								{
+									switch (EditMenu.getChoice())
+									{
+									case 0:
+									{
+										string pass, RePass;
+										cout << "Enter new Password: ";
+										cin >> pass;
+										cout << "PLease re-enter new password: ";
+										cin >> RePass;
+										if (pass == RePass)
+										{
+											ptrStudent->setPassword(pass);
+										}
+										else
+										{
+											cout << "Password does not matched! ";
+											system("PAUSE");
+										}
 
+										break;
+									}
+									case 1:
+									{
+										cout << "Enter New Class: ";
+										string Class;
+										cin >> Class;
+										ptrStudent->ChangeClass(Class);
+										break;
+									}
+									case 2:
+									{
+										cout << "Enter New Course: ";
+										string course;
+										cin >> course;
+										ptrStudent->addCourse(course);
+										break;
+									}
+									case 3:
+									{
+										cout << "Enter Course to Remove: ";
+										string course;
+										cin >> course;
+										ptrStudent->addCourse(course);
+										break;
+									}
+									default:
+										break;
+									}
+								}
+							}
+						}
+						system("Pause");
+					}
+				}
+			}
 		}
-		CurrentStudent = CurrentStudent->next; // =)) quên nhẹ dòng này
 	}
-	//thế là xong chức năng đổi tên
 }
 
 Staff::Staff()
@@ -262,10 +362,7 @@ void Staff::showAdvanceMenu(int choice)
 
 	case 2:
 	{
-		cout << "Input Student ID" << endl;
-		cin.ignore();
-		getline(cin, StudentID);
-		editStudent(StudentID);
+		editStudent();
 		//chạy thử
 		break;
 	}
@@ -316,16 +413,20 @@ void Staff::showAdvanceMenu(int choice)
 		editCourse();
 		break;
 	}
-
-	case 12:
-		viewStudent();
-		system("pause");
+	case 10:
+	{
+		removeCourse();
 		break;
-	case 13:
+	}
+	case 11:
 		viewLecturer();
 		system("pause");
 		break;
-	case 14:
+	case 12:
+		viewStudent();
+		system("pause");
+		break;	
+	case 13:
 	{
 		showCourse();
 		system("pause");
@@ -439,7 +540,6 @@ void Staff::addStudent() {
 		getline(cin, name);
 		cout << "enter class: "; string which_class;
 		getline(cin, which_class);
-		cin.ignore();
 		int choice_gender = 5;
 		while (choice_gender < 0 || choice_gender>1) {
 			cout << "gender(0: male, 1: Female): ";
@@ -496,6 +596,29 @@ void Staff::addStudent() {
 		node<IUSER>* p = new node<IUSER>;
 		p->data = new Student;
 		p->data->init(id + "," + password + "," + name + "," + gender + "," + dob + "," + which_class);
+		ClassList->resetCurrent();
+		Student* ptrStudent = dynamic_cast<Student*>(p->data);
+		if (ptrStudent)
+		{
+			ptrStudent->setCourseList(this->Courselist);
+			if (ClassList->current)
+			{
+				do
+				{
+					if (ClassList->current->data->getClassID() == which_class)
+					{
+						ClassList->current->data->getCourse()->resetCurrent();
+						if (ClassList->current->data->getCourse()->current)
+						{
+							do
+							{
+								ptrStudent->addCourse(*(ClassList->current->data->getCourse()->current->data));
+							} while (ClassList->current->data->getCourse()->next());
+						}
+					}
+				} while (ClassList->next());
+			}
+		}
 		userList->insertTop(p);
 		system("pause");
 	}
@@ -771,61 +894,148 @@ void Staff::addCourse()
 }
 void Staff::viewStudent()
 {
-	cout << " what class do you want to view ?";
-	string id;
-	cin >> id;
-	if (Courselist->current)
+	ConsoleUI CourseMenu(10);
+	if (Courselist->head)
 	{
 		Courselist->resetCurrent();
 		do
 		{
-			if (userList->current)
+			CourseMenu.addLine(Courselist->current->data->ID + " - " + Courselist->current->data->courseName);
+		} while (Courselist->next());
+		CourseMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			CourseMenu.clear();
+			CourseMenu.showMenu();
+			CourseMenu.getKey();
+			if (CourseMenu.getState())
 			{
-				userList->resetCurrent();
-				if (id == Courselist->current->data->ID);
+				if (CourseMenu.exitChoice() == CourseMenu.getChoice())
 				{
-					do {
-						Student* Stu = dynamic_cast<Student*>(userList->current->data);
-						if (Stu)
-						{
-							if (Stu->isEnrolled(Courselist->current->data->ID))
+					isExit = true;
+				}
+				else
+				{
+					Courselist->resetCurrent();
+					for (int i = 0; i < CourseMenu.getChoice(); i++)
+					{
+						Courselist->next();
+					}
+					userList->resetCurrent();
+					if (userList->current);
+					{
+						do {
+							Student* Stu = dynamic_cast<Student*>(userList->current->data);
+							if (Stu)
 							{
-								Stu->ViewInfo();
+								if (Stu->isEnrolled(Courselist->current->data->ID))
+								{
+									Stu->ViewInfo();
+									cout << "-------------------------------------------\n";
+								}
 							}
-						}
-					} while (userList->next());
-					break;
+						} while (userList->next());
+						system("PAUSE");
+					}
 				}
 			}
-		} while (Courselist->next());
+		}
 	}
+	
 }
 void Staff::viewLecturer()
 {
-	cout << " what course do you want to check in ?";
-	string id;
-	cin >> id;
-	if (Courselist->current)
+	ConsoleUI CourseMenu(10);
+	if (Courselist->head)
 	{
 		Courselist->resetCurrent();
 		do
 		{
-			userList->resetCurrent();
-			if (userList->current)
+			CourseMenu.addLine(Courselist->current->data->ID + " - " + Courselist->current->data->courseName);
+		} while (Courselist->next());
+		CourseMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			CourseMenu.clear();
+			CourseMenu.showMenu();
+			CourseMenu.getKey();
+			if (CourseMenu.getState())
 			{
-				if (id == Courselist->current->data->ID);
+				if (CourseMenu.exitChoice() == CourseMenu.getChoice())
 				{
-					do {
-						if (userList->current->data->getRole() == LECTURER &&
-							userList->current->data->getID() == Courselist->current->data->lecturerID)
+					isExit = true;
+				}
+				else
+				{
+					Courselist->resetCurrent();
+					for (int i = 0; i < CourseMenu.getChoice(); i++)
+					{
+						Courselist->next();
+					}
+					userList->resetCurrent();
+					do
+					{
+						if (userList->current->data->getRole() == LECTURER && userList->current->data->getID() == Courselist->current->data->lecturerID)
 						{
 							userList->current->data->ViewInfo();
+							break;
 						}
-					} while (userList->next());
-					break;
+					}while(userList->next());
 				}
 			}
+		}
+	}
+	
+}
+void Staff::removeCourse()
+{
+	ConsoleUI CourseMenu(10);
+	CourseMenu.addTitle("Choose Course to remove");
+	if (Courselist->head)
+	{
+		Courselist->resetCurrent();
+		do
+		{
+			CourseMenu.addLine(Courselist->current->data->ID + " - " + Courselist->current->data->courseName);
 		} while (Courselist->next());
+		CourseMenu.addLine("Back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			CourseMenu.clear();
+			CourseMenu.showMenu();
+			CourseMenu.getKey();
+			if (CourseMenu.getState())
+			{
+				if (CourseMenu.exitChoice() == CourseMenu.getChoice())
+				{
+					isExit = true;
+				}
+				else
+				{
+					Courselist->resetCurrent();
+					for (int i = 0; i < CourseMenu.getChoice()-1; i++)
+					{
+						Courselist->next();
+					}
+					if (Courselist->current == Courselist->head)
+					{
+						Courselist->head = Courselist->head->next;
+						delete Courselist->current;
+					}
+					else
+					{
+						node<Course>* tmp = Courselist->current->next;
+						Courselist->current->next = Courselist->current->next->next;
+						delete tmp;
+					}
+					Courselist->resetCurrent();
+					isExit = true;
+				}
+			}
+		}
 	}
 }
 bool Staff::checkDateInput(int day, int month, int year) {

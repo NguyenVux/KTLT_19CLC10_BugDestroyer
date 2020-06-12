@@ -194,8 +194,7 @@ void CreateUI(ConsoleUI UI[3])
 	UI[STAFF].addLine("Manual Add Course");
 	UI[STAFF].addLine("Edit Course");
 	UI[STAFF].addLine("Remove Course");
-	UI[STAFF].addLine("Remove Student from Course");
-	UI[STAFF].addLine("Add Student to Course");
+	UI[STAFF].addLine("Show Lecturer of Course");
 	UI[STAFF].addLine("View Students of Course");
 	UI[STAFF].addLine("View Course List");
 	UI[STAFF].addLine("Back");
@@ -203,10 +202,9 @@ void CreateUI(ConsoleUI UI[3])
 	UI[LECTURER].addLine("Show Course");
 	UI[LECTURER].addLine("Show My Course");
 	UI[LECTURER].addLine("View Course Attendances");
-	UI[LECTURER].addLine("Edit Course Attendances");
 	UI[LECTURER].addLine("View ScoreBoard");
 	UI[LECTURER].addLine("Import ScoreBoard");
-	UI[LECTURER].addLine("Edit");
+	UI[LECTURER].addLine("Edit Scores");
 	UI[LECTURER].addLine("Back");
 }
 

@@ -40,12 +40,12 @@ SCOREBOARD::SCOREBOARD(std::string CourseID,MODE mode)
 				buffer.erase(0, commaPos + 1);
 				ScoreRecords->insert(recordNode);
 			}
+			result = true;
 		}
 		else
 		{
-			std::ofstream file;
-			file.open("Data\\scoreboard\\" + CourseID + ".txt");
-			file.close();
+			cout << CourseID << " scoreboard is not found, please import scoreboard\n ";
+			system("PAUSE");
 		}
 	}
 	else if (mode == IMPORT)
@@ -58,9 +58,8 @@ SCOREBOARD::SCOREBOARD(std::string CourseID,MODE mode)
 		{
 			std::string buffer;
 			getline(file, buffer);
-			while (!file.eof())
+			while (getline(file, buffer))
 			{			
-				getline(file, buffer);
 				node<ScoreRecord>* recordNode = new node<ScoreRecord>;
 				recordNode->data = new ScoreRecord;
 				recordNode->data->studentID;
@@ -165,6 +164,99 @@ void SCOREBOARD::save()
 		} while (next());
 	}
 	file.close();
+}
+
+void SCOREBOARD::Edit()
+{
+	ConsoleUI RecordsID(20);
+	if (ScoreRecords->head)
+	{
+		ScoreRecords->resetCurrent();
+		do
+		{
+			RecordsID.addLine(ScoreRecords->current->data->studentID);
+		} while (ScoreRecords->next());
+		RecordsID.addLine("back");
+		bool isExit = false;
+		while (!isExit)
+		{
+			RecordsID.clear();
+			RecordsID.showMenu();
+			RecordsID.getKey();
+			if (RecordsID.getState())
+			{
+				if (RecordsID.getChoice() == RecordsID.exitChoice())
+				{
+					isExit = true;
+				}
+				else
+				{
+					ScoreRecords->resetCurrent();
+					for (int i = 0; i < RecordsID.getChoice(); i++)
+					{
+						ScoreRecords->next();
+					}
+					ConsoleUI Action(10);
+					Action.addLine("MidTerm");
+					Action.addLine("Final");
+					Action.addLine("Lab");
+					Action.addLine("Bonus");
+					Action.addLine("back");
+					bool isBack = false;
+					while (!isBack)
+					{
+						Action.clear();
+						Action.showMenu();
+						Action.getKey();
+						if (Action.getState())
+						{
+							if (Action.getChoice() == Action.exitChoice())
+							{
+								isBack = true;
+							}
+							else
+							{
+								cin.ignore();
+								switch (Action.getChoice())
+								{
+								case 0:
+									cout << "Enter Midterm score: ";
+									cin >> ScoreRecords->current->data->midTerm;
+			
+									break;
+
+								case 1:
+
+									cout << "Enter Final score: ";
+									cin >> ScoreRecords->current->data->final;
+									break;
+
+								case 2:
+									cout << "Enter Lab score: ";
+									cin >> ScoreRecords->current->data->lab;
+									break;
+
+								case 3:
+									cout << "Enter Bonus score: ";
+									cin >> ScoreRecords->current->data->bonus;
+									break;
+								default:
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+	save();
+}
+
+bool SCOREBOARD::getResult()
+{
+	return result;
 }
 
 

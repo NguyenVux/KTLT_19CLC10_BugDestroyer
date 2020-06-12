@@ -24,12 +24,6 @@ CLASS::CLASS(string dataString)
 
 
 }
-
-void CLASS::viewInfo()
-{
-
-}
-
 void CLASS::viewClassInfo()
 {
 	cout <<"Class ID:"<< classID << endl;
