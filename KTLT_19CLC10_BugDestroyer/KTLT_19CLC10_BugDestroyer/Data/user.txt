@@ -1,4 +1,5 @@
 #role id,password,name,gender,dob
+1 19127889,20052001,Nguyen Van A,0,20-05-2001,19CLC5,c21,c22,c23,c24,c25
 1 19127663,20022001,Nguyen Hoang Bao,0,20-02-2001,19CLC1
 1 19127661,20022001,Chau Van Duy,0,20-02-2001,19CLC1
 1 19127659,20022001,Tran Ngoc Nhu,0,20-02-2001,19CLC1
@@ -23,3 +24,9 @@
 1 19127001,20200401,Nguyen Van 1,0,2020-04-01,19APCS2,c14,c9,c5,c3
 0 admin,admin,Master Admin,0,05-11-2001
 2 lecturer,lecturer,Default lecturer,0,05-11-1999,05-11-1999
+0 ntmphuc,123456,Nguyen Thi Minh Phuc,1,20-01-1987
+0 hatu,123456,Hoang Anh Tu,1,20-10-1988
+0 ltathao,123456,Le Thi Anh Thao,1,20-10-1987
+2 nhminh,123456,Nguyen Hai Minh,1,27-05-1985,Tien si
+2 tploc,123456,Tran Phuoc Loc,0,25-06-1985,Thac si
+2 htthanh,123456,Ho Tuan Thanh,0,25-06-1984,Thac si

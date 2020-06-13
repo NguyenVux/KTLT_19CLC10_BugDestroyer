@@ -528,7 +528,6 @@ void Staff::change_student_class(string ClassID, string StudentID) {
 void Staff::addStudent() {
 	cout << "enter id: ";
 	string id;
-	cin.ignore();
 	getline(cin, id);
 	if (checkDupID(id) == true) {
 		cout << "the ID already exist!" << endl;
@@ -786,7 +785,7 @@ void Staff::editCourse()
 							cin >> Courselist->current->data->startDate.month;
 							cout << "Year: ";
 							cin >> Courselist->current->data->startDate.year;
-						} while (checkDateInput(Courselist->current->data->startDate.day, Courselist->current->data->startDate.month, Courselist->current->data->startDate.year));
+						} while (!checkDateInput(Courselist->current->data->startDate.day, Courselist->current->data->startDate.month, Courselist->current->data->startDate.year));
 						break;
 					case 4:
 						cout << "Enter new End Date: " << endl;
@@ -798,14 +797,14 @@ void Staff::editCourse()
 							cin >> Courselist->current->data->endDate.month;
 							cout << "Year: ";
 							cin >> Courselist->current->data->endDate.year;
-						} while (checkDateInput(Courselist->current->data->endDate.day, Courselist->current->data->endDate.month, Courselist->current->data->endDate.year));
+						} while (!checkDateInput(Courselist->current->data->endDate.day, Courselist->current->data->endDate.month, Courselist->current->data->endDate.year));
 						break;
 					case 5:
 						cout << "Enter Day of week (Mon = 0 -> Sun = 6): ";
 						do
 						{
 							cin >> Courselist->current->data->dayOfweek;
-						} while (Courselist->current->data->dayOfweek >= 0 && Courselist->current->data->dayOfweek < 7);
+						} while (Courselist->current->data->dayOfweek < 0 && Courselist->current->data->dayOfweek >6);
 						break;
 					case 6:
 						cout << "Enter new Start Time: " << endl;
@@ -813,12 +812,12 @@ void Staff::editCourse()
 						{
 							cout << "Hour: ";
 							cin >> Courselist->current->data->startTime.hour;
-						} while (Courselist->current->data->startTime.hour <= 23 && Courselist->current->data->startTime.hour >= 0);
+						} while (Courselist->current->data->startTime.hour > 23 && Courselist->current->data->startTime.hour < 0);
 						do
 						{
 							cout << "Min: ";
 							cin >> Courselist->current->data->startTime.minute;
-						} while (Courselist->current->data->startTime.minute <= 59 && Courselist->current->data->startTime.minute >= 0);
+						} while (Courselist->current->data->startTime.minute > 59 && Courselist->current->data->startTime.minute < 0);
 						break;
 					case 7:
 						cout << "Enter new End Time: " << endl;
@@ -826,12 +825,12 @@ void Staff::editCourse()
 						{
 							cout << "Hour: ";
 							cin >> Courselist->current->data->endTime.hour;
-						} while (Courselist->current->data->endTime.hour <= 23 && Courselist->current->data->endTime.hour >= 0);
+						} while (Courselist->current->data->endTime.hour > 23 && Courselist->current->data->endTime.hour < 0);
 						do
 						{
 							cout << "Min: ";
 							cin >> Courselist->current->data->endTime.minute;
-						} while (Courselist->current->data->endTime.minute <= 59 && Courselist->current->data->endTime.minute >= 0);
+						} while (Courselist->current->data->endTime.minute > 59 && Courselist->current->data->endTime.minute < 0);
 						break;
 					case 8:
 						cout << "Enter new Room ID: ";

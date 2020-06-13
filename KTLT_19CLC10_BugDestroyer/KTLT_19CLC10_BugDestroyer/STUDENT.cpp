@@ -4,6 +4,7 @@ void Student::ViewInfo()
 {
 	IUSER::ViewInfo();
 	cout << "Class :" << this->ClassID << endl;
+	system("pause");
 }
 
 void Student::showEnrolledCourse()
@@ -22,6 +23,7 @@ void Student::showEnrolledCourse()
 		}
 		CourseID->current = CourseID->current->next;
 	}
+	system("pause");
 }
 
 void Student::showAllCourse()
@@ -32,6 +34,7 @@ void Student::showAllCourse()
 		tmp->data->viewInfo();
 		tmp = tmp->next;
 	}
+	system("pause");
 }
 
 void Student::showSchedue()
